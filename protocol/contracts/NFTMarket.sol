@@ -3,14 +3,26 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Receiver.sol";
+import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "./INFTMarket.sol";
 import "./NFTListing.sol";
 import "./Payment.sol";
 import "./Collateral.sol";
 
-contract NFTMarket is INFTMarket, Ownable, ReentrancyGuard {
+contract NFTMarket is
+    INFTMarket,
+    ERC721Holder,
+    ERC1155Receiver,
+    ERC1155Holder,
+    Ownable,
+    ReentrancyGuard
+{
     // The main mapping maintaing the NFT listings. Address represents the lender
     mapping(address => mapping(uint256 => NFTListing)) internal listedNFT;
 
@@ -28,7 +40,17 @@ contract NFTMarket is INFTMarket, Ownable, ReentrancyGuard {
         onlyApprovedOrOwner(msg.sender, nftAddress, tokenId);
         // Add the NFT into the listedNFT mapping
         // No renter, yet ...
-        // transfer the NFT to this contract for an escrow
+        // transfer the NFT to this contract for an escrow (see ERC721Holder and ERC1155Holder)
+
+        emit NFTListed(
+            msg.sender,
+            nftAddress,
+            tokenId,
+            minimumDuration,
+            maximumEndTime,
+            payment,
+            collateral
+        );
     }
 
     /**
@@ -47,8 +69,17 @@ contract NFTMarket is INFTMarket, Ownable, ReentrancyGuard {
         // Lock in the collateral in this contract
         // Make the payment to the lender
         // update listedNFT with collateral and payment
-        // pay collateral to this contract
+        // pay collateral to this contract, for this NFTListing
         // check https://github.com/axelarnetwork/axelar-local-gmp-examples/tree/main/examples/nft-auctionhouse for the axealar hookup
+        emit NFTRented(
+            msg.sender,
+            nftAddress,
+            tokenId,
+            maximumEndTime,
+            minimumDuration,
+            payment,
+            collateral
+        );
     }
 
     /**
@@ -88,18 +119,19 @@ contract NFTMarket is INFTMarket, Ownable, ReentrancyGuard {
     }
 
     /**
-     * Let's make sure the lender owns the NFT
+     * Let's make sure the lender owns the NFT.
+     * TODO: Add 1155 support
      */
     function onlyApprovedOrOwner(
         address lender,
         address nftAddress,
         uint256 tokenId
     ) internal view {
-        address _owner = ERC721(nftAddress).ownerOf(tokenId);
+        address _owner = IERC721(nftAddress).ownerOf(tokenId);
         require(
             lender == _owner ||
-                ERC721(nftAddress).getApproved(tokenId) == lender ||
-                ERC721(nftAddress).isApprovedForAll(_owner, lender),
+                IERC721(nftAddress).getApproved(tokenId) == lender ||
+                IERC721(nftAddress).isApprovedForAll(_owner, lender),
             "You must be the owner or approved to do this ..."
         );
     }

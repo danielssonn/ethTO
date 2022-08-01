@@ -37,7 +37,7 @@ interface INFTMarket {
     function cancelNFTListing(address nftAddress, uint256 tokenId) external;
 
     // Events section
-    event ListNFT(
+    event NFTListed(
         address lender,
         address nftAddress,
         uint256 tokenId,
@@ -49,13 +49,12 @@ interface INFTMarket {
 
     event CancelNFTListing(address lender, address nftAddress, uint256 tokenId);
 
-    event RentNFT(
+    event NFTRented(
         address renter,
-        address lender,
         address nftAddress,
         uint256 tokenId,
-        uint64 startTime,
-        uint64 endTime,
+        uint64 maximumEndTime,
+        uint64 minimumDuration,
         Payment payment,
         Collateral collateral
     );
