@@ -49,10 +49,10 @@
     "vite": "^2.8.0"
   },
   "lint-staged": {
-    "client/**/*.{js,jsx,ts,tsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint ."
     ],
-    "client/**/*.{css,js,json,jsx,md,scss,ts,tsx,yml}": [
+    "*.{css,js,json,jsx,md,scss,ts,tsx,yml}": [
       "prettier --write"
     ]
   }
