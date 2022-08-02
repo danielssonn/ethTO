@@ -2,7 +2,7 @@
 ![Cross Chain UX Rocks](assets/cross-chain-ux.svg)
 ![Powered by Axelar](assets/powered-by-axelar.svg)
 ![Made with SwingXYZ](assets/made-with-swing.xyz.svg)
-![Runs On Moonbeam](assets/runs-on-moonbeam.svg)
+![Runs On Moonbeam](assets/runs-moonbeam.svg)
 
 <br><br>
 
