@@ -22,28 +22,27 @@
 
 ![Dashboard](assets/dashboard-main.png)
 
-[Our Glorious Deployment URL](https://here.xyz)
+:point_right: [Our Glorious Deployment URL](https://here.xyz) :point_left:
 
 ---
 
 Contents
 ===
 
- * [Why](#why)
+ * [Why we built it](#why-we-built-it)
  * [What we built](#What-we-built)
  * [How we built it](#How-we-built)
 
 
 
- ### Why
+ ### Why we built it
 
 + There are many blockchains out there, each with great assets and communities
-+ The future is definitely multi chain   
++ The future is definitely multi chain!   
 + However, the User eXperience interacting with multiple chains is cumbersome
-    + Mutiple wallets need to be created and constantly switched, by the user
-    + Tokens need to be swapped around, by the user
+    + Mutiple wallets need to be created and navigated, by the user
+    + Tokens need to be swapped around, also by the user
     + It is so easy to make a mistake, loose on the opportunity, or simply get discouraged
-    + Or worse, fall a victim to a hack
 
  ### What we built
  + Cross chain NFT renting experience
