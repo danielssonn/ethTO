@@ -6,7 +6,7 @@ import "hardhat-deploy";
 import "hardhat-abi-exporter"
 import "./tasks";
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: "../../.env" });
 
 const {
   ALCHEMY_API_KEY_KOVAN,
