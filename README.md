@@ -1,7 +1,9 @@
-![Cross Chain UX Rocks](assets/cross-chain-ux-rocks.svg)
+
+![Cross Chain UX Rocks](assets/cross-chain-ux.svg)
 ![Powered by Axelar](assets/powered-by-axelar.svg)
 ![Made with SwingXYZ](assets/made-with-swing.xyz.svg)
 ![Runs On Moonbeam](assets/runs-on-moonbeam.svg)
+
 <br><br>
 
 # The future is multi chain, but where is your wallet?
@@ -9,7 +11,7 @@
 ## Creating seamless cross chain NFT Renting experience
 <br><br>
 
-<p align="center">
+<p>
 
   <a href="https://amplication.com" target="_blank">
     <img alt="amplication-logo" height="70" alt="Amplication Logo" src="https://amplication.com/images/amplication-logo-purple.svg"/>
