@@ -2,9 +2,10 @@
 ![Cross Chain UX Rocks](assets/cross-chain-ux.svg)
 ![Powered by Axelar](assets/powered-by-axelar.svg)
 ![Made with SwingXYZ](assets/made-with-swing.xyz.svg)
-![Runs On Moonbeam](assets/runs-moonbeam.svg)
+![Runs On Moonbeam](assets/runs-on-moonbeam.svg)
 
-<br><br>
+
+
 
 # The future is multi chain, but where is your wallet?
 
@@ -52,15 +53,15 @@ Contents
 
  
  ### How we built it
- + We have created NFT renting contracts
+ + We have created NFT renting contracts for lenders and renters
  + We have deployed the contracts on Polygon and Moonbeam
     - [Mumbai Polygonscan](https://mumbai.polygonscan.com/address/0x8c787c95e9f1bbc6153336571b7ab58cd57ad98c) 
     - [Moonbase Alpha](https://moonbase.moonscan.io/token/0xec19ebb094269b2782fbab3b5ce6e3cb4dea86a2)
     
- + Mixed in some Axelar magic to make the contracts **cross chain BFF!s**
-    - [Axlar dashboard](https://axelar.network/)
+ + Mixed in some Axelar magic to make the contracts **cross chain BFF!**
+    - [Axelar dashboard](https://axelar.network/)
     
- + Sprinkled SwingXYX to automate token conversion for payments and collateral
+ + Sprinkled SwingXYX to automate token conversion for payments and collateral between ETH and GLMR
  + Designed UI where Lenders and Renters do not need to worry about blockchain details
     - [Our Glorious Deployment URL](https://here.xyz)
 
