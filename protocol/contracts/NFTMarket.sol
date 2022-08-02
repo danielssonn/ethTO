@@ -23,8 +23,14 @@ contract NFTMarket is
     Ownable,
     ReentrancyGuard
 {
-    // The main mapping maintaing the NFT listings. Address represents the lender
+    // The main mapping maintaing the NFT listings.
+    // Address represents the NFTContract address
+    // uint256 represents the tokenId of the NFT
     mapping(address => mapping(uint256 => NFTListing)) internal listedNFT;
+
+    function msgSender() internal view virtual returns (address) {
+      return msg.sender;
+    }
 
     /**
      * Lender can list NFT on the platform
@@ -37,10 +43,22 @@ contract NFTMarket is
         Payment memory payment,
         Collateral memory collateral
     ) public override nonReentrant {
-        onlyApprovedOrOwner(msg.sender, nftAddress, tokenId);
-        // Add the NFT into the listedNFT mapping
-        // No renter, yet ...
+        onlyApprovedOrOwner(msgSender(), nftAddress, tokenId);
+
+        address lender = msgSender();
+
+        // Create the listing Struct with default values.
+        // We need to do it this way because the renter is not yet defined.
+        NFTListing storage listing = listedNFT[nftAddress][tokenId];
+        listing.lender = lender;
+        listing.minimumDuration = minimumDuration;
+        listing.maximumEndTime = maximumEndTime;
+        listing.createTime = block.timestamp;
+        listing.payment = payment;
+        listing.collateral = collateral;
+
         // transfer the NFT to this contract for an escrow (see ERC721Holder and ERC1155Holder)
+        IERC721(nftAddress).safeTransferFrom(lender, address(this), tokenId);
 
         emit NFTListed(
             msg.sender,

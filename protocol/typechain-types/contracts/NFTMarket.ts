@@ -50,8 +50,6 @@ export type CollateralStructOutput = [string, BigNumber] & {
 
 export type NFTListingStruct = {
   lender: PromiseOrValue<string>;
-  nftAddress: PromiseOrValue<string>;
-  tokenId: PromiseOrValue<BigNumberish>;
   maximumEndTime: PromiseOrValue<BigNumberish>;
   minimumDuration: PromiseOrValue<BigNumberish>;
   createTime: PromiseOrValue<BigNumberish>;
@@ -62,8 +60,6 @@ export type NFTListingStruct = {
 
 export type NFTListingStructOutput = [
   string,
-  string,
-  BigNumber,
   BigNumber,
   BigNumber,
   BigNumber,
@@ -72,8 +68,6 @@ export type NFTListingStructOutput = [
   CollateralStructOutput
 ] & {
   lender: string;
-  nftAddress: string;
-  tokenId: BigNumber;
   maximumEndTime: BigNumber;
   minimumDuration: BigNumber;
   createTime: BigNumber;
