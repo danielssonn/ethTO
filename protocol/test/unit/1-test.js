@@ -3,11 +3,11 @@ const { ethers } = require("hardhat")
 
 
 
-describe("SomeContract setup", function () {
+describe("NFTMarket setup", function () {
 
     before(async function () {
-        SomeContract = await hre.ethers.getContractFactory("SomeContract");
-        someContract = await SomeContract.deploy()
+        NFTMarket = await hre.ethers.getContractFactory("NFTMarket");
+        nftMarket = await NFTMarket.deploy()
 
     })
 
