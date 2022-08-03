@@ -36,6 +36,8 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
+export type { DummyCoin } from "./contracts/DummyCoin";
+export { DummyCoin__factory } from "./factories/contracts/DummyCoin__factory";
 export type { INFTMarket } from "./contracts/INFTMarket";
 export { INFTMarket__factory } from "./factories/contracts/INFTMarket__factory";
 export type { NFTDummy } from "./contracts/NFTDummy";

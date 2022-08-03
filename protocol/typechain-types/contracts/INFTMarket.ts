@@ -48,12 +48,21 @@ export type CollateralStructOutput = [string, BigNumber] & {
   collateralAmount: BigNumber;
 };
 
+export type RentalStruct = {
+  renter: PromiseOrValue<string>;
+  expiryTime: PromiseOrValue<BigNumberish>;
+};
+
+export type RentalStructOutput = [string, BigNumber] & {
+  renter: string;
+  expiryTime: BigNumber;
+};
+
 export type NFTListingStruct = {
   lender: PromiseOrValue<string>;
   maximumEndTime: PromiseOrValue<BigNumberish>;
-  minimumDuration: PromiseOrValue<BigNumberish>;
   createTime: PromiseOrValue<BigNumberish>;
-  renter: PromiseOrValue<string>;
+  rental: RentalStruct;
   payment: PaymentStruct;
   collateral: CollateralStruct;
 };
@@ -62,16 +71,14 @@ export type NFTListingStructOutput = [
   string,
   BigNumber,
   BigNumber,
-  BigNumber,
-  string,
+  RentalStructOutput,
   PaymentStructOutput,
   CollateralStructOutput
 ] & {
   lender: string;
   maximumEndTime: BigNumber;
-  minimumDuration: BigNumber;
   createTime: BigNumber;
-  renter: string;
+  rental: RentalStructOutput;
   payment: PaymentStructOutput;
   collateral: CollateralStructOutput;
 };
@@ -80,9 +87,9 @@ export interface INFTMarketInterface extends utils.Interface {
   functions: {
     "cancelNFTListing(address,uint256)": FunctionFragment;
     "getListing(address,uint256)": FunctionFragment;
-    "listNFT(address,uint256,uint64,uint64,(address,uint256),(address,uint256))": FunctionFragment;
-    "rentNFT(address,uint256,uint64,uint64,(address,uint256),(address,uint256))": FunctionFragment;
-    "returnRentedNFT(address,address,uint256)": FunctionFragment;
+    "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
+    "rentNFT(address,uint256,uint16)": FunctionFragment;
+    "returnRentedNFT(address,uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -108,7 +115,6 @@ export interface INFTMarketInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
       PaymentStruct,
       CollateralStruct
     ]
@@ -118,19 +124,12 @@ export interface INFTMarketInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PaymentStruct,
-      CollateralStruct
+      PromiseOrValue<BigNumberish>
     ]
   ): string;
   encodeFunctionData(
     functionFragment: "returnRentedNFT",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>
-    ]
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
 
   decodeFunctionResult(
@@ -147,8 +146,8 @@ export interface INFTMarketInterface extends utils.Interface {
 
   events: {
     "CancelNFTListing(address,address,uint256)": EventFragment;
-    "NFTListed(address,address,uint256,uint64,uint64,tuple,tuple)": EventFragment;
-    "NFTRented(address,address,uint256,uint64,uint64,tuple,tuple)": EventFragment;
+    "NFTListed(address,address,uint256,uint256,tuple,tuple)": EventFragment;
+    "NFTRented(address,uint256,tuple)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "CancelNFTListing"): EventFragment;
@@ -173,7 +172,6 @@ export interface NFTListedEventObject {
   lender: string;
   nftAddress: string;
   tokenId: BigNumber;
-  minimumDuration: BigNumber;
   maximumEndTime: BigNumber;
   payment: PaymentStructOutput;
   collateral: CollateralStructOutput;
@@ -182,7 +180,6 @@ export type NFTListedEvent = TypedEvent<
   [
     string,
     string,
-    BigNumber,
     BigNumber,
     BigNumber,
     PaymentStructOutput,
@@ -194,24 +191,12 @@ export type NFTListedEvent = TypedEvent<
 export type NFTListedEventFilter = TypedEventFilter<NFTListedEvent>;
 
 export interface NFTRentedEventObject {
-  renter: string;
   nftAddress: string;
   tokenId: BigNumber;
-  maximumEndTime: BigNumber;
-  minimumDuration: BigNumber;
-  payment: PaymentStructOutput;
-  collateral: CollateralStructOutput;
+  rental: RentalStructOutput;
 }
 export type NFTRentedEvent = TypedEvent<
-  [
-    string,
-    string,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    PaymentStructOutput,
-    CollateralStructOutput
-  ],
+  [string, BigNumber, RentalStructOutput],
   NFTRentedEventObject
 >;
 
@@ -259,7 +244,6 @@ export interface INFTMarket extends BaseContract {
     listNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      minimumDuration: PromiseOrValue<BigNumberish>,
       maximumEndTime: PromiseOrValue<BigNumberish>,
       payment: PaymentStruct,
       collateral: CollateralStruct,
@@ -269,15 +253,11 @@ export interface INFTMarket extends BaseContract {
     rentNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      maximumEndTime: PromiseOrValue<BigNumberish>,
-      minimumDuration: PromiseOrValue<BigNumberish>,
-      payment: PaymentStruct,
-      collateral: CollateralStruct,
+      daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     returnRentedNFT(
-      renter: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -299,7 +279,6 @@ export interface INFTMarket extends BaseContract {
   listNFT(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
-    minimumDuration: PromiseOrValue<BigNumberish>,
     maximumEndTime: PromiseOrValue<BigNumberish>,
     payment: PaymentStruct,
     collateral: CollateralStruct,
@@ -309,15 +288,11 @@ export interface INFTMarket extends BaseContract {
   rentNFT(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
-    maximumEndTime: PromiseOrValue<BigNumberish>,
-    minimumDuration: PromiseOrValue<BigNumberish>,
-    payment: PaymentStruct,
-    collateral: CollateralStruct,
+    daysToRent: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   returnRentedNFT(
-    renter: PromiseOrValue<string>,
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -339,7 +314,6 @@ export interface INFTMarket extends BaseContract {
     listNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      minimumDuration: PromiseOrValue<BigNumberish>,
       maximumEndTime: PromiseOrValue<BigNumberish>,
       payment: PaymentStruct,
       collateral: CollateralStruct,
@@ -349,15 +323,11 @@ export interface INFTMarket extends BaseContract {
     rentNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      maximumEndTime: PromiseOrValue<BigNumberish>,
-      minimumDuration: PromiseOrValue<BigNumberish>,
-      payment: PaymentStruct,
-      collateral: CollateralStruct,
+      daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     returnRentedNFT(
-      renter: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -376,11 +346,10 @@ export interface INFTMarket extends BaseContract {
       tokenId?: null
     ): CancelNFTListingEventFilter;
 
-    "NFTListed(address,address,uint256,uint64,uint64,tuple,tuple)"(
+    "NFTListed(address,address,uint256,uint256,tuple,tuple)"(
       lender?: null,
       nftAddress?: null,
       tokenId?: null,
-      minimumDuration?: null,
       maximumEndTime?: null,
       payment?: null,
       collateral?: null
@@ -389,29 +358,20 @@ export interface INFTMarket extends BaseContract {
       lender?: null,
       nftAddress?: null,
       tokenId?: null,
-      minimumDuration?: null,
       maximumEndTime?: null,
       payment?: null,
       collateral?: null
     ): NFTListedEventFilter;
 
-    "NFTRented(address,address,uint256,uint64,uint64,tuple,tuple)"(
-      renter?: null,
+    "NFTRented(address,uint256,tuple)"(
       nftAddress?: null,
       tokenId?: null,
-      maximumEndTime?: null,
-      minimumDuration?: null,
-      payment?: null,
-      collateral?: null
+      rental?: null
     ): NFTRentedEventFilter;
     NFTRented(
-      renter?: null,
       nftAddress?: null,
       tokenId?: null,
-      maximumEndTime?: null,
-      minimumDuration?: null,
-      payment?: null,
-      collateral?: null
+      rental?: null
     ): NFTRentedEventFilter;
   };
 
@@ -431,7 +391,6 @@ export interface INFTMarket extends BaseContract {
     listNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      minimumDuration: PromiseOrValue<BigNumberish>,
       maximumEndTime: PromiseOrValue<BigNumberish>,
       payment: PaymentStruct,
       collateral: CollateralStruct,
@@ -441,15 +400,11 @@ export interface INFTMarket extends BaseContract {
     rentNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      maximumEndTime: PromiseOrValue<BigNumberish>,
-      minimumDuration: PromiseOrValue<BigNumberish>,
-      payment: PaymentStruct,
-      collateral: CollateralStruct,
+      daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     returnRentedNFT(
-      renter: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -472,7 +427,6 @@ export interface INFTMarket extends BaseContract {
     listNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      minimumDuration: PromiseOrValue<BigNumberish>,
       maximumEndTime: PromiseOrValue<BigNumberish>,
       payment: PaymentStruct,
       collateral: CollateralStruct,
@@ -482,15 +436,11 @@ export interface INFTMarket extends BaseContract {
     rentNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      maximumEndTime: PromiseOrValue<BigNumberish>,
-      minimumDuration: PromiseOrValue<BigNumberish>,
-      payment: PaymentStruct,
-      collateral: CollateralStruct,
+      daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     returnRentedNFT(
-      renter: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
