@@ -15,7 +15,7 @@
 
 # The future is multi-chain, but where is your wallet?
 
-## Creating seamless cross chain NFT Renting experience
+## Creating a seamless cross chain NFT renting experience
 <br><br>
 
 <p>
