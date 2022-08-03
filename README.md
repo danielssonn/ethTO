@@ -46,7 +46,7 @@ Contents
 + There are many blockchains out there, each with great assets and communities
 + The future is definitely multi-chain!   
 + However, the User eXperience of interacting with multiple chains is cumbersome
-    + Mutiple wallets need to be created and navigated, by the user
+    + Multiple wallets need to be created and navigated by the user
     + Tokens need to be swapped around, also by the user
     + It is so easy to make a mistake, loose on the opportunity, or simply get discouraged
 
