@@ -4,6 +4,8 @@
 ![Made with SwingXYZ](assets/made-with-swing.xyz.svg)
 ![Runs On Moonbeam](assets/runs-on-moonbeam.svg)
 ![Runs On Ethereum](assets/runs-on-ethereum.svg)
+![Runs On Polygon](assets/runs-on-polygon.svg)
+
 
 
 
