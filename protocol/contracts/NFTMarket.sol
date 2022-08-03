@@ -61,7 +61,7 @@ contract NFTMarket is
         IERC721(nftAddress).safeTransferFrom(lender, address(this), tokenId);
 
         emit NFTListed(
-            msg.sender,
+            msgSender(),
             nftAddress,
             tokenId,
             maximumEndTime,
@@ -99,11 +99,11 @@ contract NFTMarket is
         }
 
         // Lock in the collateral in this contract
-        collateralToken.transferFrom(msg.sender, address(this), listing.collateral.collateralAmount);
+        collateralToken.transferFrom(msgSender(), address(this), listing.collateral.collateralAmount);
         // Make the payment to the lender
-        paymentToken.transferFrom(msg.sender, listing.lender, rentalCost);
+        paymentToken.transferFrom(msgSender(), listing.lender, rentalCost);
         // Transfer the NFT to the renter
-        IERC721(nftAddress).safeTransferFrom(address(this), msg.sender, tokenId);
+        IERC721(nftAddress).safeTransferFrom(address(this), msgSender(), tokenId);
 
         // Save the rental on the listing
         listing.rental = Rental(msgSender(), rentalExpiry);
@@ -148,7 +148,7 @@ contract NFTMarket is
         public
         override
     {
-        onlyApprovedOrOwner(msg.sender, nftAddress, tokenId);
+        onlyApprovedOrOwner(msgSender(), nftAddress, tokenId);
 
         // Make sure it is not rented ATM
         // Remove the NFT from the listedNFTs mapping
