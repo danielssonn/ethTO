@@ -63,7 +63,7 @@ Contents
     - [Mumbai Polygonscan](https://mumbai.polygonscan.com/address/0x8c787c95e9f1bbc6153336571b7ab58cd57ad98c) 
     - [Moonbase Alpha](https://moonbase.moonscan.io/token/0xec19ebb094269b2782fbab3b5ce6e3cb4dea86a2)
     
- + Mixed in some Axelar magic to make the contracts **cross chain BFF!**
+ + Mixed in some Axelar magic to make the contracts **cross-chain BFF!**
     - [Axelar dashboard](https://axelar.network/)
     
  + Sprinkled SwingXYX to automate token conversion for payments and collateral between ETH and GLMR
