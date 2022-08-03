@@ -222,16 +222,6 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "address",
-            name: "nftAddress",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "tokenId",
-            type: "uint256",
-          },
-          {
             internalType: "uint64",
             name: "maximumEndTime",
             type: "uint64",
@@ -242,9 +232,9 @@ const _abi = [
             type: "uint64",
           },
           {
-            internalType: "uint64",
+            internalType: "uint256",
             name: "createTime",
-            type: "uint64",
+            type: "uint256",
           },
           {
             internalType: "address",

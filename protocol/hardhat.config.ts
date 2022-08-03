@@ -1,12 +1,12 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomiclabs/hardhat-waffle";
-import "@nomiclabs/hardhat-etherscan";
-import "@typechain/hardhat";
-import "hardhat-deploy";
-import "hardhat-abi-exporter"
-import "./tasks";
-import * as dotenv from "dotenv";
-dotenv.config({ path: "../../.env" });
+import { HardhatUserConfig } from 'hardhat/config'
+import '@nomiclabs/hardhat-waffle'
+import '@nomiclabs/hardhat-etherscan'
+import '@typechain/hardhat'
+import 'hardhat-deploy'
+import 'hardhat-abi-exporter'
+import './tasks'
+import * as dotenv from 'dotenv'
+dotenv.config({ path: '../.env' })
 
 const {
   ALCHEMY_API_KEY_KOVAN,
@@ -14,12 +14,12 @@ const {
   PRIVATE_KEY,
   ETHERSCAN_API_KEY,
   ALCHEMY_API_KEY_MAINNET,
-  ALCHEMY_GOERLI
-} = process.env;
+  ALCHEMY_GOERLI,
+} = process.env
 
 const config: HardhatUserConfig = {
   solidity: {
-    compilers: [{ version: "0.8.7" }, { version: "0.6.6" }],
+    compilers: [{ version: '0.8.7' }, { version: '0.6.6' }],
   },
   networks: {
     goerli: {
@@ -29,6 +29,9 @@ const config: HardhatUserConfig = {
     hardhat: {
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY_MAINNET}`,
+      },
+      accounts: {
+        accountsBalance: '10000000000000000000000000',
       },
     },
     localhost: {
@@ -50,9 +53,9 @@ const config: HardhatUserConfig = {
     clear: true,
     flat: true,
     spacing: 2,
-    format: "json",
-    only: ['NFT*']
-  }
-};
+    format: 'json',
+    only: ['NFT*'],
+  },
+}
 
-export default config;
+export default config
