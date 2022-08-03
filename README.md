@@ -51,7 +51,7 @@ Contents
     + It is so easy to make a mistake, lose out on an opportunity, or simply get discouraged
 
  ### What we built
- + Cross chain NFT renting experience
+ + Cross-chain NFT renting experience
  + With simple and straightforward UX
  + No matter what chain and which wallet or tokens you have 
  + You can list and rent NFTs on multiple chains, without the multi chain hassle
