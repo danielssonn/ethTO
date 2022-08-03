@@ -48,7 +48,7 @@ Contents
 + However, the User eXperience of interacting with multiple chains is cumbersome
     + Multiple wallets need to be created and navigated by the user
     + Tokens need to be swapped around, also by the user
-    + It is so easy to make a mistake, loose on the opportunity, or simply get discouraged
+    + It is so easy to make a mistake, lose out on an opportunity, or simply get discouraged
 
  ### What we built
  + Cross chain NFT renting experience
