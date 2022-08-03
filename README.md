@@ -44,7 +44,7 @@ Contents
  ### Why we built it
 
 + There are many blockchains out there, each with great assets and communities
-+ The future is definitely multi chain!   
++ The future is definitely multi-chain!   
 + However, the User eXperience interacting with multiple chains is cumbersome
     + Mutiple wallets need to be created and navigated, by the user
     + Tokens need to be swapped around, also by the user
