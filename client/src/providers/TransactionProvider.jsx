@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { CHAIN_MAP } from '../utils/constants'
 import { TransactionContext } from '../context'
-
+import PropTypes from 'prop-types'
 
 // ethereum object from window, initiate provider and signer
 const { ethereum } = window
@@ -14,6 +14,7 @@ const TransactionProvider = ({ children }) => {
     const [currentSigner, setCurrentSigner] = useState('')
     const [currentAccount, setCurrentAccount] = useState('')
     const [currentChain, setCurrentChain] = useState()
+    const [ready, setReady] = useState(false)
 
     // check if wallet is connect
     const checkIfWalletIsConnected = async () => {
@@ -60,8 +61,9 @@ const TransactionProvider = ({ children }) => {
 
     // check if wallet is connected every time page is rerendered
     useEffect(() => {
-        checkIfWalletIsConnected()
-        // loadIdentitiesFromContract()
+        checkIfWalletIsConnected().then(() => {
+            setReady(true)
+        })
     }, [])
 
     useEffect(() => {
@@ -73,6 +75,11 @@ const TransactionProvider = ({ children }) => {
             }
         }
     }, [currentSigner])
+
+    // TODO: add a nicer loading state
+    if (!ready) {
+        return <>Loading...</>
+    }
 
     return (
         <TransactionContext.Provider
@@ -86,6 +93,10 @@ const TransactionProvider = ({ children }) => {
             {children}
         </TransactionContext.Provider>
     )
+}
+
+TransactionProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 }
 
 export default TransactionProvider

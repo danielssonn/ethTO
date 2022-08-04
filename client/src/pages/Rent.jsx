@@ -11,6 +11,7 @@ import {
 
 import { Footer, Header, NftCard, NftModal } from '../components'
 import AuthRoute from '../components/AuthRoute'
+import SwingConverter from '../components/SwingConverter'
 
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
@@ -406,6 +407,7 @@ export default function Rent() {
                                     ))}
                                 </div>
                             </div>
+                            <SwingConverter />
                         </section>
                     </main>
                 </div>
