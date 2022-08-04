@@ -13,6 +13,30 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "IAxelarGasService",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAxelarGasService__factory>;
+    getContractFactory(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
+      name: "IUpgradable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IUpgradable__factory>;
+    getContractFactory(
+      name: "AxelarExecutable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AxelarExecutable__factory>;
+    getContractFactory(
+      name: "IAxelarExecutable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAxelarExecutable__factory>;
+    getContractFactory(
+      name: "IAxelarGateway",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAxelarGateway__factory>;
+    getContractFactory(
       name: "Ownable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Ownable__factory>;
@@ -81,6 +105,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.INFTMarket__factory>;
     getContractFactory(
+      name: "MarketSyncher",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MarketSyncher__factory>;
+    getContractFactory(
       name: "NFTDummy",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTDummy__factory>;
@@ -89,6 +117,36 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTMarket__factory>;
 
+    getContractAt(
+      name: "IAxelarGasService",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAxelarGasService>;
+    getContractAt(
+      name: "IERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
+    getContractAt(
+      name: "IUpgradable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IUpgradable>;
+    getContractAt(
+      name: "AxelarExecutable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AxelarExecutable>;
+    getContractAt(
+      name: "IAxelarExecutable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAxelarExecutable>;
+    getContractAt(
+      name: "IAxelarGateway",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAxelarGateway>;
     getContractAt(
       name: "Ownable",
       address: string,
@@ -174,6 +232,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.INFTMarket>;
+    getContractAt(
+      name: "MarketSyncher",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MarketSyncher>;
     getContractAt(
       name: "NFTDummy",
       address: string,

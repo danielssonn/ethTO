@@ -126,7 +126,7 @@ contract NFTMarket is
         uint16 daysToRent
     ) internal {
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
-        listedNFTs[nftAddress][tokenid].rental = Rental(msgSender(), rentalExpiry);
+        listedNFTs[nftAddress][tokenId].rental = Rental(msgSender(), rentalExpiry);
     }
 
     /**
