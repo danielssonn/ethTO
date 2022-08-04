@@ -1,65 +1,89 @@
-import React, { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import { useEffect, useState } from 'react'
+import { ethers } from 'ethers'
+import { CHAIN_MAP } from '../utils/constants'
 
-export const TransactionContext = React.createContext();
+export const TransactionContext = React.createContext()
 
 // ethereum object from window, initiate provider and signer
-const { ethereum } = window;
-const provider = new ethers.providers.Web3Provider(ethereum);
-const signer = provider.getSigner();
+const { ethereum } = window
+const provider = new ethers.providers.Web3Provider(ethereum)
 
 // context provider
 export const TransactionProvider = ({ children }) => {
   // states
-  const [currentUser, setCurrentUser] = useState("");
-  const [currentAccount, setCurrentAccount] = useState("");
+  const [currentSigner, setCurrentSigner] = useState('')
+  const [currentAccount, setCurrentAccount] = useState('')
+  const [currentChain, setCurrentChain] = useState()
 
   // check if wallet is connect
   const checkIfWalletIsConnected = async () => {
     try {
-      if (!ethereum) return alert("Please install MetaMask.");
+      if (!ethereum) return alert('Please install MetaMask.')
 
-      const accounts = await ethereum.request({ method: "eth_accounts" });
+      const accounts = await ethereum.request({ method: 'eth_accounts' })
 
       if (accounts.length) {
-        setCurrentAccount(accounts[0]);
+        setCurrentAccount(accounts[0])
+        setCurrentSigner(provider.getSigner())
       } else {
-        console.log("No accounts found");
+        console.log('No accounts found')
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   // connect to user's wallet
   const connectWallet = async () => {
     try {
-      if (!ethereum) return alert("Please install MetaMask.");
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-      setCurrentAccount(accounts[0]);
+      if (!ethereum) return alert('Please install MetaMask.')
+      const accounts = await ethereum.request({
+        method: 'eth_requestAccounts',
+      })
+      setCurrentAccount(accounts[0])
+      setCurrentSigner(provider.getSigner())
     } catch (error) {
-      console.log(error);
-
-      throw new Error("No ethereum object");
+      console.error(error)
     }
-  };
+  }
+
+  const detectChain = async () => {
+    try {
+      if (!ethereum) return alert('Please install MetaMask.')
+
+      const chainId = await ethereum.request({ method: 'eth_chainId' })
+      setCurrentChain(CHAIN_MAP.get(chainId))
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   // check if wallet is connected every time page is rerendered
   useEffect(() => {
-    checkIfWalletIsConnected();
+    checkIfWalletIsConnected()
     // loadIdentitiesFromContract()
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    if (ethereum) {
+      ethereum.on('chainChanged', detectChain)
+
+      return () => {
+        ethereum.removeListener('chainChanged', detectChain)
+      }
+    }
+  }, [])
 
   return (
     <TransactionContext.Provider
       value={{
         connectWallet,
         currentAccount,
-        currentUser,
-        setCurrentUser,
+        currentSigner,
+        currentChain
       }}
     >
-      {children}
+        {children}
     </TransactionContext.Provider>
-  );
-};
+  )
+}
