@@ -18,7 +18,7 @@ interface INFTMarket {
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
-    ) external payable;
+    ) external payable returns(string memory, uint256);
 
     function returnRentedNFT(
         address nftAddress,

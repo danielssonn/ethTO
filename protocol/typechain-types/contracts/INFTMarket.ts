@@ -325,7 +325,7 @@ export interface INFTMarket extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<[string, BigNumber]>;
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,

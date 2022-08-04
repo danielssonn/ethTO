@@ -42,20 +42,20 @@ contract MarketSyncher is
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
-    ) external payable nonReentrant {
+    ) public payable nonReentrant {
         // verify that user has
          bytes memory payload = abi.encode(nftAddress, tokenId, daysToRent, address(0));
          string memory stringAddress = address(this).toString();
-         string memory tokenSymbol = "aUSDC";
-         uint256 amount = 100;
+
+         (string memory tokenSymbol, uint256 amount) = rentNFT(nftAddress, tokenId, daysToRent);
 
          gasReceiver.payNativeGasForContractCall{ value: msg.value }(address(this), destinationChain, stringAddress, payload, msg.sender);
          gateway().callContractWithToken(destinationChain, stringAddress, payload, tokenSymbol, amount);
     }
 
     function _executeWithToken(
-        string memory sourceChain,
-        string memory sourceAddress,
+        string memory _sourceChain,
+        string memory _sourceAddress,
         bytes calldata payload,
         string memory tokenSymbol,
         uint256 amount

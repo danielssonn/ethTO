@@ -325,7 +325,18 @@ const _abi = [
       },
     ],
     name: "rentNFT",
-    outputs: [],
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "payable",
     type: "function",
   },

@@ -77,7 +77,7 @@ contract NFTMarket is
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
-    ) public payable override nonReentrant {
+    ) public payable override nonReentrant returns(string memory, uint256) {
         NFTListing memory listing = listedNFTs[nftAddress][tokenId];
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
 
@@ -100,9 +100,11 @@ contract NFTMarket is
 
         // Lock in the collateral in this contract
         collateralToken.transferFrom(msgSender(), address(this), listing.collateral.collateralAmount);
+
         // Make the payment to the lender
-        paymentToken.transferFrom(msgSender(), listing.lender, rentalCost);
-        // Transfer the NFT to the renter
+        // paymentToken.transferFrom(msgSender(), listing.lender, rentalCost);
+
+        // Transfer NFT to renter address on this chain
         IERC721(nftAddress).safeTransferFrom(address(this), msgSender(), tokenId);
 
         // Save the rental on the listing
@@ -115,6 +117,9 @@ contract NFTMarket is
             tokenId,
             listing.rental
         );
+
+        // needed to perform payment via Axelar
+        return (paymentToken.symbol(), rentalCost);
     }
 
     /**
