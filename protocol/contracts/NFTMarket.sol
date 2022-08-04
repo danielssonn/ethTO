@@ -118,6 +118,18 @@ contract NFTMarket is
     }
 
     /**
+     * Internally used to mark an nft as rented
+     */
+    function _markAsRented(
+        address nftAddress,
+        uint256 tokenId,
+        uint16 daysToRent
+    ) internal {
+        uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
+        listedNFTs[nftAddress][tokenid].rental = Rental(msgSender(), rentalExpiry);
+    }
+
+    /**
      * Renter returns NFT to the lender, lender gets paid
      */
     function returnRentedNFT(
