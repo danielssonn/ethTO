@@ -1,6 +1,6 @@
-export const CHAIN_MAP = new Map({
-  133: 'Polygon',
-  1284: 'Moonbeam',
-  1: 'Ethereum',
-  1088: 'Metis'
-})
+export const CHAIN_MAP = new Map([
+    [133, { name: 'Polygon' }],
+    [1284, { name: 'Moonbeam' }],
+    [1, { name: 'Ethereum' }],
+    [1088, { name: 'Metis' }],
+])

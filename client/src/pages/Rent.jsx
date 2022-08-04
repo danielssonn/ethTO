@@ -10,6 +10,7 @@ import {
 } from '@heroicons/react/solid'
 
 import { Footer, Header, NftCard, NftModal } from '../components'
+import AuthRoute from '../components/AuthRoute'
 
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
@@ -97,7 +98,7 @@ export default function Rent() {
     }
 
     return (
-        <>
+        <AuthRoute>
             <Header />
             <div className="bg-white">
                 <div>
@@ -415,6 +416,6 @@ export default function Rent() {
                 open={isNftModalOpen}
             />
             <Footer />
-        </>
+        </AuthRoute>
     )
 }
