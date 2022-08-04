@@ -58,15 +58,9 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "uint64",
-        name: "minimumDuration",
-        type: "uint64",
-      },
-      {
-        indexed: false,
-        internalType: "uint64",
+        internalType: "uint256",
         name: "maximumEndTime",
-        type: "uint64",
+        type: "uint256",
       },
       {
         components: [
@@ -114,12 +108,6 @@ const _abi = [
       {
         indexed: false,
         internalType: "address",
-        name: "renter",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
         name: "nftAddress",
         type: "address",
       },
@@ -130,51 +118,21 @@ const _abi = [
         type: "uint256",
       },
       {
-        indexed: false,
-        internalType: "uint64",
-        name: "maximumEndTime",
-        type: "uint64",
-      },
-      {
-        indexed: false,
-        internalType: "uint64",
-        name: "minimumDuration",
-        type: "uint64",
-      },
-      {
         components: [
           {
             internalType: "address",
-            name: "paymentToken",
+            name: "renter",
             type: "address",
           },
           {
             internalType: "uint256",
-            name: "pricePerDay",
+            name: "expiryTime",
             type: "uint256",
           },
         ],
         indexed: false,
-        internalType: "struct Payment",
-        name: "payment",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "collateralToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "collateralAmount",
-            type: "uint256",
-          },
-        ],
-        indexed: false,
-        internalType: "struct Collateral",
-        name: "collateral",
+        internalType: "struct Rental",
+        name: "rental",
         type: "tuple",
       },
     ],
@@ -222,14 +180,9 @@ const _abi = [
             type: "address",
           },
           {
-            internalType: "uint64",
+            internalType: "uint256",
             name: "maximumEndTime",
-            type: "uint64",
-          },
-          {
-            internalType: "uint64",
-            name: "minimumDuration",
-            type: "uint64",
+            type: "uint256",
           },
           {
             internalType: "uint256",
@@ -237,9 +190,21 @@ const _abi = [
             type: "uint256",
           },
           {
-            internalType: "address",
-            name: "renter",
-            type: "address",
+            components: [
+              {
+                internalType: "address",
+                name: "renter",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "expiryTime",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Rental",
+            name: "rental",
+            type: "tuple",
           },
           {
             components: [
@@ -297,14 +262,9 @@ const _abi = [
         type: "uint256",
       },
       {
-        internalType: "uint64",
-        name: "minimumDuration",
-        type: "uint64",
-      },
-      {
-        internalType: "uint64",
+        internalType: "uint256",
         name: "maximumEndTime",
-        type: "uint64",
+        type: "uint256",
       },
       {
         components: [
@@ -359,48 +319,9 @@ const _abi = [
         type: "uint256",
       },
       {
-        internalType: "uint64",
-        name: "maximumEndTime",
-        type: "uint64",
-      },
-      {
-        internalType: "uint64",
-        name: "minimumDuration",
-        type: "uint64",
-      },
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "paymentToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "pricePerDay",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct Payment",
-        name: "payment",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "collateralToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "collateralAmount",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct Collateral",
-        name: "collateral",
-        type: "tuple",
+        internalType: "uint16",
+        name: "daysToRent",
+        type: "uint16",
       },
     ],
     name: "rentNFT",
@@ -410,11 +331,6 @@ const _abi = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "renter",
-        type: "address",
-      },
       {
         internalType: "address",
         name: "nftAddress",

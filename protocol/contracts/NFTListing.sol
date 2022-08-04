@@ -2,13 +2,13 @@
 pragma solidity ^0.8.0;
 import "./Payment.sol";
 import "./Collateral.sol";
+import "./Rental.sol";
 
 struct NFTListing {
     address lender;
-    uint64 maximumEndTime;
-    uint64 minimumDuration;
+    uint256 maximumEndTime;
     uint256 createTime;
-    address renter;
+    Rental rental;
     Payment payment;
     Collateral collateral;
 }
