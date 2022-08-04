@@ -1,7 +1,6 @@
 
 import wallet from './wallet.png'
 
-
 const bgs = {
 
 }

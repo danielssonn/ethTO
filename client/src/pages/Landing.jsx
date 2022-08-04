@@ -1,66 +1,209 @@
-import React, { useState, useContext } from "react";
-import { TransactionContext } from "../context/TransactionContext";
+import { Fragment } from 'react'
+import { Popover, Transition } from '@headlessui/react'
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
 
-import { useNavigate } from "react-router-dom";
-import ConfettiExplosion from "react-confetti-explosion";
+import { LandingFooter } from '../components'
 
-// icons
-import { CgSpinner } from "react-icons/cg";
-
-// assets
-import IMAGES from "../../images";
-
-const Landing = () => {
-  const nameInput = React.createRef();
-
-  // firework config
-  const bigExplodeProps = {
-    force: 0.6,
-    duration: 5000,
-    particleCount: 300,
-    floorHeight: 1600,
-    floorWidth: 1600,
-  };
-
-  const navigate = useNavigate();
-
-  const { connectWallet, setUserIdentity } = useContext(TransactionContext);
-
-  // cnnect wallet
-  const connect = async () => {
-    const connect = await connectWallet();
-  };
-
-  return (
-    <div className="bg-dashboard bg-contain bg-repeat-x w-full h-100v flex flex-col justify-center items-center">
-      <h1 className="font-semibold text-2xl text-stone-500 uppercase">Welcome</h1>
-
-      {/* Dapp name */}
-      <div className="rounded-lg p-4 text-transparent xl:text-6xl text-4xl font-extrabold bg-clip-text bg-gradient-to-br from-[#3926AD] to-[#C367D6]">
-        <h1>Dave!</h1>
-      </div>
-
-      {/* step cards */}
-      <div className="flex justify-center items-stretch w-full">
-        {/* connect wallet */}
-        {
-          <div className="animate-fade m-5 flex flex-col justify-center items-center xl:w-1/6 w-1/4 border-4 border-[#5841f0]/60 shadow-[#5841f0] drop-shadow-lg rounded-xl  bg-white/60 p-8 cursor-pointer">
-            <h1 className="font-semibold text-stone-500"> Connect Your Wallet</h1>
-            <img src={IMAGES.wallet} alt="logo" className="" />
-
-            <button
-              className="py-2 px-6 font-semibold text-white border bg-[#5841f0] rounded-lg flex items-center"
-              onClick={connect}
-            >
-              Connect
-            </button>
-          </div>
-        }
-
-        {/* enter user name */}
-      </div>
-    </div>
-  );
-};
-
-export default Landing;
+export default function Landing() {
+    return (
+        <>
+            <div className="relative bg-gray-50 overflow-hidden">
+                <div
+                    className="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full"
+                    aria-hidden="true"
+                >
+                    <div className="relative h-full max-w-7xl mx-auto">
+                        <svg
+                            className="absolute right-full transform translate-y-1/4 translate-x-1/4 lg:translate-x-1/2"
+                            width={404}
+                            height={784}
+                            fill="none"
+                            viewBox="0 0 404 784"
+                        >
+                            <defs>
+                                <pattern
+                                    id="f210dbf6-a58d-4871-961e-36d5016a0f49"
+                                    x={0}
+                                    y={0}
+                                    width={20}
+                                    height={20}
+                                    patternUnits="userSpaceOnUse"
+                                >
+                                    <rect
+                                        x={0}
+                                        y={0}
+                                        width={4}
+                                        height={4}
+                                        className="text-gray-200"
+                                        fill="currentColor"
+                                    />
+                                </pattern>
+                            </defs>
+                            <rect
+                                width={404}
+                                height={784}
+                                fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"
+                            />
+                        </svg>
+                        <svg
+                            className="absolute left-full transform -translate-y-3/4 -translate-x-1/4 md:-translate-y-1/2 lg:-translate-x-1/2"
+                            width={404}
+                            height={784}
+                            fill="none"
+                            viewBox="0 0 404 784"
+                        >
+                            <defs>
+                                <pattern
+                                    id="5d0dd344-b041-4d26-bec4-8d33ea57ec9b"
+                                    x={0}
+                                    y={0}
+                                    width={20}
+                                    height={20}
+                                    patternUnits="userSpaceOnUse"
+                                >
+                                    <rect
+                                        x={0}
+                                        y={0}
+                                        width={4}
+                                        height={4}
+                                        className="text-gray-200"
+                                        fill="currentColor"
+                                    />
+                                </pattern>
+                            </defs>
+                            <rect
+                                width={404}
+                                height={784}
+                                fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)"
+                            />
+                        </svg>
+                    </div>
+                </div>
+                <div className="relative pt-6 pb-16 sm:pb-24">
+                    <Popover>
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                            <nav
+                                className="relative flex items-center justify-between sm:h-10 md:justify-center"
+                                aria-label="Global"
+                            >
+                                <div className="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
+                                    <div className="flex items-center justify-between w-full md:w-auto">
+                                        <a href="#">
+                                            <span className="sr-only">
+                                                Workflow
+                                            </span>
+                                            <img
+                                                className="h-8 w-auto sm:h-10"
+                                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                                                alt=""
+                                            />
+                                        </a>
+                                        <div className="-mr-2 flex items-center md:hidden">
+                                            <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500">
+                                                <span className="sr-only">
+                                                    Open main menu
+                                                </span>
+                                                <MenuIcon
+                                                    className="h-6 w-6"
+                                                    aria-hidden="true"
+                                                />
+                                            </Popover.Button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
+                                    <span className="inline-flex rounded-md shadow">
+                                        <a
+                                            href="#"
+                                            className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-green-600 bg-white hover:bg-gray-50"
+                                        >
+                                            Connect wallet
+                                        </a>
+                                    </span>
+                                </div>
+                            </nav>
+                        </div>
+                        <Transition
+                            as={Fragment}
+                            enter="duration-150 ease-out"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="duration-100 ease-in"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                        >
+                            <Popover.Panel
+                                focus
+                                className="absolute z-10 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
+                            >
+                                <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                    <div className="px-5 pt-4 flex items-center justify-between">
+                                        <div>
+                                            <img
+                                                className="h-8 w-auto"
+                                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                                                alt=""
+                                            />
+                                        </div>
+                                        <div className="-mr-2">
+                                            <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500">
+                                                <span className="sr-only">
+                                                    Close menu
+                                                </span>
+                                                <XIcon
+                                                    className="h-6 w-6"
+                                                    aria-hidden="true"
+                                                />
+                                            </Popover.Button>
+                                        </div>
+                                    </div>
+                                    <a
+                                        href="#"
+                                        className="block w-full px-5 py-3 text-center font-medium text-green-600 bg-gray-50 hover:bg-gray-100"
+                                    >
+                                        Connect wallet
+                                    </a>
+                                </div>
+                            </Popover.Panel>
+                        </Transition>
+                    </Popover>
+                    <main className="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
+                        <div className="text-center">
+                            <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                                <span className="block xl:inline">
+                                    The future is
+                                </span>{' '}
+                                <span className="block text-green-600 xl:inline">
+                                    multi-chain
+                                </span>
+                            </h1>
+                            <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                                but where is your wallet? Creating a seamless
+                                cross chain NFT renting experience.
+                            </p>
+                            <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
+                                <div className="rounded-md shadow">
+                                    <a
+                                        href="#"
+                                        className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 md:py-4 md:text-lg md:px-10"
+                                    >
+                                        Connect wallet
+                                    </a>
+                                </div>
+                                <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
+                                    <a
+                                        href="#"
+                                        className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-green-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
+                                    >
+                                        Live demo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+            <LandingFooter />
+        </>
+    )
+}
