@@ -102,7 +102,7 @@ contract NFTMarket is
         collateralToken.transferFrom(msgSender(), address(this), listing.collateral.collateralAmount);
 
         // Make the payment to the lender
-        // paymentToken.transferFrom(msgSender(), listing.lender, rentalCost);
+        //paymentToken.transferFrom(msgSender(), listing.lender, rentalCost);
 
         // Transfer NFT to renter address on this chain
         IERC721(nftAddress).safeTransferFrom(address(this), msgSender(), tokenId);
