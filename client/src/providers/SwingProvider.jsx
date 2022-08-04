@@ -1,7 +1,6 @@
 import { createContext } from 'react'
 import SwingSDK from '@swing.xyz/sdk'
-
-export const SwingContext = createContext()
+import { SwingContext } from '../context'
 
 const sdk = new SwingSDK({
   debug: true,
