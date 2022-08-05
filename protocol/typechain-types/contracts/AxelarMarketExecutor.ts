@@ -83,10 +83,17 @@ export type NFTListingStructOutput = [
   collateral: CollateralStructOutput;
 };
 
-export interface NFTMarketInterface extends utils.Interface {
+export interface AxelarMarketExecutorInterface extends utils.Interface {
   functions: {
     "cancelNFTListing(address,uint256)": FunctionFragment;
+    "chainName()": FunctionFragment;
+    "execute(bytes32,string,string,bytes)": FunctionFragment;
+    "executeRent(string,address,uint256,uint16)": FunctionFragment;
+    "executeWithToken(bytes32,string,string,bytes,string,uint256)": FunctionFragment;
+    "gasReceiver()": FunctionFragment;
+    "gateway()": FunctionFragment;
     "getListing(address,uint256)": FunctionFragment;
+    "init(string,address,address)": FunctionFragment;
     "lend(address,uint256,uint16,bool)": FunctionFragment;
     "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
     "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
@@ -103,7 +110,14 @@ export interface NFTMarketInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "cancelNFTListing"
+      | "chainName"
+      | "execute"
+      | "executeRent"
+      | "executeWithToken"
+      | "gasReceiver"
+      | "gateway"
       | "getListing"
+      | "init"
       | "lend"
       | "listNFT"
       | "onERC1155BatchReceived"
@@ -121,9 +135,52 @@ export interface NFTMarketInterface extends utils.Interface {
     functionFragment: "cancelNFTListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(functionFragment: "chainName", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "execute",
+    values: [
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "executeRent",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "executeWithToken",
+    values: [
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "gasReceiver",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "gateway", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "init",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "lend",
@@ -203,7 +260,23 @@ export interface NFTMarketInterface extends utils.Interface {
     functionFragment: "cancelNFTListing",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "chainName", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "executeRent",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "executeWithToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "gasReceiver",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getListing", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "init", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "lend", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "listNFT", data: BytesLike): Result;
   decodeFunctionResult(
@@ -323,12 +396,12 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface NFTMarket extends BaseContract {
+export interface AxelarMarketExecutor extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: NFTMarketInterface;
+  interface: AxelarMarketExecutorInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -356,11 +429,50 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    chainName(overrides?: CallOverrides): Promise<[string]>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    executeRent(
+      destinationChain: PromiseOrValue<string>,
+      nftAddress: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      daysToRent: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    gasReceiver(overrides?: CallOverrides): Promise<[string]>;
+
+    gateway(overrides?: CallOverrides): Promise<[string]>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[NFTListingStructOutput]>;
+
+    init(
+      _chainName: PromiseOrValue<string>,
+      _gateway: PromiseOrValue<string>,
+      _gasReceiver: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     lend(
       nftAddress: PromiseOrValue<string>,
@@ -441,11 +553,50 @@ export interface NFTMarket extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  chainName(overrides?: CallOverrides): Promise<string>;
+
+  execute(
+    commandId: PromiseOrValue<BytesLike>,
+    sourceChain: PromiseOrValue<string>,
+    sourceAddress: PromiseOrValue<string>,
+    payload: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  executeRent(
+    destinationChain: PromiseOrValue<string>,
+    nftAddress: PromiseOrValue<string>,
+    tokenId: PromiseOrValue<BigNumberish>,
+    daysToRent: PromiseOrValue<BigNumberish>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  executeWithToken(
+    commandId: PromiseOrValue<BytesLike>,
+    sourceChain: PromiseOrValue<string>,
+    sourceAddress: PromiseOrValue<string>,
+    payload: PromiseOrValue<BytesLike>,
+    tokenSymbol: PromiseOrValue<string>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  gasReceiver(overrides?: CallOverrides): Promise<string>;
+
+  gateway(overrides?: CallOverrides): Promise<string>;
+
   getListing(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<NFTListingStructOutput>;
+
+  init(
+    _chainName: PromiseOrValue<string>,
+    _gateway: PromiseOrValue<string>,
+    _gasReceiver: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   lend(
     nftAddress: PromiseOrValue<string>,
@@ -526,11 +677,50 @@ export interface NFTMarket extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    chainName(overrides?: CallOverrides): Promise<string>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    executeRent(
+      destinationChain: PromiseOrValue<string>,
+      nftAddress: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      daysToRent: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    gasReceiver(overrides?: CallOverrides): Promise<string>;
+
+    gateway(overrides?: CallOverrides): Promise<string>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<NFTListingStructOutput>;
+
+    init(
+      _chainName: PromiseOrValue<string>,
+      _gateway: PromiseOrValue<string>,
+      _gasReceiver: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     lend(
       nftAddress: PromiseOrValue<string>,
@@ -671,10 +861,49 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    chainName(overrides?: CallOverrides): Promise<BigNumber>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    executeRent(
+      destinationChain: PromiseOrValue<string>,
+      nftAddress: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      daysToRent: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    gasReceiver(overrides?: CallOverrides): Promise<BigNumber>;
+
+    gateway(overrides?: CallOverrides): Promise<BigNumber>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    init(
+      _chainName: PromiseOrValue<string>,
+      _gateway: PromiseOrValue<string>,
+      _gasReceiver: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     lend(
@@ -757,10 +986,49 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    chainName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    executeRent(
+      destinationChain: PromiseOrValue<string>,
+      nftAddress: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      daysToRent: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    gasReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    init(
+      _chainName: PromiseOrValue<string>,
+      _gateway: PromiseOrValue<string>,
+      _gasReceiver: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     lend(

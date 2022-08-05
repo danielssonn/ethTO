@@ -97,9 +97,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "MarketSyncher",
+      name: "AxelarMarketExecutor",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MarketSyncher__factory>;
+    ): Promise<Contracts.AxelarMarketExecutor__factory>;
     getContractFactory(
       name: "DummyCoin",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -223,10 +223,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "MarketSyncher",
+      name: "AxelarMarketExecutor",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.MarketSyncher>;
+    ): Promise<Contracts.AxelarMarketExecutor>;
     getContractAt(
       name: "DummyCoin",
       address: string,

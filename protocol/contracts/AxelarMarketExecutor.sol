@@ -9,7 +9,7 @@ import { NFTMarket } from "./NFTMarket.sol";
 import { IERC20 } from "@axelar-network/axelar-cgp-solidity/contracts/interfaces/IERC20.sol";
 import { IAxelarGasService } from "@axelar-network/axelar-cgp-solidity/contracts/interfaces/IAxelarGasService.sol";
 
-contract MarketSyncher is
+contract AxelarMarketExecutor is
     AxelarExecutable,
     NFTMarket
 {
@@ -37,7 +37,7 @@ contract MarketSyncher is
         return s_gateway;
     }
 
-    function rent(
+    function executeRent(
         string calldata destinationChain,
         address nftAddress,
         uint256 tokenId,
@@ -54,16 +54,25 @@ contract MarketSyncher is
     }
 
     function _executeWithToken(
-        string memory _sourceChain,
+        string memory sourceChain,
         string memory _sourceAddress,
         bytes calldata payload,
         string memory tokenSymbol,
         uint256 amount
     ) internal override {
+        bool isNativeChain = _compareStrings(sourceChain, chainName);
         (address nftAddress, uint256 nftId, uint16 daysToRent, address recipient) = abi.decode(payload, (address,  uint256, uint16, address));
         address tokenAddress = gateway().tokenAddresses(tokenSymbol);
 
-        lend(nftAddress, nftId, daysToRent);
+        lend(nftAddress, nftId, daysToRent, isNativeChain);
         IERC20(tokenAddress).transfer(recipient, amount);
+    }
+
+    function _compareStrings(string memory a, string memory b) internal pure returns (bool) {
+        if(bytes(a).length != bytes(b).length) {
+            return false;
+        } else {
+            return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));
+        }
     }
 }

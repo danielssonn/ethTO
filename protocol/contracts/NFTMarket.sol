@@ -123,14 +123,16 @@ contract NFTMarket is
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent,
-        string memory renterChain
-    ) public payable nonReentrant {
+        bool isNativeChain
+    ) public payable override nonReentrant {
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
         Rental memory rental = Rental(msgSender(), rentalExpiry);
 
-        // mark nft
-        listedNFTs[nftAddress][tokenId].rental = rental;
-        // Transfer NFT to renter address on this chain
+        if (!isNativeChain) {
+            listedNFTs[nftAddress][tokenId].rental = rental;
+        }
+
+        // Transfer NFT to renter address
         IERC721(nftAddress).safeTransferFrom(address(this), msgSender(), tokenId);
 
         emit NFTLent(
@@ -194,4 +196,5 @@ contract NFTMarket is
             "You must be the owner or approved to do this ..."
         );
     }
+
 }

@@ -48,8 +48,8 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
-export type { MarketSyncher } from "./contracts/AxelarMarketExecutor.sol/MarketSyncher";
-export { MarketSyncher__factory } from "./factories/contracts/AxelarMarketExecutor.sol/MarketSyncher__factory";
+export type { AxelarMarketExecutor } from "./contracts/AxelarMarketExecutor";
+export { AxelarMarketExecutor__factory } from "./factories/contracts/AxelarMarketExecutor__factory";
 export type { DummyCoin } from "./contracts/DummyCoin";
 export { DummyCoin__factory } from "./factories/contracts/DummyCoin__factory";
 export type { INFTMarket } from "./contracts/INFTMarket";

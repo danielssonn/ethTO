@@ -180,7 +180,7 @@ describe('NFTMarket', function () {
         await dummyCoin!
           .connect(addr2)
           .approve(nftMarket!.address, ethers.utils.parseEther('0.011'))
-        tx = await nftMarket!.connect(addr2).lend(nftContract!.address, 0, 1)
+        tx = await nftMarket!.connect(addr2).lend(nftContract!.address, 0, 1, false)
       })
 
       it('Should transfer the rented NFT to the renter', async () => {

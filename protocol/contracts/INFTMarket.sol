@@ -24,7 +24,7 @@ interface INFTMarket {
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent,
-        string memory renterChain
+        bool isNativeChain
     ) external payable;
 
     function returnRentedNFT(
@@ -51,13 +51,13 @@ interface INFTMarket {
 
     event CancelNFTListing(address lender, address nftAddress, uint256 tokenId);
 
-    event NFTRentedOnAlternativeChain(
+    event NFTRented(
         address nftAddress,
         uint256 tokenId,
         Rental rental
     );
 
-    event NFTRentedOnNativeChain(
+    event NFTLent(
         address nftAddress,
         uint256 tokenId,
         Rental rental
