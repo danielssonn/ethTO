@@ -14,16 +14,17 @@ interface INFTMarket {
         Collateral memory collateral
     ) external;
 
-    function rentOnAlternativeChain(
+    function rent(
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
     ) external payable returns(string memory, uint256);
 
-    function rentOnNativeChain(
+    function lend(
         address nftAddress,
         uint256 tokenId,
-        uint16 daysToRent
+        uint16 daysToRent,
+        string memory renterChain
     ) external payable;
 
     function returnRentedNFT(

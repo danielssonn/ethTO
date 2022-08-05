@@ -47,7 +47,7 @@ contract MarketSyncher is
          bytes memory payload = abi.encode(nftAddress, tokenId, daysToRent, address(0));
          string memory stringAddress = address(this).toString();
 
-         (string memory tokenSymbol, uint256 amount) = rentOnAlternativeChain(nftAddress, tokenId, daysToRent);
+         (string memory tokenSymbol, uint256 amount) = rent(nftAddress, tokenId, daysToRent);
 
          gasReceiver.payNativeGasForContractCall{ value: msg.value }(address(this), destinationChain, stringAddress, payload, msg.sender);
          gateway().callContractWithToken(destinationChain, stringAddress, payload, tokenSymbol, amount);
@@ -63,7 +63,7 @@ contract MarketSyncher is
         (address nftAddress, uint256 nftId, uint16 daysToRent, address recipient) = abi.decode(payload, (address,  uint256, uint16, address));
         address tokenAddress = gateway().tokenAddresses(tokenSymbol);
 
-        rentOnNativeChain(nftAddress, nftId, daysToRent);
+        lend(nftAddress, nftId, daysToRent);
         IERC20(tokenAddress).transfer(recipient, amount);
     }
 }
