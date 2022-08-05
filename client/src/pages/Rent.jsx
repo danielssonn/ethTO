@@ -9,7 +9,7 @@ import {
     ViewGridIcon,
 } from '@heroicons/react/solid'
 
-import { Footer, Header } from '../components'
+import { Footer, Header, NftCard, NftModal } from '../components'
 
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
@@ -39,6 +39,48 @@ const filters = [
         ],
     },
 ]
+const nfts = [
+    {
+        id: 1,
+        name: 'Bored Ape Yacht Club',
+        href: '#',
+        price: '$50',
+        token: '#3',
+        imageSrc:
+            'https://ipfs.io/ipfs/QmYxT4LnK8sqLupjbS6eRvu1si7Ly2wFQAqFebxhWntcf6',
+        imageAlt: 'Bored Ape Yacht Club #3',
+    },
+    {
+        id: 2,
+        name: 'Bored Ape Yacht Club',
+        href: '#',
+        price: '$140',
+        token: '#9',
+        imageSrc:
+            'https://ipfs.io/ipfs/QmUQgKka8EW7exiUHnMwZ4UoXA11wV7NFjHAogVAbasSYy',
+        imageAlt: 'Bored Ape Yacht Club #9',
+    },
+    {
+        id: 3,
+        name: 'Bored Ape Yacht Club',
+        href: '#',
+        price: '$50',
+        token: '#6',
+        imageSrc:
+            'https://ipfs.io/ipfs/QmWBgfBhyVmHNhBfEQ7p1P4Mpn7pm5b8KgSab2caELnTuV',
+        imageAlt: 'Bored Ape Yacht Club #6',
+    },
+    {
+        id: 4,
+        name: 'Bored Ape Yacht Club',
+        href: '#',
+        price: '$140',
+        token: '#1',
+        imageSrc:
+            'https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi',
+        imageAlt: 'Bored Ape Yacht Club #1',
+    },
+]
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -46,6 +88,13 @@ function classNames(...classes) {
 
 export default function Rent() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+    const [isNftModalOpen, setIsNftModalOpen] = useState(false)
+    const [currentNft, setCurrentNft] = useState(null)
+
+    const handleNftCardClick = (nft) => {
+        setCurrentNft(nft)
+        setIsNftModalOpen(true)
+    }
 
     return (
         <>
@@ -102,14 +151,14 @@ export default function Rent() {
                                             </button>
                                         </div>
                                         {/* Filters */}
-                                        <form className="mt-4 border-t border-gray-200">
+                                        <form className="mt-4">
                                             {filters.map((section) => (
                                                 <Disclosure
                                                     as="div"
                                                     key={section.id}
                                                     className="border-t border-gray-200 px-4 py-6"
                                                 >
-                                                    {({ open }) => (
+                                                    {({ isNftModalOpen }) => (
                                                         <>
                                                             <h3 className="-mx-2 -my-3 flow-root">
                                                                 <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
@@ -119,7 +168,7 @@ export default function Rent() {
                                                                         }
                                                                     </span>
                                                                     <span className="ml-6 flex items-center">
-                                                                        {open ? (
+                                                                        {isNftModalOpen ? (
                                                                             <MinusSmIcon
                                                                                 className="h-5 w-5"
                                                                                 aria-hidden="true"
@@ -278,7 +327,7 @@ export default function Rent() {
                                             key={section.id}
                                             className="border-b border-gray-200 py-6"
                                         >
-                                            {({ open }) => (
+                                            {({ isNftModalOpen }) => (
                                                 <>
                                                     <h3 className="-my-3 flow-root">
                                                         <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
@@ -286,7 +335,7 @@ export default function Rent() {
                                                                 {section.name}
                                                             </span>
                                                             <span className="ml-6 flex items-center">
-                                                                {open ? (
+                                                                {isNftModalOpen ? (
                                                                     <MinusSmIcon
                                                                         className="h-5 w-5"
                                                                         aria-hidden="true"
@@ -344,14 +393,27 @@ export default function Rent() {
                                     ))}
                                 </form>
                                 {/* Product grid */}
-                                <div className="lg:col-span-3">
-                                    <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" />
+                                <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:col-span-3 lg:gap-x-8 lg:grid-cols-3">
+                                    {nfts.map((nft) => (
+                                        <NftCard
+                                            key={nft.id}
+                                            nft={nft}
+                                            onClick={() =>
+                                                handleNftCardClick(nft)
+                                            }
+                                        />
+                                    ))}
                                 </div>
                             </div>
                         </section>
                     </main>
                 </div>
             </div>
+            <NftModal
+                close={() => setIsNftModalOpen(false)}
+                nft={currentNft}
+                open={isNftModalOpen}
+            />
             <Footer />
         </>
     )

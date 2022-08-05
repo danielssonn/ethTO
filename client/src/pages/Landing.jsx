@@ -1,6 +1,6 @@
-import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import { Fragment } from 'react'
 
 import { LandingFooter } from '../components'
 
@@ -137,7 +137,7 @@ export default function Landing() {
                                 className="absolute z-10 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
                             >
                                 <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
-                                    <div className="px-5 pt-4 flex items-center justify-between">
+                                    <div className="px-5 py-4 flex items-center justify-between">
                                         <div>
                                             <img
                                                 className="h-8 w-auto"
@@ -188,14 +188,6 @@ export default function Landing() {
                                         className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 md:py-4 md:text-lg md:px-10"
                                     >
                                         Connect wallet
-                                    </a>
-                                </div>
-                                <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                                    <a
-                                        href="#"
-                                        className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-green-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
-                                    >
-                                        Live demo
                                     </a>
                                 </div>
                             </div>
