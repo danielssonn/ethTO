@@ -170,7 +170,8 @@ describe('NFTMarket', function () {
         expect(listing.rental.renter).to.equal(addr2.address)
       })
     })
-    describe('Renting an NFT on Native Chain', function () {
+  })
+      describe('Renting an NFT on Native Chain', function () {
       let tx: TransactionResponse | undefined
 
       before(async () => {
@@ -201,5 +202,4 @@ describe('NFTMarket', function () {
       })
 
     })
-  })
 })
