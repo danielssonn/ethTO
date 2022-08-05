@@ -75,7 +75,7 @@ describe('NFTMarket', function () {
     })
   })
 
-  describe('Renting an NFT', function () {
+  describe('Renting an NFT on alternative chain', function () {
     describe('Failing scenario', function () {
       it('Should fail if the listing does not exist', async () => {
         await expect(
@@ -157,15 +157,34 @@ describe('NFTMarket', function () {
         )
       })
 
-      // it('Should transfer the rented NFT to the renter', async () => {
-      //   const [, , addr2] = await ethers.getSigners()
-      //   expect(await nftContract!.ownerOf(0)).to.equal(addr2.address)
-      // })
-
       it('Should emit the NFTRented event', async () => {
         const [, , addr2] = await ethers.getSigners()
 
         await expect(tx).to.emit(nftMarket!, 'NFTRentedOnAlternativeChain')
+      })
+
+      it('Should update the listing with the rental info', async () => {
+        const [, , addr2] = await ethers.getSigners()
+        const listing = await nftMarket!.getListing(nftContract!.address, 0)
+
+        expect(listing.rental.renter).to.equal(addr2.address)
+      })
+    })
+    describe("Renting an NFT on Native Chain", function () {
+      let tx: TransactionResponse | undefined
+
+      before(async () => {
+        const [, addr1, addr2] = await ethers.getSigners()
+        // Approve the escrow to transfer the collateral and payment cost
+        await dummyCoin!
+          .connect(addr2)
+          .approve(nftMarket!.address, ethers.utils.parseEther('0.011'))
+        tx = await nftMarket!.connect(addr2).rentOnNativeChain(nftContract!.address, 0, 1)
+      })
+
+      it('Should transfer the rented NFT to the renter', async () => {
+        const [, , addr2] = await ethers.getSigners()
+        expect(await nftContract!.ownerOf(0)).to.equal(addr2.address)
       })
 
       it('Should update the listing with the rental info', async () => {
