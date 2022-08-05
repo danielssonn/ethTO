@@ -175,7 +175,7 @@ describe('NFTMarket', function () {
       let tx: TransactionResponse | undefined
 
       before(async () => {
-        const [, addr1, addr2] = await ethers.getSigners()
+        const [, , addr2] = await ethers.getSigners()
         // Approve the escrow to transfer the collateral and payment cost
         await dummyCoin!
           .connect(addr2)
@@ -184,7 +184,6 @@ describe('NFTMarket', function () {
       })
 
       it('Should transfer the rented NFT to the renter', async () => {
-        const [, , addr2] = await ethers.getSigners()
         expect(await nftContract!.ownerOf(0)).to.equal(addr2.address)
       })
 
@@ -196,8 +195,6 @@ describe('NFTMarket', function () {
       })
 
       it('Should emit the NFTLent event', async () => {
-        const [, , addr2] = await ethers.getSigners()
-
         await expect(tx).to.emit(nftMarket!, 'NFTLent')
       })
 
