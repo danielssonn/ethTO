@@ -157,7 +157,7 @@ describe('NFTMarket', function () {
         )
       })
 
-      it('Should emit the NFTRented event', async () => {
+      it('Should emit the NFTRentedOnAlternativeChain event', async () => {
         const [, , addr2] = await ethers.getSigners()
 
         await expect(tx).to.emit(nftMarket!, 'NFTRentedOnAlternativeChain')
@@ -170,7 +170,7 @@ describe('NFTMarket', function () {
         expect(listing.rental.renter).to.equal(addr2.address)
       })
     })
-    describe("Renting an NFT on Native Chain", function () {
+    describe('Renting an NFT on Native Chain', function () {
       let tx: TransactionResponse | undefined
 
       before(async () => {
@@ -193,6 +193,13 @@ describe('NFTMarket', function () {
 
         expect(listing.rental.renter).to.equal(addr2.address)
       })
+
+      it('Should emit the NFTRentedOnNativeChain event', async () => {
+        const [, , addr2] = await ethers.getSigners()
+
+        await expect(tx).to.emit(nftMarket!, 'NFTRentedOnNativeChain')
+      })
+
     })
   })
 })
