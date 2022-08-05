@@ -158,7 +158,7 @@ export default function Rent() {
                                                     key={section.id}
                                                     className="border-t border-gray-200 px-4 py-6"
                                                 >
-                                                    {({ isNftModalOpen }) => (
+                                                    {({ open }) => (
                                                         <>
                                                             <h3 className="-mx-2 -my-3 flow-root">
                                                                 <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
@@ -168,7 +168,7 @@ export default function Rent() {
                                                                         }
                                                                     </span>
                                                                     <span className="ml-6 flex items-center">
-                                                                        {isNftModalOpen ? (
+                                                                        {open ? (
                                                                             <MinusSmIcon
                                                                                 className="h-5 w-5"
                                                                                 aria-hidden="true"
@@ -327,7 +327,7 @@ export default function Rent() {
                                             key={section.id}
                                             className="border-b border-gray-200 py-6"
                                         >
-                                            {({ isNftModalOpen }) => (
+                                            {({ open }) => (
                                                 <>
                                                     <h3 className="-my-3 flow-root">
                                                         <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
@@ -335,7 +335,7 @@ export default function Rent() {
                                                                 {section.name}
                                                             </span>
                                                             <span className="ml-6 flex items-center">
-                                                                {isNftModalOpen ? (
+                                                                {open ? (
                                                                     <MinusSmIcon
                                                                         className="h-5 w-5"
                                                                         aria-hidden="true"
