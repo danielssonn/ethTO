@@ -5,6 +5,5 @@ import type * as axelarMarketExecutorSol from "./AxelarMarketExecutor.sol";
 export type { axelarMarketExecutorSol };
 export type { DummyCoin } from "./DummyCoin";
 export type { INFTMarket } from "./INFTMarket";
-export type { MarketSyncher } from "./MarketSyncher";
 export type { NFTDummy } from "./NFTDummy";
 export type { NFTMarket } from "./NFTMarket";

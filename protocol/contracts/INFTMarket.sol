@@ -14,11 +14,17 @@ interface INFTMarket {
         Collateral memory collateral
     ) external;
 
-    function rentNFT(
+    function rentOnAlternativeChain(
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
     ) external payable returns(string memory, uint256);
+
+    function rentOnNativeChain(
+        address nftAddress,
+        uint256 tokenId,
+        uint16 daysToRent
+    ) external payable;
 
     function returnRentedNFT(
         address nftAddress,
@@ -44,7 +50,13 @@ interface INFTMarket {
 
     event CancelNFTListing(address lender, address nftAddress, uint256 tokenId);
 
-    event NFTRented(
+    event NFTRentedOnAlternativeChain(
+        address nftAddress,
+        uint256 tokenId,
+        Rental rental
+    );
+
+    event NFTRentedOnNativeChain(
         address nftAddress,
         uint256 tokenId,
         Rental rental

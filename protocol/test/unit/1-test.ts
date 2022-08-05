@@ -79,26 +79,26 @@ describe('NFTMarket', function () {
     describe('Failing scenario', function () {
       it('Should fail if the listing does not exist', async () => {
         await expect(
-          nftMarket!.rentNFT(nftContract!.address, 1, 1)
+          nftMarket!.rentOnAlternativeChain(nftContract!.address, 1, 1)
         ).to.be.revertedWith('This listing does not exist')
       })
 
       it('Should fail if the requested rental days is 0', async () => {
         await expect(
-          nftMarket!.rentNFT(nftContract!.address, 0, 0)
+          nftMarket!.rentOnAlternativeChain(nftContract!.address, 0, 0)
         ).to.be.revertedWith('The rental period must be greater than 0 days')
       })
 
       it('Should fail if the requested rental expiry is greater than the allowed end time', async () => {
         await expect(
-          nftMarket!.rentNFT(nftContract!.address, 0, 3)
+          nftMarket!.rentOnAlternativeChain(nftContract!.address, 0, 3)
         ).to.be.revertedWith('Rental timeframe too long.')
       })
 
       it('Should fail if the renter does not have sufficient payment funds', async () => {
         const [, addr1] = await ethers.getSigners()
         await expect(
-          nftMarket!.connect(addr1).rentNFT(nftContract!.address, 0, 1)
+          nftMarket!.connect(addr1).rentOnAlternativeChain(nftContract!.address, 0, 1)
         ).to.be.revertedWith('Insufficient payment funds')
       })
 
@@ -110,7 +110,7 @@ describe('NFTMarket', function () {
         )
 
         await expect(
-          nftMarket!.connect(addr2).rentNFT(nftContract!.address, 0, 1)
+          nftMarket!.connect(addr2).rentOnAlternativeChain(nftContract!.address, 0, 1)
         ).to.be.revertedWith('Insufficient collateral funds')
       })
 
@@ -122,7 +122,7 @@ describe('NFTMarket', function () {
         )
 
         await expect(
-          nftMarket!.connect(addr2).rentNFT(nftContract!.address, 0, 1)
+          nftMarket!.connect(addr2).rentOnAlternativeChain(nftContract!.address, 0, 1)
         ).to.be.revertedWith('Insufficient combined funds')
       })
 
@@ -134,7 +134,7 @@ describe('NFTMarket', function () {
         )
 
         await expect(
-          nftMarket!.connect(addr2).rentNFT(nftContract!.address, 0, 1)
+          nftMarket!.connect(addr2).rentOnAlternativeChain(nftContract!.address, 0, 1)
         ).to.be.reverted
       })
     })
@@ -148,7 +148,7 @@ describe('NFTMarket', function () {
         await dummyCoin!
           .connect(addr2)
           .approve(nftMarket!.address, ethers.utils.parseEther('0.011'))
-        tx = await nftMarket!.connect(addr2).rentNFT(nftContract!.address, 0, 1)
+        tx = await nftMarket!.connect(addr2).rentOnAlternativeChain(nftContract!.address, 0, 1)
       })
 
       it('Should increase the collateral escrow', async () => {
@@ -157,15 +157,15 @@ describe('NFTMarket', function () {
         )
       })
 
-      it('Should transfer the rented NFT to the renter', async () => {
-        const [, , addr2] = await ethers.getSigners()
-        expect(await nftContract!.ownerOf(0)).to.equal(addr2.address)
-      })
+      // it('Should transfer the rented NFT to the renter', async () => {
+      //   const [, , addr2] = await ethers.getSigners()
+      //   expect(await nftContract!.ownerOf(0)).to.equal(addr2.address)
+      // })
 
       it('Should emit the NFTRented event', async () => {
         const [, , addr2] = await ethers.getSigners()
 
-        await expect(tx).to.emit(nftMarket!, 'NFTRented')
+        await expect(tx).to.emit(nftMarket!, 'NFTRentedOnAlternativeChain')
       })
 
       it('Should update the listing with the rental info', async () => {

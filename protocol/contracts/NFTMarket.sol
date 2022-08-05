@@ -73,7 +73,7 @@ contract NFTMarket is
     /**
      * Renter can rent NFT
      */
-    function rentNFT(
+    function rentOnAlternativeChain(
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
@@ -101,18 +101,12 @@ contract NFTMarket is
         // Lock in the collateral in this contract
         collateralToken.transferFrom(msgSender(), address(this), listing.collateral.collateralAmount);
 
-        // Make the payment to the lender
-        //paymentToken.transferFrom(msgSender(), listing.lender, rentalCost);
-
-        // Transfer NFT to renter address on this chain
-        IERC721(nftAddress).safeTransferFrom(address(this), msgSender(), tokenId);
-
         // Save the rental on the listing
         listing.rental = Rental(msgSender(), rentalExpiry);
         listedNFTs[nftAddress][tokenId] = listing;
 
         // check https://github.com/axelarnetwork/axelar-local-gmp-examples/tree/main/examples/nft-auctionhouse for the axealar hookup
-        emit NFTRented(
+        emit NFTRentedOnAlternativeChain(
             nftAddress,
             tokenId,
             listing.rental
@@ -125,13 +119,25 @@ contract NFTMarket is
     /**
      * Internally used to mark an nft as rented
      */
-    function _markAsRented(
+    function rentOnNativeChain(
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
-    ) internal {
+    ) public payable nonReentrant {
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
-        listedNFTs[nftAddress][tokenId].rental = Rental(msgSender(), rentalExpiry);
+        Rental memory rental = Rental(msgSender(), rentalExpiry);
+
+        // mark nft
+        listedNFTs[nftAddress][tokenId].rental = rental;
+        // Transfer NFT to renter address on this chain
+        IERC721(nftAddress).safeTransferFrom(address(this), msgSender(), tokenId);
+
+        emit NFTRentedOnNativeChain(
+            nftAddress,
+            tokenId,
+            rental
+        );
+
     }
 
     /**

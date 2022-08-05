@@ -109,10 +109,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.INFTMarket__factory>;
     getContractFactory(
-      name: "MarketSyncher",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MarketSyncher__factory>;
-    getContractFactory(
       name: "NFTDummy",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTDummy__factory>;
@@ -241,11 +237,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.INFTMarket>;
-    getContractAt(
-      name: "MarketSyncher",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MarketSyncher>;
     getContractAt(
       name: "NFTDummy",
       address: string,

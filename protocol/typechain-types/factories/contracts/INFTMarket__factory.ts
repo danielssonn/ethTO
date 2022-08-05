@@ -136,7 +136,44 @@ const _abi = [
         type: "tuple",
       },
     ],
-    name: "NFTRented",
+    name: "NFTRentedOnAlternativeChain",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "renter",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "expiryTime",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Rental",
+        name: "rental",
+        type: "tuple",
+      },
+    ],
+    name: "NFTRentedOnNativeChain",
     type: "event",
   },
   {
@@ -324,7 +361,7 @@ const _abi = [
         type: "uint16",
       },
     ],
-    name: "rentNFT",
+    name: "rentOnAlternativeChain",
     outputs: [
       {
         internalType: "string",
@@ -337,6 +374,29 @@ const _abi = [
         type: "uint256",
       },
     ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint16",
+        name: "daysToRent",
+        type: "uint16",
+      },
+    ],
+    name: "rentOnNativeChain",
+    outputs: [],
     stateMutability: "payable",
     type: "function",
   },

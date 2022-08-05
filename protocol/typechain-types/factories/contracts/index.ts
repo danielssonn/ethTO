@@ -4,6 +4,5 @@
 export * as axelarMarketExecutorSol from "./AxelarMarketExecutor.sol";
 export { DummyCoin__factory } from "./DummyCoin__factory";
 export { INFTMarket__factory } from "./INFTMarket__factory";
-export { MarketSyncher__factory } from "./MarketSyncher__factory";
 export { NFTDummy__factory } from "./NFTDummy__factory";
 export { NFTMarket__factory } from "./NFTMarket__factory";
