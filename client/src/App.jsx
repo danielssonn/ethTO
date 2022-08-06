@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import { Landing, Lend, LendCheckout, Rent } from './pages'
+import { Departures, Landing, Rent, RentCheckout } from './pages'
 
 const App = () => {
     useEffect(() => {
@@ -13,10 +13,10 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/departures" element={<Departures />} />
                 <Route path="/" element={<Landing />} />
-                <Route path="/lend" element={<Lend />} />
-                <Route path="/lend-checkout" element={<LendCheckout />} />
                 <Route path="/rent" element={<Rent />} />
+                <Route path="/rent-checkout" element={<RentCheckout />} />
             </Routes>
         </BrowserRouter>
     )
