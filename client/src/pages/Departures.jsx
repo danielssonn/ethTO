@@ -2,11 +2,11 @@ import { Footer, Header } from '../components'
 
 import AuthRoute from '../components/AuthRoute'
 
-export default function Lend() {
+export default function Departures() {
     return (
         <AuthRoute>
             <Header />
-            <div>Lend</div>
+            Your rented NFTs go here
             <Footer />
         </AuthRoute>
     )

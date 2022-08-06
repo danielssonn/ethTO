@@ -24,16 +24,16 @@ export default function Header() {
                 </div>
                 <Popover.Group as="nav" className="hidden md:flex space-x-10">
                     <a
-                        href="#"
+                        href="/rent"
                         className="text-base font-medium text-gray-500 hover:text-gray-900"
                     >
-                        Rent
+                        Arrivals
                     </a>
                     <a
-                        href="#"
+                        href="/departures"
                         className="text-base font-medium text-gray-500 hover:text-gray-900"
                     >
-                        Lend
+                        Departures
                     </a>
                 </Popover.Group>
                 <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
