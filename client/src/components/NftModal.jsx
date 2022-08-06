@@ -80,9 +80,15 @@ export default function NftModal({ close, nft, open }) {
                                                 >
                                                     Product information
                                                 </h3>
-                                                <p className="text-2xl text-gray-900">
-                                                    {nft?.price}
-                                                </p>
+                                                <div className="text-2xl text-gray-900 flex items-center">
+                                                    <img
+                                                        src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
+                                                        className="w-8 h-8 rounded-md object-center object-cover"
+                                                    />
+                                                    <p className="ml-2">
+                                                        {nft?.price}
+                                                    </p>
+                                                </div>
                                             </section>
                                             <section
                                                 aria-labelledby="options-heading"

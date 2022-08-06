@@ -45,8 +45,7 @@ const nfts = [
     {
         id: 1,
         name: 'Bored Ape Yacht Club',
-        href: '#',
-        price: '$50',
+        price: '50',
         token: '#3',
         imageSrc:
             'https://ipfs.io/ipfs/QmYxT4LnK8sqLupjbS6eRvu1si7Ly2wFQAqFebxhWntcf6',
@@ -55,8 +54,7 @@ const nfts = [
     {
         id: 2,
         name: 'Bored Ape Yacht Club',
-        href: '#',
-        price: '$140',
+        price: '140',
         token: '#9',
         imageSrc:
             'https://ipfs.io/ipfs/QmUQgKka8EW7exiUHnMwZ4UoXA11wV7NFjHAogVAbasSYy',
@@ -65,8 +63,7 @@ const nfts = [
     {
         id: 3,
         name: 'Bored Ape Yacht Club',
-        href: '#',
-        price: '$50',
+        price: '50',
         token: '#6',
         imageSrc:
             'https://ipfs.io/ipfs/QmWBgfBhyVmHNhBfEQ7p1P4Mpn7pm5b8KgSab2caELnTuV',
@@ -75,8 +72,7 @@ const nfts = [
     {
         id: 4,
         name: 'Bored Ape Yacht Club',
-        href: '#',
-        price: '$140',
+        price: '140',
         token: '#1',
         imageSrc:
             'https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi',

@@ -2,7 +2,6 @@ export default function NftCard({ nft, onClick }) {
     return (
         <button
             key={nft?.id}
-            href={nft?.href}
             className="group text-sm text-left"
             onClick={onClick}
         >
@@ -15,7 +14,13 @@ export default function NftCard({ nft, onClick }) {
             </div>
             <h3 className="mt-4 font-medium text-gray-900">{nft?.name}</h3>
             <p className="text-gray-500">{nft?.token}</p>
-            <p className="mt-2 font-medium text-gray-900">{nft?.price}</p>
+            <div className="mt-2 font-medium text-gray-900 flex items-center">
+                <img
+                    src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
+                    className="w-8 h-8 rounded-md object-center object-cover"
+                />
+                <p className="ml-2">{nft?.price}</p>
+            </div>
         </button>
     )
 }
