@@ -1,10 +1,20 @@
+import { Fragment, useEffect } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import { Fragment } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import useWeb3 from '../hooks/use-web3'
 
 import { LandingFooter } from '../components'
 
 export default function Landing() {
+    const { currentAccount, connectWallet } = useWeb3()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (currentAccount) navigate('/lend')
+    }, [currentAccount])
+
     return (
         <>
             <div className="relative bg-gray-50 overflow-hidden">
@@ -183,12 +193,12 @@ export default function Landing() {
                             </p>
                             <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
                                 <div className="rounded-md shadow">
-                                    <a
-                                        href="#"
+                                    <button
+                                        onClick={connectWallet}
                                         className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 md:py-4 md:text-lg md:px-10"
                                     >
                                         Connect wallet
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
