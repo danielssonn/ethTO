@@ -1,8 +1,8 @@
-import { task } from "hardhat/config";
+import { task } from 'hardhat/config'
 
-task("accounts", "Prints the list of accounts", async (_, hre) => {
-  const accounts = await hre.ethers.getSigners();
+task('accounts', 'Prints the list of accounts', async (_, hre) => {
+  const accounts = await hre.ethers.getSigners()
   for (const account of accounts) {
-    console.log(account.address);
+    console.log(account.address)
   }
-});
+})

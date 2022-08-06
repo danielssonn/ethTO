@@ -2,63 +2,63 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Signer, utils } from 'ethers'
+import type { Provider } from '@ethersproject/providers'
 import type {
   IOracleClient,
   IOracleClientInterface,
-} from "../../../contracts/interfaces/IOracleClient";
+} from '../../../contracts/interfaces/IOracleClient'
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "winner",
-        type: "address",
+        internalType: 'address',
+        name: 'winner',
+        type: 'address',
       },
     ],
-    name: "requestAMLCheck",
+    name: 'requestAMLCheck',
     outputs: [
       {
-        internalType: "bytes32",
-        name: "requestId",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'requestId',
+        type: 'bytes32',
       },
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "winner",
-        type: "address",
+        internalType: 'address',
+        name: 'winner',
+        type: 'address',
       },
     ],
-    name: "requestEligibilityOffChain",
+    name: 'requestEligibilityOffChain',
     outputs: [
       {
-        internalType: "bytes32",
-        name: "requestId",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'requestId',
+        type: 'bytes32',
       },
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
-];
+]
 
 export class IOracleClient__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): IOracleClientInterface {
-    return new utils.Interface(_abi) as IOracleClientInterface;
+    return new utils.Interface(_abi) as IOracleClientInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): IOracleClient {
-    return new Contract(address, _abi, signerOrProvider) as IOracleClient;
+    return new Contract(address, _abi, signerOrProvider) as IOracleClient
   }
 }

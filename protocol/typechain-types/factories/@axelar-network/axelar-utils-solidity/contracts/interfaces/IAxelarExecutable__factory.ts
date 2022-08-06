@@ -2,109 +2,109 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Signer, utils } from 'ethers'
+import type { Provider } from '@ethersproject/providers'
 import type {
   IAxelarExecutable,
   IAxelarExecutableInterface,
-} from "../../../../../@axelar-network/axelar-utils-solidity/contracts/interfaces/IAxelarExecutable";
+} from '../../../../../@axelar-network/axelar-utils-solidity/contracts/interfaces/IAxelarExecutable'
 
 const _abi = [
   {
     inputs: [],
-    name: "NotApprovedByGateway",
-    type: "error",
+    name: 'NotApprovedByGateway',
+    type: 'error',
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "commandId",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'commandId',
+        type: 'bytes32',
       },
       {
-        internalType: "string",
-        name: "sourceChain",
-        type: "string",
+        internalType: 'string',
+        name: 'sourceChain',
+        type: 'string',
       },
       {
-        internalType: "string",
-        name: "sourceAddress",
-        type: "string",
+        internalType: 'string',
+        name: 'sourceAddress',
+        type: 'string',
       },
       {
-        internalType: "bytes",
-        name: "payload",
-        type: "bytes",
+        internalType: 'bytes',
+        name: 'payload',
+        type: 'bytes',
       },
     ],
-    name: "execute",
+    name: 'execute',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "commandId",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'commandId',
+        type: 'bytes32',
       },
       {
-        internalType: "string",
-        name: "sourceChain",
-        type: "string",
+        internalType: 'string',
+        name: 'sourceChain',
+        type: 'string',
       },
       {
-        internalType: "string",
-        name: "sourceAddress",
-        type: "string",
+        internalType: 'string',
+        name: 'sourceAddress',
+        type: 'string',
       },
       {
-        internalType: "bytes",
-        name: "payload",
-        type: "bytes",
+        internalType: 'bytes',
+        name: 'payload',
+        type: 'bytes',
       },
       {
-        internalType: "string",
-        name: "tokenSymbol",
-        type: "string",
+        internalType: 'string',
+        name: 'tokenSymbol',
+        type: 'string',
       },
       {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
       },
     ],
-    name: "executeWithToken",
+    name: 'executeWithToken',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
     inputs: [],
-    name: "gateway",
+    name: 'gateway',
     outputs: [
       {
-        internalType: "contract IAxelarGateway",
-        name: "gateway_",
-        type: "address",
+        internalType: 'contract IAxelarGateway',
+        name: 'gateway_',
+        type: 'address',
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function',
   },
-];
+]
 
 export class IAxelarExecutable__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): IAxelarExecutableInterface {
-    return new utils.Interface(_abi) as IAxelarExecutableInterface;
+    return new utils.Interface(_abi) as IAxelarExecutableInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): IAxelarExecutable {
-    return new Contract(address, _abi, signerOrProvider) as IAxelarExecutable;
+    return new Contract(address, _abi, signerOrProvider) as IAxelarExecutable
   }
 }

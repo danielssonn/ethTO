@@ -133,9 +133,8 @@ describe('NFTMarket', function () {
           ethers.utils.parseEther('0.005')
         )
 
-        await expect(
-          nftMarket!.connect(addr2).rent(nftContract!.address, 0, 1)
-        ).to.be.reverted
+        await expect(nftMarket!.connect(addr2).rent(nftContract!.address, 0, 1))
+          .to.be.reverted
       })
     })
 
@@ -171,32 +170,33 @@ describe('NFTMarket', function () {
       })
     })
   })
-      describe('Lending an NFT', function () {
-      let tx: TransactionResponse | undefined
+  describe('Lending an NFT', function () {
+    let tx: TransactionResponse | undefined
 
-      before(async () => {
-        const [, , addr2] = await ethers.getSigners()
-        // Approve the escrow to transfer the collateral and payment cost
-        await dummyCoin!
-          .connect(addr2)
-          .approve(nftMarket!.address, ethers.utils.parseEther('0.011'))
-        tx = await nftMarket!.connect(addr2).lend(nftContract!.address, 0, 1, false)
-      })
-
-      it('Should transfer the rented NFT to the renter', async () => {
-        expect(await nftContract!.ownerOf(0)).to.equal(addr2.address)
-      })
-
-      it('Should update the listing with the rental info', async () => {
-        const [, , addr2] = await ethers.getSigners()
-        const listing = await nftMarket!.getListing(nftContract!.address, 0)
-
-        expect(listing.rental.renter).to.equal(addr2.address)
-      })
-
-      it('Should emit the NFTLent event', async () => {
-        await expect(tx).to.emit(nftMarket!, 'NFTLent')
-      })
-
+    before(async () => {
+      const [, , addr2] = await ethers.getSigners()
+      // Approve the escrow to transfer the collateral and payment cost
+      await dummyCoin!
+        .connect(addr2)
+        .approve(nftMarket!.address, ethers.utils.parseEther('0.011'))
+      tx = await nftMarket!
+        .connect(addr2)
+        .lend(nftContract!.address, 0, 1, false)
     })
+
+    it('Should transfer the rented NFT to the renter', async () => {
+      expect(await nftContract!.ownerOf(0)).to.equal(addr2.address)
+    })
+
+    it('Should update the listing with the rental info', async () => {
+      const [, , addr2] = await ethers.getSigners()
+      const listing = await nftMarket!.getListing(nftContract!.address, 0)
+
+      expect(listing.rental.renter).to.equal(addr2.address)
+    })
+
+    it('Should emit the NFTLent event', async () => {
+      await expect(tx).to.emit(nftMarket!, 'NFTLent')
+    })
+  })
 })

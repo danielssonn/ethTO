@@ -8,6 +8,7 @@ import { StringToAddress, AddressToString } from "@axelar-network/axelar-utils-s
 import { NFTMarket } from "./NFTMarket.sol";
 import { IERC20 } from "@axelar-network/axelar-cgp-solidity/contracts/interfaces/IERC20.sol";
 import { IAxelarGasService } from "@axelar-network/axelar-cgp-solidity/contracts/interfaces/IAxelarGasService.sol";
+import { nftListing } from "./NFTListing.sol"
 
 contract AxelarMarketExecutor is
     AxelarExecutable,
@@ -41,13 +42,14 @@ contract AxelarMarketExecutor is
         string calldata destinationChain,
         address nftAddress,
         uint256 tokenId,
-        uint16 daysToRent
+        uint16 daysToRent,
+        nftListing calldata listing
     ) public payable nonReentrant {
         // verify that user has
          bytes memory payload = abi.encode(nftAddress, tokenId, daysToRent, address(0));
          string memory stringAddress = address(this).toString();
 
-         (string memory tokenSymbol, uint256 amount) = rent(nftAddress, tokenId, daysToRent);
+         (string memory tokenSymbol, uint256 amount) = rent(nftAddress, tokenId, daysToRent, listing);
 
          gasReceiver.payNativeGasForContractCall{ value: msg.value }(address(this), destinationChain, stringAddress, payload, msg.sender);
          gateway().callContractWithToken(destinationChain, stringAddress, payload, tokenSymbol, amount);

@@ -76,9 +76,9 @@ contract NFTMarket is
     function rent(
         address nftAddress,
         uint256 tokenId,
-        uint16 daysToRent
+        uint16 daysToRent,
+        nftListing memory listing,
     ) public payable override nonReentrant returns(string memory, uint256) {
-        NFTListing memory listing = listedNFTs[nftAddress][tokenId];
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
 
         require(listing.createTime != 0, "This listing does not exist");

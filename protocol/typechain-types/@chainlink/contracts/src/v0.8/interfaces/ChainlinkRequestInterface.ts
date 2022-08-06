@@ -12,38 +12,38 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+} from 'ethers'
+import type { FunctionFragment, Result } from '@ethersproject/abi'
+import type { Listener, Provider } from '@ethersproject/providers'
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../../../../../common";
+} from '../../../../../common'
 
 export interface ChainlinkRequestInterfaceInterface extends utils.Interface {
   functions: {
-    "cancelOracleRequest(bytes32,uint256,bytes4,uint256)": FunctionFragment;
-    "oracleRequest(address,uint256,bytes32,address,bytes4,uint256,uint256,bytes)": FunctionFragment;
-  };
+    'cancelOracleRequest(bytes32,uint256,bytes4,uint256)': FunctionFragment
+    'oracleRequest(address,uint256,bytes32,address,bytes4,uint256,uint256,bytes)': FunctionFragment
+  }
 
   getFunction(
-    nameOrSignatureOrTopic: "cancelOracleRequest" | "oracleRequest"
-  ): FunctionFragment;
+    nameOrSignatureOrTopic: 'cancelOracleRequest' | 'oracleRequest'
+  ): FunctionFragment
 
   encodeFunctionData(
-    functionFragment: "cancelOracleRequest",
+    functionFragment: 'cancelOracleRequest',
     values: [
       PromiseOrValue<BytesLike>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>,
       PromiseOrValue<BigNumberish>
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "oracleRequest",
+    functionFragment: 'oracleRequest',
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -54,45 +54,45 @@ export interface ChainlinkRequestInterfaceInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
     ]
-  ): string;
+  ): string
 
   decodeFunctionResult(
-    functionFragment: "cancelOracleRequest",
+    functionFragment: 'cancelOracleRequest',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "oracleRequest",
+    functionFragment: 'oracleRequest',
     data: BytesLike
-  ): Result;
+  ): Result
 
-  events: {};
+  events: {}
 }
 
 export interface ChainlinkRequestInterface extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
-  attach(addressOrName: string): this;
-  deployed(): Promise<this>;
+  connect(signerOrProvider: Signer | Provider | string): this
+  attach(addressOrName: string): this
+  deployed(): Promise<this>
 
-  interface: ChainlinkRequestInterfaceInterface;
+  interface: ChainlinkRequestInterfaceInterface
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TEvent>>
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
+  ): Array<TypedListener<TEvent>>
+  listeners(eventName?: string): Array<Listener>
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  ): this
+  removeAllListeners(eventName?: string): this
+  off: OnEvent<this>
+  on: OnEvent<this>
+  once: OnEvent<this>
+  removeListener: OnEvent<this>
 
   functions: {
     cancelOracleRequest(
@@ -101,7 +101,7 @@ export interface ChainlinkRequestInterface extends BaseContract {
       callbackFunctionId: PromiseOrValue<BytesLike>,
       expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     oracleRequest(
       sender: PromiseOrValue<string>,
@@ -113,8 +113,8 @@ export interface ChainlinkRequestInterface extends BaseContract {
       dataVersion: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-  };
+    ): Promise<ContractTransaction>
+  }
 
   cancelOracleRequest(
     requestId: PromiseOrValue<BytesLike>,
@@ -122,7 +122,7 @@ export interface ChainlinkRequestInterface extends BaseContract {
     callbackFunctionId: PromiseOrValue<BytesLike>,
     expiration: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   oracleRequest(
     sender: PromiseOrValue<string>,
@@ -134,7 +134,7 @@ export interface ChainlinkRequestInterface extends BaseContract {
     dataVersion: PromiseOrValue<BigNumberish>,
     data: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   callStatic: {
     cancelOracleRequest(
@@ -143,7 +143,7 @@ export interface ChainlinkRequestInterface extends BaseContract {
       callbackFunctionId: PromiseOrValue<BytesLike>,
       expiration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     oracleRequest(
       sender: PromiseOrValue<string>,
@@ -155,10 +155,10 @@ export interface ChainlinkRequestInterface extends BaseContract {
       dataVersion: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<void>;
-  };
+    ): Promise<void>
+  }
 
-  filters: {};
+  filters: {}
 
   estimateGas: {
     cancelOracleRequest(
@@ -167,7 +167,7 @@ export interface ChainlinkRequestInterface extends BaseContract {
       callbackFunctionId: PromiseOrValue<BytesLike>,
       expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     oracleRequest(
       sender: PromiseOrValue<string>,
@@ -179,8 +179,8 @@ export interface ChainlinkRequestInterface extends BaseContract {
       dataVersion: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-  };
+    ): Promise<BigNumber>
+  }
 
   populateTransaction: {
     cancelOracleRequest(
@@ -189,7 +189,7 @@ export interface ChainlinkRequestInterface extends BaseContract {
       callbackFunctionId: PromiseOrValue<BytesLike>,
       expiration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     oracleRequest(
       sender: PromiseOrValue<string>,
@@ -201,6 +201,6 @@ export interface ChainlinkRequestInterface extends BaseContract {
       dataVersion: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-  };
+    ): Promise<PopulatedTransaction>
+  }
 }
