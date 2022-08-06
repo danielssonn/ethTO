@@ -123,12 +123,12 @@ export default function Landing() {
                                 </div>
                                 <div className="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
                                     <span className="inline-flex rounded-md shadow">
-                                        <a
-                                            href="/rent"
+                                        <button
+                                            onClick={connectWallet}
                                             className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-green-600 bg-white hover:bg-gray-50"
                                         >
                                             Connect wallet
-                                        </a>
+                                        </button>
                                     </span>
                                 </div>
                             </nav>
@@ -167,12 +167,12 @@ export default function Landing() {
                                             </Popover.Button>
                                         </div>
                                     </div>
-                                    <a
-                                        href="/rent"
+                                    <button
+                                        onClick={connectWallet}
                                         className="block w-full px-5 py-3 text-center font-medium text-green-600 bg-gray-50 hover:bg-gray-100"
                                     >
                                         Connect wallet
-                                    </a>
+                                    </button>
                                 </div>
                             </Popover.Panel>
                         </Transition>
