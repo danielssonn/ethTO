@@ -9,12 +9,20 @@ const sdk = new SwingSDK({
 
 const SwingProvider = ({ children }) => {
     const [ready, setReady] = useState(false)
+    const [chains, setChains] = useState([])
 
     useEffect(() => {
         if (!ready) {
             ;(async () => {
                 await sdk.init()
+                setChains(sdk.chains)
                 setReady(true)
+
+                console.log(sdk)
+
+                console.log(sdk.getTokensForChain('rinkeby'))
+                console.log(sdk.getTokensForChain('polygon'))
+                console.log(sdk.getTokensForChain('avalanche'))
             })()
         } else {
             sdk.on('TRANSFER', (transfer) => {
@@ -94,13 +102,31 @@ const SwingProvider = ({ children }) => {
         sdk.transfer(transferRoute, transferParams)
     }
 
+    const getChain = (name) => {
+        return chains.filter((chainData) => chainData.slug === name)[0]
+    }
+
+    const getNativeToken = (name) => {
+        const chain = getChain(name)
+
+        if (chain) {
+            const { tokens } = chain
+            return tokens.filter((token) =>
+                sdk.isNativeToken(name, token.symbol)
+            )[0]
+        }
+    }
+
     return (
         <SwingContext.Provider
             value={{
                 sdk,
                 fetchQuote,
+                chains,
+                getChain,
                 transfer,
                 swingReady: ready,
+                getNativeToken,
             }}
         >
             {children}

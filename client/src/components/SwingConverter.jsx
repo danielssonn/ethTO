@@ -1,26 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 
 import Button from '../components/Button'
 import useSwing from '../hooks/use-swing'
 import useWeb3 from '../hooks/use-web3'
 
-const SwingConverter = () => {
+const SwingConverter = ({ amount, fromChain, fromToken, toChain, toToken }) => {
     const { fetchQuote, swingReady } = useSwing()
     const { currentAccount } = useWeb3()
     const [quote, setQuote] = useState(null)
     const [quoteLoading, setQuoteLoading] = useState(null)
-    const [amount, setAmount] = useState('')
+    const [error, setError] = useState(null)
 
-    const convert = async () => {
-        if (amount === '') return
+    const getQuote = async (amount, fromChain, fromToken, toChain, toToken) => {
         setQuote(null)
         setQuoteLoading(true)
+
         const quote = await fetchQuote({
-            fromChain: 'polygon',
-            toChain: 'polygon',
-            fromToken: 'ETH',
-            toToken: 'MATIC',
+            fromChain,
+            toChain,
+            fromToken,
+            toToken,
             amount,
             fromUserAddress: currentAccount,
         })
@@ -29,19 +29,22 @@ const SwingConverter = () => {
         setQuote(quote)
     }
 
+    const confirmTransfer = async () => {}
+
+    useEffect(() => {
+        if (currentAccount && swingReady) {
+            try {
+                getQuote(amount, fromChain, fromToken, toChain, toToken)
+            } catch (e) {
+                setError(e.message)
+            }
+        }
+    }, [currentAccount, swingReady, amount, fromChain, toChain])
+
     return (
         <div className="mt-4">
-            <div className="flex items-stretch">
-                <input
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="mr-2 border-2 border-gray rounded-md text-lg p-2"
-                    placeholder="Convert Amount"
-                />
-                <Button disabled={!swingReady} onClick={convert}>
-                    Test Swing.xyz fetchQuote
-                </Button>
-            </div>
             <div>
+                {error && <p>{error}</p>}
                 {quoteLoading && 'Loading Quote...'}
                 {quote && (
                     <>
@@ -84,6 +87,11 @@ const SwingConverter = () => {
                         </dl>
                     </>
                 )}
+            </div>
+            <div>
+                <Button disabled={!swingReady} onClick={confirmTransfer}>
+                    Confirm Transfer
+                </Button>
             </div>
         </div>
     )
