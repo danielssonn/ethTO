@@ -124,7 +124,7 @@ export default function Landing() {
                                 <div className="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
                                     <span className="inline-flex rounded-md shadow">
                                         <a
-                                            href="#"
+                                            href="/rent"
                                             className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-green-600 bg-white hover:bg-gray-50"
                                         >
                                             Connect wallet
@@ -168,7 +168,7 @@ export default function Landing() {
                                         </div>
                                     </div>
                                     <a
-                                        href="#"
+                                        href="/rent"
                                         className="block w-full px-5 py-3 text-center font-medium text-green-600 bg-gray-50 hover:bg-gray-100"
                                     >
                                         Connect wallet
