@@ -1,8 +1,5 @@
 require("dotenv").config();
 
-
-
-
 export const chains: Array<Object>  = [
   {
     "name": "Polygon",
