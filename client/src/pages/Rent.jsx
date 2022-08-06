@@ -310,11 +310,11 @@ export default function Rent() {
                             </div>
                         </div>
                         <section
-                            aria-labelledby="products-heading"
+                            aria-labelledby="nfts-heading"
                             className="pt-6 pb-24"
                         >
-                            <h2 id="products-heading" className="sr-only">
-                                Products
+                            <h2 id="nfts-heading" className="sr-only">
+                                NFTs
                             </h2>
                             <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
                                 {/* Filters */}

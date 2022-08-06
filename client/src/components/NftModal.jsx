@@ -78,7 +78,7 @@ export default function NftModal({ close, nft, open }) {
                                                     id="information-heading"
                                                     className="sr-only"
                                                 >
-                                                    Product information
+                                                    NFT information
                                                 </h3>
                                                 <div className="text-2xl text-gray-900 flex items-center">
                                                     <img
@@ -98,7 +98,7 @@ export default function NftModal({ close, nft, open }) {
                                                     id="options-heading"
                                                     className="sr-only"
                                                 >
-                                                    Product options
+                                                    NFT options
                                                 </h3>
                                                 <form>
                                                     {/* Days */}

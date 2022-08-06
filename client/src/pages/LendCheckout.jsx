@@ -89,14 +89,14 @@ export default function LendCheckout() {
                 </div>
             </header>
             <main className="relative grid grid-cols-1 gap-x-16 max-w-7xl mx-auto lg:px-8 lg:grid-cols-2 xl:gap-x-48">
-                <h1 className="sr-only">Order information</h1>
+                <h1 className="sr-only">Rental information</h1>
                 <section
-                    aria-labelledby="summary-heading"
+                    aria-labelledby="preview-heading"
                     className="bg-gray-50 pt-16 pb-10 px-4 sm:px-6 lg:px-0 lg:pb-16 lg:bg-transparent lg:row-start-1 lg:col-start-2"
                 >
                     <div className="max-w-lg mx-auto lg:max-w-none">
                         <h2
-                            id="summary-heading"
+                            id="preview-heading"
                             className="text-lg font-medium text-gray-900"
                         >
                             Preview
