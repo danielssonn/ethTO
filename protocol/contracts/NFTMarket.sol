@@ -18,7 +18,6 @@ import './Rental.sol';
 import 'hardhat/console.sol';
 
 contract NFTMarket is
-    INFTMarket,
     ERC721Holder,
     ERC1155Receiver,
     ERC1155Holder,
@@ -54,7 +53,7 @@ contract NFTMarket is
         uint256 maximumEndTime,
         Payment memory payment,
         Collateral memory collateral
-    ) public override nonReentrant {
+    ) public nonReentrant {
         onlyApprovedOrOwner(msgSender(), nftAddress, tokenId);
 
         address lender = msgSender();
@@ -87,9 +86,9 @@ contract NFTMarket is
     function _verifyRentConditions(
         address nftAddress,
         uint256 tokenId,
-        uint16 daysToRent,
-    ) public nonReentrant {
-        nftListing storage listing = listedNFTs[nftAddress][tokenId]
+        uint16 daysToRent
+    ) public nonReentrant returns(Payment memory payment, Collateral memory collateral, address lender) {
+        NFTListing storage listing = listedNFTs[nftAddress][tokenId];
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
 
         require(listing.createTime != 0, 'This listing does not exist');
@@ -106,28 +105,34 @@ contract NFTMarket is
                 listing.rental.expiryTime == 0,
             'This item is already rented.'
         );
+
+        payment = listing.payment;
+        collateral = listing.collateral;
+        lender = listing.lender;
     }
 
     /**
      * Used to mark an nft as rented and transfer the NFT
      */
     function _verifyPayment(
+        address renter,
         Payment memory payment,
         Collateral memory collateral,
-        uint16 daysToRent,
-    ) internal nonReentrant {
+        uint16 daysToRent
+    ) internal nonReentrant returns (string memory paymentTokenSymbol, uint256 rentalCost) {
 
         ERC20 paymentTokenContract = ERC20(payment.paymentToken);
+        paymentTokenSymbol = paymentTokenContract.symbol();
         ERC20 collateralTokenContract = ERC20(collateral.collateralToken);
-        uint256 rentalCost = daysToRent * pricePerDay;
+        rentalCost = daysToRent * payment.pricePerDay;
 
         if (
-            listing.payment.paymentToken == listing.collateral.collateralToken
+            payment.paymentToken == collateral.collateralToken
             ) {
             uint256 totalCost = rentalCost +
-                listing.collateral.collateralAmount;
+                collateral.collateralAmount;
             require(
-                paymentToken.balanceOf(msgSender()) >= totalCost,
+                paymentTokenContract.balanceOf(msgSender()) >= totalCost,
                 'Insufficient combined funds'
             );
         } else {
@@ -137,16 +142,16 @@ contract NFTMarket is
             );
             require(
                 collateralTokenContract.balanceOf(msgSender()) >=
-                listing.collateral.collateralAmount,
+                collateral.collateralAmount,
                 'Insufficient collateral funds'
             );
         }
 
         // lock in the collateral
         collateralTokenContract.transferFrom(
-            msgSender(),
+            renter,
             address(this),
-            listing.collateral.collateralAmount
+            collateral.collateralAmount
         );
     }
 
@@ -157,12 +162,12 @@ contract NFTMarket is
         address nftAddress,
         uint256 tokenId,
         address renter,
-        uint16 daysToRent,
+        uint16 daysToRent
     ) internal {
         NFTListing storage listing = listedNFTs[nftAddress][tokenId];
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
         Rental memory rental = Rental(renter, rentalExpiry);
-        listing.rental = rental
+        listing.rental = rental;
 
         // check https://github.com/axelarnetwork/axelar-local-gmp-examples/tree/main/examples/nft-auctionhouse for the axealar hookup
         emit NFTRented(nftAddress, tokenId, rental);
@@ -174,7 +179,6 @@ contract NFTMarket is
     function returnRentedNFT(address nftAddress, uint256 tokenId)
         public
         payable
-        override
         returns (uint256 txId)
     {
         // get the NFT from the renter
@@ -188,7 +192,6 @@ contract NFTMarket is
     function getListing(address nftAddress, uint256 tokenId)
         public
         view
-        override
         returns (NFTListing memory)
     {
         return listedNFTs[nftAddress][tokenId];
@@ -199,7 +202,6 @@ contract NFTMarket is
      */
     function cancelNFTListing(address nftAddress, uint256 tokenId)
         public
-        override
     {
         onlyApprovedOrOwner(msgSender(), nftAddress, tokenId);
 

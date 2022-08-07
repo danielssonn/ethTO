@@ -116,6 +116,14 @@ declare module "hardhat/types/runtime" {
       name: "NFTMarket",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTMarket__factory>;
+    getContractFactory(
+      name: "SendAckReceiver",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SendAckReceiver__factory>;
+    getContractFactory(
+      name: "SendAckSender",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SendAckSender__factory>;
 
     getContractAt(
       name: "IAxelarGasService",
@@ -247,6 +255,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.NFTMarket>;
+    getContractAt(
+      name: "SendAckReceiver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SendAckReceiver>;
+    getContractAt(
+      name: "SendAckSender",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SendAckSender>;
 
     // default types
     getContractFactory(

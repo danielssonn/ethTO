@@ -83,10 +83,13 @@ export type NFTListingStructOutput = [
   collateral: CollateralStructOutput;
 };
 
-export interface NFTMarketInterface extends utils.Interface {
+export interface SendAckReceiverInterface extends utils.Interface {
   functions: {
     "_verifyRentConditions(address,uint256,uint16)": FunctionFragment;
     "cancelNFTListing(address,uint256)": FunctionFragment;
+    "execute(bytes32,string,string,bytes)": FunctionFragment;
+    "executeWithToken(bytes32,string,string,bytes,string,uint256)": FunctionFragment;
+    "gateway()": FunctionFragment;
     "getListing(address,uint256)": FunctionFragment;
     "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
     "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
@@ -103,6 +106,9 @@ export interface NFTMarketInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "_verifyRentConditions"
       | "cancelNFTListing"
+      | "execute"
+      | "executeWithToken"
+      | "gateway"
       | "getListing"
       | "listNFT"
       | "onERC1155BatchReceived"
@@ -127,6 +133,27 @@ export interface NFTMarketInterface extends utils.Interface {
     functionFragment: "cancelNFTListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "execute",
+    values: [
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "executeWithToken",
+    values: [
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(functionFragment: "gateway", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
@@ -196,6 +223,12 @@ export interface NFTMarketInterface extends utils.Interface {
     functionFragment: "cancelNFTListing",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "executeWithToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getListing", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "listNFT", data: BytesLike): Result;
   decodeFunctionResult(
@@ -285,12 +318,12 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface NFTMarket extends BaseContract {
+export interface SendAckReceiver extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: NFTMarketInterface;
+  interface: SendAckReceiverInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -324,6 +357,26 @@ export interface NFTMarket extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    gateway(overrides?: CallOverrides): Promise<[string]>;
 
     getListing(
       nftAddress: PromiseOrValue<string>,
@@ -401,6 +454,26 @@ export interface NFTMarket extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  execute(
+    commandId: PromiseOrValue<BytesLike>,
+    sourceChain: PromiseOrValue<string>,
+    sourceAddress: PromiseOrValue<string>,
+    payload: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  executeWithToken(
+    commandId: PromiseOrValue<BytesLike>,
+    sourceChain: PromiseOrValue<string>,
+    sourceAddress: PromiseOrValue<string>,
+    payload: PromiseOrValue<BytesLike>,
+    tokenSymbol: PromiseOrValue<string>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  gateway(overrides?: CallOverrides): Promise<string>;
 
   getListing(
     nftAddress: PromiseOrValue<string>,
@@ -484,6 +557,26 @@ export interface NFTMarket extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    gateway(overrides?: CallOverrides): Promise<string>;
 
     getListing(
       nftAddress: PromiseOrValue<string>,
@@ -600,6 +693,26 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    gateway(overrides?: CallOverrides): Promise<BigNumber>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -677,6 +790,26 @@ export interface NFTMarket extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getListing(
       nftAddress: PromiseOrValue<string>,

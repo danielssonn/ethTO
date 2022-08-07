@@ -58,3 +58,7 @@ export type { NFTDummy } from "./contracts/NFTDummy";
 export { NFTDummy__factory } from "./factories/contracts/NFTDummy__factory";
 export type { NFTMarket } from "./contracts/NFTMarket";
 export { NFTMarket__factory } from "./factories/contracts/NFTMarket__factory";
+export type { SendAckReceiver } from "./contracts/SendAckReceiver";
+export { SendAckReceiver__factory } from "./factories/contracts/SendAckReceiver__factory";
+export type { SendAckSender } from "./contracts/SendAckSender";
+export { SendAckSender__factory } from "./factories/contracts/SendAckSender__factory";
