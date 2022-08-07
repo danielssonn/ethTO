@@ -5,12 +5,6 @@ import { useParams } from 'react-router-dom'
 import RentDaysPicker from '../components/RentDaysPicker'
 import SwingSwapper from '../components/SwingSwapper'
 
-const steps = [
-    { name: 'Select NFT', href: '/rent', status: 'complete' },
-    { name: 'Rental Information', href: '#', status: 'current' },
-    { name: 'Swap Tokens', href: '#', status: 'upcoming' },
-    { name: 'Confirmation', href: '#', status: 'upcoming' },
-]
 const nft = {
     id: 1,
     name: 'Bored Ape Yacht Club',
@@ -22,6 +16,12 @@ const nft = {
 }
 
 export default function RentCheckout() {
+    const [steps, setSteps] = useState([
+        { name: 'Select NFT', href: '/rent', status: 'complete' },
+        { name: 'Rental Information', href: '#', status: 'current' },
+        { name: 'Cross Chain Swap', href: '#', status: 'upcoming' },
+        { name: 'Confirmation', href: '#', status: 'upcoming' },
+    ])
     const { address, chainName, tokenId } = useParams()
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
@@ -33,6 +33,12 @@ export default function RentCheckout() {
 
     const handleContinue = (event) => {
         event.preventDefault()
+
+        const updatedSteps = [...steps]
+        updatedSteps[1].status = 'complete'
+        updatedSteps[2].status = 'current'
+
+        setSteps(updatedSteps)
         setStep(step + 1)
     }
 
