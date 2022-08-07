@@ -11,231 +11,234 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from 'ethers'
+} from "ethers";
 import type {
   FunctionFragment,
   Result,
   EventFragment,
-} from '@ethersproject/abi'
-import type { Listener, Provider } from '@ethersproject/providers'
+} from "@ethersproject/abi";
+import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from '../../../../common'
+} from "../../../../common";
 
 export interface IUpgradableInterface extends utils.Interface {
   functions: {
-    'contractId()': FunctionFragment
-    'implementation()': FunctionFragment
-    'owner()': FunctionFragment
-    'setup(bytes)': FunctionFragment
-    'upgrade(address,bytes32,bytes)': FunctionFragment
-  }
+    "contractId()": FunctionFragment;
+    "implementation()": FunctionFragment;
+    "owner()": FunctionFragment;
+    "setup(bytes)": FunctionFragment;
+    "upgrade(address,bytes32,bytes)": FunctionFragment;
+  };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | 'contractId'
-      | 'implementation'
-      | 'owner'
-      | 'setup'
-      | 'upgrade'
-  ): FunctionFragment
+      | "contractId"
+      | "implementation"
+      | "owner"
+      | "setup"
+      | "upgrade"
+  ): FunctionFragment;
 
-  encodeFunctionData(functionFragment: 'contractId', values?: undefined): string
   encodeFunctionData(
-    functionFragment: 'implementation',
+    functionFragment: "contractId",
     values?: undefined
-  ): string
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'setup',
+    functionFragment: "implementation",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "setup",
     values: [PromiseOrValue<BytesLike>]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'upgrade',
+    functionFragment: "upgrade",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BytesLike>,
       PromiseOrValue<BytesLike>
     ]
-  ): string
+  ): string;
 
-  decodeFunctionResult(functionFragment: 'contractId', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: "contractId", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'implementation',
+    functionFragment: "implementation",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'setup', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'upgrade', data: BytesLike): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setup", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "upgrade", data: BytesLike): Result;
 
   events: {
-    'OwnershipTransferred(address)': EventFragment
-    'Upgraded(address)': EventFragment
-  }
+    "OwnershipTransferred(address)": EventFragment;
+    "Upgraded(address)": EventFragment;
+  };
 
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'Upgraded'): EventFragment
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
 export interface OwnershipTransferredEventObject {
-  newOwner: string
+  newOwner: string;
 }
 export type OwnershipTransferredEvent = TypedEvent<
   [string],
   OwnershipTransferredEventObject
->
+>;
 
 export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>
+  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface UpgradedEventObject {
-  newImplementation: string
+  newImplementation: string;
 }
-export type UpgradedEvent = TypedEvent<[string], UpgradedEventObject>
+export type UpgradedEvent = TypedEvent<[string], UpgradedEventObject>;
 
-export type UpgradedEventFilter = TypedEventFilter<UpgradedEvent>
+export type UpgradedEventFilter = TypedEventFilter<UpgradedEvent>;
 
 export interface IUpgradable extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this
-  attach(addressOrName: string): this
-  deployed(): Promise<this>
+  connect(signerOrProvider: Signer | Provider | string): this;
+  attach(addressOrName: string): this;
+  deployed(): Promise<this>;
 
-  interface: IUpgradableInterface
+  interface: IUpgradableInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>
+  ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>
-  listeners(eventName?: string): Array<Listener>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this
-  removeAllListeners(eventName?: string): this
-  off: OnEvent<this>
-  on: OnEvent<this>
-  once: OnEvent<this>
-  removeListener: OnEvent<this>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
-    contractId(overrides?: CallOverrides): Promise<[string]>
+    contractId(overrides?: CallOverrides): Promise<[string]>;
 
-    implementation(overrides?: CallOverrides): Promise<[string]>
+    implementation(overrides?: CallOverrides): Promise<[string]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>
+    owner(overrides?: CallOverrides): Promise<[string]>;
 
     setup(
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     upgrade(
       newImplementation: PromiseOrValue<string>,
       newImplementationCodeHash: PromiseOrValue<BytesLike>,
       params: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
-  }
+    ): Promise<ContractTransaction>;
+  };
 
-  contractId(overrides?: CallOverrides): Promise<string>
+  contractId(overrides?: CallOverrides): Promise<string>;
 
-  implementation(overrides?: CallOverrides): Promise<string>
+  implementation(overrides?: CallOverrides): Promise<string>;
 
-  owner(overrides?: CallOverrides): Promise<string>
+  owner(overrides?: CallOverrides): Promise<string>;
 
   setup(
     data: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   upgrade(
     newImplementation: PromiseOrValue<string>,
     newImplementationCodeHash: PromiseOrValue<BytesLike>,
     params: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   callStatic: {
-    contractId(overrides?: CallOverrides): Promise<string>
+    contractId(overrides?: CallOverrides): Promise<string>;
 
-    implementation(overrides?: CallOverrides): Promise<string>
+    implementation(overrides?: CallOverrides): Promise<string>;
 
-    owner(overrides?: CallOverrides): Promise<string>
+    owner(overrides?: CallOverrides): Promise<string>;
 
     setup(
       data: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     upgrade(
       newImplementation: PromiseOrValue<string>,
       newImplementationCodeHash: PromiseOrValue<BytesLike>,
       params: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<void>
-  }
+    ): Promise<void>;
+  };
 
   filters: {
-    'OwnershipTransferred(address)'(
+    "OwnershipTransferred(address)"(
       newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter
+    ): OwnershipTransferredEventFilter;
     OwnershipTransferred(
       newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter
+    ): OwnershipTransferredEventFilter;
 
-    'Upgraded(address)'(
+    "Upgraded(address)"(
       newImplementation?: PromiseOrValue<string> | null
-    ): UpgradedEventFilter
+    ): UpgradedEventFilter;
     Upgraded(
       newImplementation?: PromiseOrValue<string> | null
-    ): UpgradedEventFilter
-  }
+    ): UpgradedEventFilter;
+  };
 
   estimateGas: {
-    contractId(overrides?: CallOverrides): Promise<BigNumber>
+    contractId(overrides?: CallOverrides): Promise<BigNumber>;
 
-    implementation(overrides?: CallOverrides): Promise<BigNumber>
+    implementation(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     setup(
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     upgrade(
       newImplementation: PromiseOrValue<string>,
       newImplementationCodeHash: PromiseOrValue<BytesLike>,
       params: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
-  }
+    ): Promise<BigNumber>;
+  };
 
   populateTransaction: {
-    contractId(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    contractId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    implementation(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    implementation(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setup(
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     upgrade(
       newImplementation: PromiseOrValue<string>,
       newImplementationCodeHash: PromiseOrValue<BytesLike>,
       params: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
-  }
+    ): Promise<PopulatedTransaction>;
+  };
 }

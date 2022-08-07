@@ -12,33 +12,33 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from 'ethers'
-import type { FunctionFragment, Result } from '@ethersproject/abi'
-import type { Listener, Provider } from '@ethersproject/providers'
+} from "ethers";
+import type { FunctionFragment, Result } from "@ethersproject/abi";
+import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from '../../../../../common'
+} from "../../../../../common";
 
 export interface ERC1155ReceiverInterface extends utils.Interface {
   functions: {
-    'onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)': FunctionFragment
-    'onERC1155Received(address,address,uint256,uint256,bytes)': FunctionFragment
-    'supportsInterface(bytes4)': FunctionFragment
-  }
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
+    "onERC1155Received(address,address,uint256,uint256,bytes)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
+  };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | 'onERC1155BatchReceived'
-      | 'onERC1155Received'
-      | 'supportsInterface'
-  ): FunctionFragment
+      | "onERC1155BatchReceived"
+      | "onERC1155Received"
+      | "supportsInterface"
+  ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: 'onERC1155BatchReceived',
+    functionFragment: "onERC1155BatchReceived",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -46,9 +46,9 @@ export interface ERC1155ReceiverInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>[],
       PromiseOrValue<BytesLike>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'onERC1155Received',
+    functionFragment: "onERC1155Received",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -56,53 +56,53 @@ export interface ERC1155ReceiverInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'supportsInterface',
+    functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
-  ): string
+  ): string;
 
   decodeFunctionResult(
-    functionFragment: 'onERC1155BatchReceived',
+    functionFragment: "onERC1155BatchReceived",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'onERC1155Received',
+    functionFragment: "onERC1155Received",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'supportsInterface',
+    functionFragment: "supportsInterface",
     data: BytesLike
-  ): Result
+  ): Result;
 
-  events: {}
+  events: {};
 }
 
 export interface ERC1155Receiver extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this
-  attach(addressOrName: string): this
-  deployed(): Promise<this>
+  connect(signerOrProvider: Signer | Provider | string): this;
+  attach(addressOrName: string): this;
+  deployed(): Promise<this>;
 
-  interface: ERC1155ReceiverInterface
+  interface: ERC1155ReceiverInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>
+  ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>
-  listeners(eventName?: string): Array<Listener>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this
-  removeAllListeners(eventName?: string): this
-  off: OnEvent<this>
-  on: OnEvent<this>
-  once: OnEvent<this>
-  removeListener: OnEvent<this>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
     onERC1155BatchReceived(
@@ -112,7 +112,7 @@ export interface ERC1155Receiver extends BaseContract {
       values: PromiseOrValue<BigNumberish>[],
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     onERC1155Received(
       operator: PromiseOrValue<string>,
@@ -121,13 +121,13 @@ export interface ERC1155Receiver extends BaseContract {
       value: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<[boolean]>
-  }
+    ): Promise<[boolean]>;
+  };
 
   onERC1155BatchReceived(
     operator: PromiseOrValue<string>,
@@ -136,7 +136,7 @@ export interface ERC1155Receiver extends BaseContract {
     values: PromiseOrValue<BigNumberish>[],
     data: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   onERC1155Received(
     operator: PromiseOrValue<string>,
@@ -145,12 +145,12 @@ export interface ERC1155Receiver extends BaseContract {
     value: PromiseOrValue<BigNumberish>,
     data: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<boolean>
+  ): Promise<boolean>;
 
   callStatic: {
     onERC1155BatchReceived(
@@ -160,7 +160,7 @@ export interface ERC1155Receiver extends BaseContract {
       values: PromiseOrValue<BigNumberish>[],
       data: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>
+    ): Promise<string>;
 
     onERC1155Received(
       operator: PromiseOrValue<string>,
@@ -169,15 +169,15 @@ export interface ERC1155Receiver extends BaseContract {
       value: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>
+    ): Promise<string>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<boolean>
-  }
+    ): Promise<boolean>;
+  };
 
-  filters: {}
+  filters: {};
 
   estimateGas: {
     onERC1155BatchReceived(
@@ -187,7 +187,7 @@ export interface ERC1155Receiver extends BaseContract {
       values: PromiseOrValue<BigNumberish>[],
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     onERC1155Received(
       operator: PromiseOrValue<string>,
@@ -196,13 +196,13 @@ export interface ERC1155Receiver extends BaseContract {
       value: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>
-  }
+    ): Promise<BigNumber>;
+  };
 
   populateTransaction: {
     onERC1155BatchReceived(
@@ -212,7 +212,7 @@ export interface ERC1155Receiver extends BaseContract {
       values: PromiseOrValue<BigNumberish>[],
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     onERC1155Received(
       operator: PromiseOrValue<string>,
@@ -221,11 +221,11 @@ export interface ERC1155Receiver extends BaseContract {
       value: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
-  }
+    ): Promise<PopulatedTransaction>;
+  };
 }
