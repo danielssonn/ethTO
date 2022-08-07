@@ -9,11 +9,14 @@ const sdk = new SwingSDK({
 
 const SwingProvider = ({ children }) => {
     const [ready, setReady] = useState(false)
+    const [chains, setChains] = useState([])
+    const [transferState, setTransferState] = useState('idle')
 
     useEffect(() => {
         if (!ready) {
             ;(async () => {
                 await sdk.init()
+                setChains(sdk.chains)
                 setReady(true)
             })()
         } else {
@@ -23,6 +26,7 @@ const SwingProvider = ({ children }) => {
                         console.log(
                             `Creating a transaction for the ${transfer.step} step`
                         )
+                        setTransferState('pending')
                         break
                     case 'CHAIN_SWITCH_REQUIRED':
                         // Handle switching chains or alert the user to do it manually
@@ -31,23 +35,31 @@ const SwingProvider = ({ children }) => {
                         console.log(
                             'Please complete the required action within your connected wallet'
                         )
+                        setTransferState('action required')
                         break
                     case 'CONFIRMING':
                         console.log(
                             `Waiting for the transaction from the ${transfer.step} step to complete`
                         )
+                        setTransferState('confirming')
                         break
                     case 'SUCCESS':
                         console.log(
                             `Transfer has completed the ${transfer.step} step`
                         )
+                        setTransferState('success')
+                        setTimeout(() => setTransferState('idle'), 2500)
                         break
                     case 'FAILED':
                         console.log(
                             `Transfer failed at the ${transfer.step} step:`,
                             transfer.error
                         )
+                        setTransferState('failed')
+                        setTimeout(() => setTransferState('idle'), 2500)
                         break
+                    default:
+                        setTransferState('idle')
                 }
             })
 
@@ -66,15 +78,6 @@ const SwingProvider = ({ children }) => {
         fromUserAddress,
         toUserAddress,
     }) => {
-        console.log({
-            fromChain,
-            toChain,
-            fromToken,
-            toToken,
-            amount,
-            fromUserAddress,
-            toUserAddress,
-        })
         const quote = await sdk.getQuote({
             fromChain,
             toChain,
@@ -94,13 +97,32 @@ const SwingProvider = ({ children }) => {
         sdk.transfer(transferRoute, transferParams)
     }
 
+    const getChain = (name) => {
+        return chains.filter((chainData) => chainData.slug === name)[0]
+    }
+
+    const getNativeToken = (name) => {
+        const chain = getChain(name)
+
+        if (chain) {
+            const { tokens } = chain
+            return tokens.filter((token) =>
+                sdk.isNativeToken(name, token.symbol)
+            )[0]
+        }
+    }
+
     return (
         <SwingContext.Provider
             value={{
                 sdk,
                 fetchQuote,
+                chains,
+                getChain,
                 transfer,
+                transferState,
                 swingReady: ready,
+                getNativeToken,
             }}
         >
             {children}
