@@ -59,6 +59,8 @@ export type RentalStructOutput = [string, BigNumber] & {
 };
 
 export type NFTListingStruct = {
+  nftAddress: PromiseOrValue<string>;
+  tokenId: PromiseOrValue<BigNumberish>;
   lender: PromiseOrValue<string>;
   maximumEndTime: PromiseOrValue<BigNumberish>;
   createTime: PromiseOrValue<BigNumberish>;
@@ -70,11 +72,15 @@ export type NFTListingStruct = {
 export type NFTListingStructOutput = [
   string,
   BigNumber,
+  string,
+  BigNumber,
   BigNumber,
   RentalStructOutput,
   PaymentStructOutput,
   CollateralStructOutput
 ] & {
+  nftAddress: string;
+  tokenId: BigNumber;
   lender: string;
   maximumEndTime: BigNumber;
   createTime: BigNumber;

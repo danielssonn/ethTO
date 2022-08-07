@@ -5,6 +5,8 @@ import './Collateral.sol';
 import './Rental.sol';
 
 struct NFTListing {
+    address nftAddress;
+    uint256 tokenId;
     address lender;
     uint256 maximumEndTime;
     uint256 createTime;

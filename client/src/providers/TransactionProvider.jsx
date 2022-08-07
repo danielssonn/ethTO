@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { TransactionContext } from '../context'
 import PropTypes from 'prop-types'
+import { CHAIN_MAP } from '../utils/constants'
 
 // ethereum object from window
 const { ethereum } = window
@@ -10,10 +11,11 @@ const TransactionProvider = ({ children }) => {
     // states
     const [currentSigner, setCurrentSigner] = useState('')
     const [currentAccount, setCurrentAccount] = useState('')
-    const [currentChain, setCurrentChain] = useState(31337)
+    const [currentChain, setCurrentChain] = useState(2500)
     const [ready, setReady] = useState(false)
     const [web3Provider] = useState(new ethers.providers.Web3Provider(ethereum))
-    const [alchemyWS, setAlchemyWS] = useState()
+    const [isDev, setIsDev] = useState(false)
+    const [provider, setProvider] = useState()
 
     // check if wallet is connect
     const checkIfWalletIsConnected = async () => {
@@ -52,6 +54,7 @@ const TransactionProvider = ({ children }) => {
             if (!ethereum) return alert('Please install MetaMask.')
 
             const chainId = await ethereum.request({ method: 'eth_chainId' })
+            console.log(chainId)
             setCurrentChain(Number.parseInt(chainId))
         } catch (error) {
             console.error(error)
@@ -76,14 +79,25 @@ const TransactionProvider = ({ children }) => {
     }, [currentSigner])
 
     useEffect(() => {
-        /* eslint-disable no-undef */
-        setAlchemyWS(
-            ethers.providers.AlchemyProvider.getWebSocketProvider(
-                currentChain,
-                ALCHEMY_ID
+        const dev = [2500, 2501].includes(currentChain)
+        setIsDev(dev)
+
+        if (dev) {
+            setProvider(
+                new ethers.providers.JsonRpcProvider(
+                    CHAIN_MAP.get(currentChain).rpc
+                )
             )
-        )
-        /* eslint-enable no-undef */
+        } else {
+            /* eslint-disable no-undef */
+            setProvider(
+                ethers.providers.AlchemyProvider.getWebSocketProvider(
+                    currentChain,
+                    ALCHEMY_ID
+                )
+            )
+            /* eslint-enable no-undef */
+        }
     }, [currentChain])
 
     // TODO: add a nicer loading state
@@ -94,11 +108,12 @@ const TransactionProvider = ({ children }) => {
     return (
         <TransactionContext.Provider
             value={{
-                alchemyWS,
                 connectWallet,
                 currentAccount,
                 currentSigner,
                 currentChain,
+                isDev,
+                provider,
                 web3Provider,
             }}
         >

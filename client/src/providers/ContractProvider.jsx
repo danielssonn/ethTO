@@ -5,7 +5,8 @@ import { ContractContext } from '../context'
 import useWeb3 from '../hooks/use-web3'
 import { CHAIN_MAP } from '../utils/constants'
 
-import abi from '../../../protocol/data/abi/NFTMarket.json'
+import { abi as receiver } from '../../../protocol/artifacts/contracts/SendAckReceiver.sol/SendAckReceiver.json'
+import { abi as sender } from '../../../protocol/artifacts/contracts/SendAckSender.sol/SendAckSender.json'
 
 const reducer = (state, action) => {
     return {
@@ -15,20 +16,25 @@ const reducer = (state, action) => {
 }
 
 const ContractProvider = ({ children }) => {
-    const { alchemyWS, currentChain, currentSigner } = useWeb3()
+    const { currentChain, currentSigner, provider } = useWeb3()
     const [listings, dispatch] = useReducer(reducer, {})
     const [contract, setContract] = useState()
 
     const fetchListingsFrom = async (chainId) => {
-        const chainConfig = CHAIN_MAP[chainId]
+        const chainConfig = CHAIN_MAP.get(chainId)
+        console.log(chainConfig)
         const contract = new ethers.Contract(
-            chainConfig.contract,
-            abi,
-            alchemyWS
+            chainConfig.sender,
+            sender,
+            provider
         )
         try {
-            const listings = await contract.listedNFTs()
-            dispatch({ [chainConfig.name]: listings })
+            const listings = await contract.getListing(
+                '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                1
+            )
+            console.log(listings)
+            dispatch({ [chainConfig.name.toLowerCase()]: listings })
         } catch (e) {
             console.error(`Failed to fetch listings for ${chainConfig.name}`, e)
         }
@@ -38,8 +44,8 @@ const ContractProvider = ({ children }) => {
         if (currentSigner) {
             setContract(
                 new ethers.Contract(
-                    CHAIN_MAP[currentChain].contract,
-                    abi,
+                    CHAIN_MAP.get(currentChain).receiver,
+                    receiver,
                     currentSigner
                 )
             )
@@ -47,11 +53,11 @@ const ContractProvider = ({ children }) => {
     }, [currentChain, currentSigner])
 
     useEffect(() => {
-        if (currentChain && alchemyWS) {
+        if (currentChain) {
             // TODO: fetch listings from all supported chains
             fetchListingsFrom(currentChain)
         }
-    }, [currentChain, alchemyWS])
+    }, [currentChain])
 
     return (
         <ContractContext.Provider
