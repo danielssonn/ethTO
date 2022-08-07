@@ -1,7 +1,7 @@
 const navigation = {
     solutions: [
-        { name: 'Rent', href: '#' },
-        { name: 'Lend', href: '#' },
+        { name: 'Arrivals', href: '/arrivals' },
+        { name: 'Departures', href: '/departures' },
     ],
     legal: [
         { name: 'Privacy', href: '#' },

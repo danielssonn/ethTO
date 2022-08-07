@@ -83,7 +83,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Rent() {
+export default function Arrival() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [isNftModalOpen, setIsNftModalOpen] = useState(false)
     const [currentNft, setCurrentNft] = useState(null)

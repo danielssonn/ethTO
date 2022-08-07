@@ -12,7 +12,7 @@ export default function Landing() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (currentAccount) navigate('/rent')
+        if (currentAccount) navigate('/arrivals')
     }, [currentAccount])
 
     return (
