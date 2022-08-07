@@ -1,7 +1,7 @@
 const navigation = {
     solutions: [
-        { name: 'Rent', href: '#' },
-        { name: 'Lend', href: '#' },
+        { name: 'Arrivals', href: '/arrivals' },
+        { name: 'Departures', href: '/departures' },
     ],
     legal: [
         { name: 'Privacy', href: '#' },
@@ -36,7 +36,7 @@ export default function Footer() {
                         <img
                             className="h-10"
                             src="https://tailwindui.com/img/logos/workflow-mark-gray-300.svg"
-                            alt="Conveyr"
+                            alt="Conveyr logo"
                         />
                         <p className="text-gray-500 text-base">
                             The future is multi-chain, but where is your wallet?

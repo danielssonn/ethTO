@@ -17,6 +17,7 @@ export default function NftCard({ nft, onClick }) {
             <div className="mt-2 font-medium text-gray-900 flex items-center">
                 <img
                     src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
+                    alt=""
                     className="w-8 h-8 rounded-md object-center object-cover"
                 />
                 <p className="ml-2">{nft?.price}</p>

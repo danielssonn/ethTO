@@ -12,7 +12,7 @@ export default function Header() {
                         <img
                             className="h-8 w-auto sm:h-10"
                             src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                            alt="Conveyr"
+                            alt="Conveyr logo"
                         />
                     </a>
                 </div>
@@ -24,7 +24,7 @@ export default function Header() {
                 </div>
                 <Popover.Group as="nav" className="hidden md:flex space-x-10">
                     <a
-                        href="/rent"
+                        href="/arrivals"
                         className="text-base font-medium text-gray-500 hover:text-gray-900"
                     >
                         Arrivals
@@ -65,7 +65,7 @@ export default function Header() {
                                     <img
                                         className="h-8 w-auto"
                                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                        alt="Conveyr"
+                                        alt="Conveyr logo"
                                     />
                                 </div>
                                 <div className="-mr-2">
