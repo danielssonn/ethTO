@@ -1,7 +1,6 @@
-import { networks } from '@axelar-network/axelar-local-dev'
 import { BigNumber } from 'ethers'
 import { setupNetworks } from '../scripts/deploy'
-import { Payment, Collateral, nftListing } from './types'
+import { nftListing } from './types'
 
 export async function rent(
   lenderChainName: string,
@@ -24,7 +23,7 @@ export async function rent(
   } else {
     await swingSwap()
 
-    const renterMarketPlace = deployment.contract
+    const renterMarketPlace = renterDeployment.contract
     const rentTx = await renterMarketPlace.executeRent(
       lenderChainName,
       nftAddress,

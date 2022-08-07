@@ -2,12 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from 'ethers'
-import type { Provider } from '@ethersproject/providers'
+import { Contract, Signer, utils } from "ethers";
+import type { Provider } from "@ethersproject/providers";
 import type {
   INFTMarket,
   INFTMarketInterface,
-} from '../../contracts/INFTMarket'
+} from "../../contracts/INFTMarket";
 
 const _abi = [
   {
@@ -15,431 +15,504 @@ const _abi = [
     inputs: [
       {
         indexed: false,
-        internalType: 'address',
-        name: 'lender',
-        type: 'address',
+        internalType: "address",
+        name: "lender",
+        type: "address",
       },
       {
         indexed: false,
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
     ],
-    name: 'CancelNFTListing',
-    type: 'event',
+    name: "CancelNFTListing",
+    type: "event",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
       {
         components: [
           {
-            internalType: 'address',
-            name: 'renter',
-            type: 'address',
+            internalType: "address",
+            name: "renter",
+            type: "address",
           },
           {
-            internalType: 'uint256',
-            name: 'expiryTime',
-            type: 'uint256',
+            internalType: "uint256",
+            name: "expiryTime",
+            type: "uint256",
           },
         ],
         indexed: false,
-        internalType: 'struct Rental',
-        name: 'rental',
-        type: 'tuple',
+        internalType: "struct Rental",
+        name: "rental",
+        type: "tuple",
       },
     ],
-    name: 'NFTLent',
-    type: 'event',
+    name: "NFTLent",
+    type: "event",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: 'address',
-        name: 'lender',
-        type: 'address',
+        internalType: "address",
+        name: "lender",
+        type: "address",
       },
       {
         indexed: false,
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'maximumEndTime',
-        type: 'uint256',
-      },
-      {
-        components: [
-          {
-            internalType: 'address',
-            name: 'paymentToken',
-            type: 'address',
-          },
-          {
-            internalType: 'uint256',
-            name: 'pricePerDay',
-            type: 'uint256',
-          },
-        ],
-        indexed: false,
-        internalType: 'struct Payment',
-        name: 'payment',
-        type: 'tuple',
+        internalType: "uint256",
+        name: "maximumEndTime",
+        type: "uint256",
       },
       {
         components: [
           {
-            internalType: 'address',
-            name: 'collateralToken',
-            type: 'address',
+            internalType: "address",
+            name: "paymentToken",
+            type: "address",
           },
           {
-            internalType: 'uint256',
-            name: 'collateralAmount',
-            type: 'uint256',
+            internalType: "uint256",
+            name: "pricePerDay",
+            type: "uint256",
           },
         ],
         indexed: false,
-        internalType: 'struct Collateral',
-        name: 'collateral',
-        type: 'tuple',
+        internalType: "struct Payment",
+        name: "payment",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "collateralToken",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "collateralAmount",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Collateral",
+        name: "collateral",
+        type: "tuple",
       },
     ],
-    name: 'NFTListed',
-    type: 'event',
+    name: "NFTListed",
+    type: "event",
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
       {
         components: [
           {
-            internalType: 'address',
-            name: 'renter',
-            type: 'address',
+            internalType: "address",
+            name: "renter",
+            type: "address",
           },
           {
-            internalType: 'uint256',
-            name: 'expiryTime',
-            type: 'uint256',
+            internalType: "uint256",
+            name: "expiryTime",
+            type: "uint256",
           },
         ],
         indexed: false,
-        internalType: 'struct Rental',
-        name: 'rental',
-        type: 'tuple',
+        internalType: "struct Rental",
+        name: "rental",
+        type: "tuple",
       },
     ],
-    name: 'NFTRented',
-    type: 'event',
+    name: "NFTRented",
+    type: "event",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
     ],
-    name: 'cancelNFTListing',
+    name: "cancelNFTListing",
     outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
     ],
-    name: 'getListing',
+    name: "getListing",
     outputs: [
       {
         components: [
           {
-            internalType: 'address',
-            name: 'lender',
-            type: 'address',
+            internalType: "address",
+            name: "lender",
+            type: "address",
           },
           {
-            internalType: 'uint256',
-            name: 'maximumEndTime',
-            type: 'uint256',
+            internalType: "uint256",
+            name: "maximumEndTime",
+            type: "uint256",
           },
           {
-            internalType: 'uint256',
-            name: 'createTime',
-            type: 'uint256',
-          },
-          {
-            components: [
-              {
-                internalType: 'address',
-                name: 'renter',
-                type: 'address',
-              },
-              {
-                internalType: 'uint256',
-                name: 'expiryTime',
-                type: 'uint256',
-              },
-            ],
-            internalType: 'struct Rental',
-            name: 'rental',
-            type: 'tuple',
+            internalType: "uint256",
+            name: "createTime",
+            type: "uint256",
           },
           {
             components: [
               {
-                internalType: 'address',
-                name: 'paymentToken',
-                type: 'address',
+                internalType: "address",
+                name: "renter",
+                type: "address",
               },
               {
-                internalType: 'uint256',
-                name: 'pricePerDay',
-                type: 'uint256',
+                internalType: "uint256",
+                name: "expiryTime",
+                type: "uint256",
               },
             ],
-            internalType: 'struct Payment',
-            name: 'payment',
-            type: 'tuple',
+            internalType: "struct Rental",
+            name: "rental",
+            type: "tuple",
           },
           {
             components: [
               {
-                internalType: 'address',
-                name: 'collateralToken',
-                type: 'address',
+                internalType: "address",
+                name: "paymentToken",
+                type: "address",
               },
               {
-                internalType: 'uint256',
-                name: 'collateralAmount',
-                type: 'uint256',
+                internalType: "uint256",
+                name: "pricePerDay",
+                type: "uint256",
               },
             ],
-            internalType: 'struct Collateral',
-            name: 'collateral',
-            type: 'tuple',
+            internalType: "struct Payment",
+            name: "payment",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "collateralToken",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "collateralAmount",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Collateral",
+            name: "collateral",
+            type: "tuple",
           },
         ],
-        internalType: 'struct NFTListing',
-        name: '',
-        type: 'tuple',
+        internalType: "struct NFTListing",
+        name: "",
+        type: "tuple",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
       {
-        internalType: 'uint16',
-        name: 'daysToRent',
-        type: 'uint16',
+        internalType: "uint16",
+        name: "daysToRent",
+        type: "uint16",
       },
       {
-        internalType: 'bool',
-        name: 'isNativeChain',
-        type: 'bool',
+        internalType: "bool",
+        name: "isNativeChain",
+        type: "bool",
       },
     ],
-    name: 'lend',
+    name: "lend",
     outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
       {
-        internalType: 'uint256',
-        name: 'maximumEndTime',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "maximumEndTime",
+        type: "uint256",
       },
       {
         components: [
           {
-            internalType: 'address',
-            name: 'paymentToken',
-            type: 'address',
+            internalType: "address",
+            name: "paymentToken",
+            type: "address",
           },
           {
-            internalType: 'uint256',
-            name: 'pricePerDay',
-            type: 'uint256',
+            internalType: "uint256",
+            name: "pricePerDay",
+            type: "uint256",
           },
         ],
-        internalType: 'struct Payment',
-        name: 'payment',
-        type: 'tuple',
+        internalType: "struct Payment",
+        name: "payment",
+        type: "tuple",
       },
       {
         components: [
           {
-            internalType: 'address',
-            name: 'collateralToken',
-            type: 'address',
+            internalType: "address",
+            name: "collateralToken",
+            type: "address",
           },
           {
-            internalType: 'uint256',
-            name: 'collateralAmount',
-            type: 'uint256',
+            internalType: "uint256",
+            name: "collateralAmount",
+            type: "uint256",
           },
         ],
-        internalType: 'struct Collateral',
-        name: 'collateral',
-        type: 'tuple',
+        internalType: "struct Collateral",
+        name: "collateral",
+        type: "tuple",
       },
     ],
-    name: 'listNFT',
+    name: "listNFT",
     outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
       {
-        internalType: 'uint16',
-        name: 'daysToRent',
-        type: 'uint16',
+        internalType: "uint16",
+        name: "daysToRent",
+        type: "uint16",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "lender",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "maximumEndTime",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "createTime",
+            type: "uint256",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "renter",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "expiryTime",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Rental",
+            name: "rental",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "paymentToken",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "pricePerDay",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Payment",
+            name: "payment",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "collateralToken",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "collateralAmount",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Collateral",
+            name: "collateral",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct NFTListing",
+        name: "listing",
+        type: "tuple",
       },
     ],
-    name: 'rent',
+    name: "rent",
     outputs: [
       {
-        internalType: 'string',
-        name: '',
-        type: 'string',
+        internalType: "string",
+        name: "",
+        type: "string",
       },
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'nftAddress',
-        type: 'address',
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
     ],
-    name: 'returnRentedNFT',
+    name: "returnRentedNFT",
     outputs: [
       {
-        internalType: 'uint256',
-        name: 'txId',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "txId",
+        type: "uint256",
       },
     ],
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
   },
-]
+];
 
 export class INFTMarket__factory {
-  static readonly abi = _abi
+  static readonly abi = _abi;
   static createInterface(): INFTMarketInterface {
-    return new utils.Interface(_abi) as INFTMarketInterface
+    return new utils.Interface(_abi) as INFTMarketInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
   ): INFTMarket {
-    return new Contract(address, _abi, signerOrProvider) as INFTMarket
+    return new Contract(address, _abi, signerOrProvider) as INFTMarket;
   }
 }

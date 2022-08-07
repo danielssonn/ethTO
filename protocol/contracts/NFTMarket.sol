@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
-import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
-import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Receiver.sol";
-import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
-import "./INFTMarket.sol";
-import "./NFTListing.sol";
-import "./Payment.sol";
-import "./Collateral.sol";
-import "./Rental.sol";
-import "hardhat/console.sol";
+import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
+import '@openzeppelin/contracts/token/ERC721/IERC721.sol';
+import '@openzeppelin/contracts/token/ERC1155/IERC1155.sol';
+import '@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol';
+import '@openzeppelin/contracts/token/ERC1155/utils/ERC1155Receiver.sol';
+import '@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol';
+// import './INFTMarket.sol';
+import './NFTListing.sol';
+import './Payment.sol';
+import './Collateral.sol';
+import './Rental.sol';
+import 'hardhat/console.sol';
 
 contract NFTMarket is
     INFTMarket,
@@ -25,13 +25,24 @@ contract NFTMarket is
     Ownable,
     ReentrancyGuard
 {
+    event NFTListed(
+        address lender,
+        address nftAddress,
+        uint256 tokenId,
+        uint256 maximumEndTime,
+        Payment payment,
+        Collateral collateral
+    );
+
+    event NFTRented(address nftAddress, uint256 tokenId, Rental rental);
+
     // The main mapping maintaing the NFT listings.
     // Address represents the NFTContract address
     // uint256 represents the tokenId of the NFT
     mapping(address => mapping(uint256 => NFTListing)) internal listedNFTs;
 
     function msgSender() internal view virtual returns (address) {
-      return msg.sender;
+        return msg.sender;
     }
 
     /**
@@ -73,82 +84,99 @@ contract NFTMarket is
     /**
      * Renter can rent NFT
      */
-    function rent(
+    function _verifyRentConditions(
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent,
-        nftListing memory listing,
-    ) public payable override nonReentrant returns(string memory, uint256) {
+    ) public nonReentrant {
+        nftListing storage listing = listedNFTs[nftAddress][tokenId]
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
 
-        require(listing.createTime != 0, "This listing does not exist");
-        require(daysToRent > 0, "The rental period must be greater than 0 days");
-        require(rentalExpiry <= listing.maximumEndTime, "Rental timeframe too long.");
-        require(listing.rental.renter == address(0) && listing.rental.expiryTime == 0, "This item is already rented.");
-
-        ERC20 paymentToken = ERC20(listing.payment.paymentToken);
-        ERC20 collateralToken = ERC20(listing.collateral.collateralToken);
-        uint256 rentalCost = daysToRent * listing.payment.pricePerDay;
-
-        require(paymentToken.balanceOf(msgSender()) >= rentalCost, "Insufficient payment funds");
-        require(collateralToken.balanceOf(msgSender()) >= listing.collateral.collateralAmount, "Insufficient collateral funds");
-
-        if (listing.payment.paymentToken == listing.collateral.collateralToken) {
-            uint256 totalCost = rentalCost + listing.collateral.collateralAmount;
-            require(paymentToken.balanceOf(msgSender()) >= totalCost, "Insufficient combined funds");
-        }
-
-        // Lock in the collateral in this contract
-        collateralToken.transferFrom(msgSender(), address(this), listing.collateral.collateralAmount);
-
-        // Save the rental on the listing
-        listing.rental = Rental(msgSender(), rentalExpiry);
-        listedNFTs[nftAddress][tokenId] = listing;
-
-        // check https://github.com/axelarnetwork/axelar-local-gmp-examples/tree/main/examples/nft-auctionhouse for the axealar hookup
-        emit NFTRented(
-            nftAddress,
-            tokenId,
-            listing.rental
+        require(listing.createTime != 0, 'This listing does not exist');
+        require(
+            daysToRent > 0,
+            'The rental period must be greater than 0 days'
         );
-
-        // needed to perform payment via Axelar
-        return (paymentToken.symbol(), rentalCost);
+        require(
+            rentalExpiry <= listing.maximumEndTime,
+            'Rental timeframe too long.'
+        );
+        require(
+            listing.rental.renter == address(0) &&
+                listing.rental.expiryTime == 0,
+            'This item is already rented.'
+        );
     }
 
     /**
      * Used to mark an nft as rented and transfer the NFT
      */
-    function lend(
-        address nftAddress,
-        uint256 tokenId,
+    function _verifyPayment(
+        Payment memory payment,
+        Collateral memory collateral,
         uint16 daysToRent,
-        bool isNativeChain
-    ) public payable override nonReentrant {
-        uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
-        Rental memory rental = Rental(msgSender(), rentalExpiry);
+    ) internal nonReentrant {
 
-        if (!isNativeChain) {
-            listedNFTs[nftAddress][tokenId].rental = rental;
+        ERC20 paymentTokenContract = ERC20(payment.paymentToken);
+        ERC20 collateralTokenContract = ERC20(collateral.collateralToken);
+        uint256 rentalCost = daysToRent * pricePerDay;
+
+        if (
+            listing.payment.paymentToken == listing.collateral.collateralToken
+            ) {
+            uint256 totalCost = rentalCost +
+                listing.collateral.collateralAmount;
+            require(
+                paymentToken.balanceOf(msgSender()) >= totalCost,
+                'Insufficient combined funds'
+            );
+        } else {
+            require(
+                paymentTokenContract.balanceOf(msgSender()) >= rentalCost,
+               'Insufficient payment funds'
+            );
+            require(
+                collateralTokenContract.balanceOf(msgSender()) >=
+                listing.collateral.collateralAmount,
+                'Insufficient collateral funds'
+            );
         }
 
-        // Transfer NFT to renter address
-        IERC721(nftAddress).safeTransferFrom(address(this), msgSender(), tokenId);
-
-        emit NFTLent(
-            nftAddress,
-            tokenId,
-            rental
+        // lock in the collateral
+        collateralTokenContract.transferFrom(
+            msgSender(),
+            address(this),
+            listing.collateral.collateralAmount
         );
+    }
+
+    /**
+     * update listing information after payment has been received
+     */
+    function _updateListing(
+        address nftAddress,
+        uint256 tokenId,
+        address renter,
+        uint16 daysToRent,
+    ) internal {
+        NFTListing storage listing = listedNFTs[nftAddress][tokenId];
+        uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
+        Rental memory rental = Rental(renter, rentalExpiry);
+        listing.rental = rental
+
+        // check https://github.com/axelarnetwork/axelar-local-gmp-examples/tree/main/examples/nft-auctionhouse for the axealar hookup
+        emit NFTRented(nftAddress, tokenId, rental);
     }
 
     /**
      * Renter returns NFT to the lender, lender gets paid
      */
-    function returnRentedNFT(
-        address nftAddress,
-        uint256 tokenId
-    ) public payable override returns (uint256 txId) {
+    function returnRentedNFT(address nftAddress, uint256 tokenId)
+        public
+        payable
+        override
+        returns (uint256 txId)
+    {
         // get the NFT from the renter
         // calculate royalties, fees etc. get a cut
         // return collateral to the renter
@@ -193,8 +221,7 @@ contract NFTMarket is
             lender == _owner ||
                 IERC721(nftAddress).getApproved(tokenId) == lender ||
                 IERC721(nftAddress).isApprovedForAll(_owner, lender),
-            "You must be the owner or approved to do this ..."
+            'You must be the owner or approved to do this ...'
         );
     }
-
 }
