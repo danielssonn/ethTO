@@ -1,18 +1,24 @@
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
+import cn from 'classnames'
 
-import Button from '../components/Button'
 import useSwing from '../hooks/use-swing'
 import useWeb3 from '../hooks/use-web3'
 
-const SwingConverter = ({ amount, fromChain, fromToken, toChain, toToken }) => {
-    const { fetchQuote, swingReady } = useSwing()
+const SwingSwapper = ({ active, onComplete, params }) => {
+    const { fetchQuote, swingReady, transferState } = useSwing()
     const { currentAccount } = useWeb3()
     const [quote, setQuote] = useState(null)
     const [quoteLoading, setQuoteLoading] = useState(null)
     const [error, setError] = useState(null)
 
-    const getQuote = async (amount, fromChain, fromToken, toChain, toToken) => {
+    const getQuote = async ({
+        amount,
+        fromChain,
+        fromToken,
+        toChain,
+        toToken,
+    }) => {
         setQuote(null)
         setQuoteLoading(true)
 
@@ -21,7 +27,7 @@ const SwingConverter = ({ amount, fromChain, fromToken, toChain, toToken }) => {
             toChain,
             fromToken,
             toToken,
-            amount,
+            amount: amount.toString(),
             fromUserAddress: currentAccount,
         })
 
@@ -29,23 +35,25 @@ const SwingConverter = ({ amount, fromChain, fromToken, toChain, toToken }) => {
         setQuote(quote)
     }
 
-    const confirmTransfer = async () => {}
-
     useEffect(() => {
-        if (currentAccount && swingReady) {
+        if (active && currentAccount && swingReady) {
             try {
-                getQuote(amount, fromChain, fromToken, toChain, toToken)
+                getQuote(params)
             } catch (e) {
                 setError(e.message)
             }
         }
-    }, [currentAccount, swingReady, amount, fromChain, toChain])
+    }, [active, currentAccount, swingReady, params])
 
     return (
-        <div className="mt-4">
+        <section
+            className={cn({ hidden: !active })}
+            aria-labelledby="rental-info-heading"
+        >
             <div>
                 {error && <p>{error}</p>}
-                {quoteLoading && 'Loading Quote...'}
+                {quoteLoading && <p>Loading Quote...</p>}
+                {transferState && <p>{transferState}</p>}
                 {quote && (
                     <>
                         <h2 className="text-xl font-bold mb-4 mt-4">
@@ -88,13 +96,8 @@ const SwingConverter = ({ amount, fromChain, fromToken, toChain, toToken }) => {
                     </>
                 )}
             </div>
-            <div>
-                <Button disabled={!swingReady} onClick={confirmTransfer}>
-                    Confirm Transfer
-                </Button>
-            </div>
-        </div>
+        </section>
     )
 }
 
-export default SwingConverter
+export default SwingSwapper

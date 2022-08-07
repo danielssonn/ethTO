@@ -16,7 +16,10 @@ const App = () => {
                 <Route path="/departures" element={<Departures />} />
                 <Route path="/" element={<Landing />} />
                 <Route path="/rent" element={<Rent />} />
-                <Route path="/rent-checkout" element={<RentCheckout />} />
+                <Route
+                    path="/rent-checkout/:chainName/:address/:tokenId"
+                    element={<RentCheckout />}
+                />
             </Routes>
         </BrowserRouter>
     )

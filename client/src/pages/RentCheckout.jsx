@@ -1,6 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronRightIcon } from '@heroicons/react/solid'
-import { RadioGroup } from '@headlessui/react'
+import { useParams } from 'react-router-dom'
+
+import RentDaysPicker from '../components/RentDaysPicker'
+import SwingSwapper from '../components/SwingSwapper'
 
 const steps = [
     { name: 'Select NFT', href: '/rent', status: 'complete' },
@@ -17,23 +20,33 @@ const nft = {
         'https://ipfs.io/ipfs/QmYxT4LnK8sqLupjbS6eRvu1si7Ly2wFQAqFebxhWntcf6',
     imageAlt: 'Bored Ape Yacht Club #3',
 }
-const days = [
-    { name: '1', available: true },
-    { name: '2', available: true },
-    { name: '3', available: true },
-    { name: '5', available: true },
-    { name: '7', available: true },
-    { name: '14', available: true },
-    { name: '21', available: true },
-    { name: '28', available: true },
-]
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
 
 export default function RentCheckout() {
-    const [selectedDay, setSelectedDay] = useState(days[2])
+    const { address, chainName, tokenId } = useParams()
+    const [daysToRent, setDaysToRent] = useState(2)
+    const [step, setStep] = useState(1)
+    const [amount, setAmount] = useState()
+
+    const handleSwapComplete = () => {
+        setStep(step + 1)
+    }
+
+    const handleContinue = (event) => {
+        event.preventDefault()
+        setStep(step + 1)
+    }
+
+    useEffect(() => {
+        // TODO: get the url params to
+        // get the listing data.
+        console.log(address, chainName, tokenId)
+    }, [address, chainName, tokenId])
+
+    useEffect(() => {
+        // TODO; get the price from the listing
+        const price = 0.01
+        setAmount(price * daysToRent)
+    }, [daysToRent])
 
     return (
         <div className="bg-white">
@@ -134,95 +147,27 @@ export default function RentCheckout() {
                 </section>
                 <form className="pt-16 pb-36 px-4 sm:px-6 lg:pb-16 lg:px-0 lg:row-start-1 lg:col-start-1">
                     <div className="max-w-lg mx-auto lg:max-w-none">
-                        <section aria-labelledby="rental-info-heading">
-                            <h2
-                                id="rental-info-heading"
-                                className="text-lg font-medium text-gray-900"
-                            >
-                                Rental information
-                            </h2>
-                            <div className="mt-6">
-                                <div className="flex items-center justify-between">
-                                    <h4 className="text-sm text-gray-900 font-medium">
-                                        Minimum days
-                                    </h4>
-                                </div>
-                                <RadioGroup
-                                    value={selectedDay}
-                                    onChange={setSelectedDay}
-                                    className="mt-4"
-                                >
-                                    <RadioGroup.Label className="sr-only">
-                                        Choose a day
-                                    </RadioGroup.Label>
-                                    <div className="grid grid-cols-4 gap-4">
-                                        {days.map((day) => (
-                                            <RadioGroup.Option
-                                                key={day.name}
-                                                value={day}
-                                                disabled={!day.available}
-                                                className={({ active }) =>
-                                                    classNames(
-                                                        day.available
-                                                            ? 'bg-white shadow-sm text-gray-900 cursor-pointer'
-                                                            : 'bg-gray-50 text-gray-200 cursor-not-allowed',
-                                                        active
-                                                            ? 'ring-2 ring-green-500'
-                                                            : '',
-                                                        'group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1'
-                                                    )
-                                                }
-                                            >
-                                                {({ active, checked }) => (
-                                                    <>
-                                                        <RadioGroup.Label as="span">
-                                                            {day.name}
-                                                        </RadioGroup.Label>
-                                                        {day.available ? (
-                                                            <span
-                                                                className={classNames(
-                                                                    active
-                                                                        ? 'border'
-                                                                        : 'border-2',
-                                                                    checked
-                                                                        ? 'border-green-500'
-                                                                        : 'border-transparent',
-                                                                    'absolute -inset-px rounded-md pointer-events-none'
-                                                                )}
-                                                                aria-hidden="true"
-                                                            />
-                                                        ) : (
-                                                            <span
-                                                                aria-hidden="true"
-                                                                className="absolute -inset-px rounded-md border-2 border-gray-200 pointer-events-none"
-                                                            >
-                                                                <svg
-                                                                    className="absolute inset-0 w-full h-full text-gray-200 stroke-2"
-                                                                    viewBox="0 0 100 100"
-                                                                    preserveAspectRatio="none"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <line
-                                                                        x1={0}
-                                                                        y1={100}
-                                                                        x2={100}
-                                                                        y2={0}
-                                                                        vectorEffect="non-scaling-stroke"
-                                                                    />
-                                                                </svg>
-                                                            </span>
-                                                        )}
-                                                    </>
-                                                )}
-                                            </RadioGroup.Option>
-                                        ))}
-                                    </div>
-                                </RadioGroup>
-                            </div>
-                        </section>
+                        <RentDaysPicker
+                            active={step === 1}
+                            selectedDay={daysToRent}
+                            setSelectedDays={setDaysToRent}
+                        />
+                        <SwingSwapper
+                            active={step === 2}
+                            onComplete={handleSwapComplete}
+                            params={{
+                                amount,
+                                // TODO: get this data from the listing
+                                fromChain: 'polygon',
+                                fromToken: 'WETH',
+                                toChain: 'avalanche',
+                                toToken: 'AVAX',
+                            }}
+                        />
                         <div className="mt-10 pt-6 border-t border-gray-200 sm:flex sm:items-center sm:justify-between">
                             <button
                                 type="submit"
+                                onClick={handleContinue}
                                 className="w-full bg-green-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500 sm:ml-6 sm:order-last sm:w-auto"
                             >
                                 Continue
