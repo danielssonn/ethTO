@@ -41,6 +41,43 @@ const _abi = [
       {
         indexed: false,
         internalType: "address",
+        name: "nftAddress",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "renter",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "expiryTime",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Rental",
+        name: "rental",
+        type: "tuple",
+      },
+    ],
+    name: "NFTLent",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
         name: "lender",
         type: "address",
       },
@@ -262,6 +299,34 @@ const _abi = [
         type: "uint256",
       },
       {
+        internalType: "uint16",
+        name: "daysToRent",
+        type: "uint16",
+      },
+      {
+        internalType: "bool",
+        name: "isNativeChain",
+        type: "bool",
+      },
+    ],
+    name: "lend",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
         internalType: "uint256",
         name: "maximumEndTime",
         type: "uint256",
@@ -323,9 +388,93 @@ const _abi = [
         name: "daysToRent",
         type: "uint16",
       },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "lender",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "maximumEndTime",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "createTime",
+            type: "uint256",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "renter",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "expiryTime",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Rental",
+            name: "rental",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "paymentToken",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "pricePerDay",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Payment",
+            name: "payment",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "collateralToken",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "collateralAmount",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct Collateral",
+            name: "collateral",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct NFTListing",
+        name: "listing",
+        type: "tuple",
+      },
     ],
-    name: "rentNFT",
-    outputs: [],
+    name: "rent",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "payable",
     type: "function",
   },

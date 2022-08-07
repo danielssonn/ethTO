@@ -19,17 +19,17 @@ const {
 
 const config: HardhatUserConfig = {
   solidity: {
-    compilers: [{ version: '0.8.7' }, { version: '0.6.6' }],
+    compilers: [{ version: '0.8.9' }, { version: '0.6.6' }],
   },
   networks: {
-    goerli: {
-      url: ALCHEMY_GOERLI,
-      accounts: [`0x${PRIVATE_KEY}`],
-    },
+    // goerli: {
+    //   url: ALCHEMY_GOERLI,
+    //   accounts: [`0x${PRIVATE_KEY}`],
+    // },
     hardhat: {
-      forking: {
-        url: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY_MAINNET}`,
-      },
+      // forking: {
+      //   url: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY_MAINNET}`,
+      // },
       accounts: {
         accountsBalance: '10000000000000000000000000',
       },

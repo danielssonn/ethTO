@@ -93,7 +93,6 @@ export interface NFTMarketInterface extends utils.Interface {
     "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "rentNFT(address,uint256,uint16)": FunctionFragment;
     "returnRentedNFT(address,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -109,7 +108,6 @@ export interface NFTMarketInterface extends utils.Interface {
       | "onERC721Received"
       | "owner"
       | "renounceOwnership"
-      | "rentNFT"
       | "returnRentedNFT"
       | "supportsInterface"
       | "transferOwnership"
@@ -168,14 +166,6 @@ export interface NFTMarketInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "rentNFT",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
-  ): string;
-  encodeFunctionData(
     functionFragment: "returnRentedNFT",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
@@ -211,7 +201,6 @@ export interface NFTMarketInterface extends utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "rentNFT", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "returnRentedNFT",
     data: BytesLike
@@ -226,30 +215,15 @@ export interface NFTMarketInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "CancelNFTListing(address,address,uint256)": EventFragment;
     "NFTListed(address,address,uint256,uint256,tuple,tuple)": EventFragment;
     "NFTRented(address,uint256,tuple)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "CancelNFTListing"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NFTListed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NFTRented"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
-
-export interface CancelNFTListingEventObject {
-  lender: string;
-  nftAddress: string;
-  tokenId: BigNumber;
-}
-export type CancelNFTListingEvent = TypedEvent<
-  [string, string, BigNumber],
-  CancelNFTListingEventObject
->;
-
-export type CancelNFTListingEventFilter =
-  TypedEventFilter<CancelNFTListingEvent>;
 
 export interface NFTListedEventObject {
   lender: string;
@@ -377,13 +351,6 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    rentNFT(
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -454,13 +421,6 @@ export interface NFTMarket extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  rentNFT(
-    nftAddress: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
-    daysToRent: PromiseOrValue<BigNumberish>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   returnRentedNFT(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
@@ -529,13 +489,6 @@ export interface NFTMarket extends BaseContract {
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    rentNFT(
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -554,17 +507,6 @@ export interface NFTMarket extends BaseContract {
   };
 
   filters: {
-    "CancelNFTListing(address,address,uint256)"(
-      lender?: null,
-      nftAddress?: null,
-      tokenId?: null
-    ): CancelNFTListingEventFilter;
-    CancelNFTListing(
-      lender?: null,
-      nftAddress?: null,
-      tokenId?: null
-    ): CancelNFTListingEventFilter;
-
     "NFTListed(address,address,uint256,uint256,tuple,tuple)"(
       lender?: null,
       nftAddress?: null,
@@ -657,13 +599,6 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    rentNFT(
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -733,13 +668,6 @@ export interface NFTMarket extends BaseContract {
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    rentNFT(
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     returnRentedNFT(

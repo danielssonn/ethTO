@@ -11,131 +11,131 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+} from 'ethers'
+import type { FunctionFragment, Result } from '@ethersproject/abi'
+import type { Listener, Provider } from '@ethersproject/providers'
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../../common";
+} from '../../common'
 
 export interface IOracleClientInterface extends utils.Interface {
   functions: {
-    "requestAMLCheck(address)": FunctionFragment;
-    "requestEligibilityOffChain(address)": FunctionFragment;
-  };
+    'requestAMLCheck(address)': FunctionFragment
+    'requestEligibilityOffChain(address)': FunctionFragment
+  }
 
   getFunction(
-    nameOrSignatureOrTopic: "requestAMLCheck" | "requestEligibilityOffChain"
-  ): FunctionFragment;
+    nameOrSignatureOrTopic: 'requestAMLCheck' | 'requestEligibilityOffChain'
+  ): FunctionFragment
 
   encodeFunctionData(
-    functionFragment: "requestAMLCheck",
+    functionFragment: 'requestAMLCheck',
     values: [PromiseOrValue<string>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "requestEligibilityOffChain",
+    functionFragment: 'requestEligibilityOffChain',
     values: [PromiseOrValue<string>]
-  ): string;
+  ): string
 
   decodeFunctionResult(
-    functionFragment: "requestAMLCheck",
+    functionFragment: 'requestAMLCheck',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "requestEligibilityOffChain",
+    functionFragment: 'requestEligibilityOffChain',
     data: BytesLike
-  ): Result;
+  ): Result
 
-  events: {};
+  events: {}
 }
 
 export interface IOracleClient extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
-  attach(addressOrName: string): this;
-  deployed(): Promise<this>;
+  connect(signerOrProvider: Signer | Provider | string): this
+  attach(addressOrName: string): this
+  deployed(): Promise<this>
 
-  interface: IOracleClientInterface;
+  interface: IOracleClientInterface
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TEvent>>
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
+  ): Array<TypedListener<TEvent>>
+  listeners(eventName?: string): Array<Listener>
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  ): this
+  removeAllListeners(eventName?: string): this
+  off: OnEvent<this>
+  on: OnEvent<this>
+  once: OnEvent<this>
+  removeListener: OnEvent<this>
 
   functions: {
     requestAMLCheck(
       winner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     requestEligibilityOffChain(
       winner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-  };
+    ): Promise<ContractTransaction>
+  }
 
   requestAMLCheck(
     winner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   requestEligibilityOffChain(
     winner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   callStatic: {
     requestAMLCheck(
       winner: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<string>
 
     requestEligibilityOffChain(
       winner: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<string>;
-  };
+    ): Promise<string>
+  }
 
-  filters: {};
+  filters: {}
 
   estimateGas: {
     requestAMLCheck(
       winner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     requestEligibilityOffChain(
       winner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-  };
+    ): Promise<BigNumber>
+  }
 
   populateTransaction: {
     requestAMLCheck(
       winner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     requestEligibilityOffChain(
       winner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-  };
+    ): Promise<PopulatedTransaction>
+  }
 }

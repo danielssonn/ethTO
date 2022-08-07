@@ -13,6 +13,26 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "IAxelarGasService",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAxelarGasService__factory>;
+    getContractFactory(
+      name: "IUpgradable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IUpgradable__factory>;
+    getContractFactory(
+      name: "AxelarExecutable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AxelarExecutable__factory>;
+    getContractFactory(
+      name: "IAxelarExecutable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAxelarExecutable__factory>;
+    getContractFactory(
+      name: "IAxelarGateway",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAxelarGateway__factory>;
+    getContractFactory(
       name: "Ownable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Ownable__factory>;
@@ -88,7 +108,44 @@ declare module "hardhat/types/runtime" {
       name: "NFTMarket",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTMarket__factory>;
+    getContractFactory(
+      name: "NFTMarketExposed",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.NFTMarketExposed__factory>;
+    getContractFactory(
+      name: "SendAckReceiver",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SendAckReceiver__factory>;
+    getContractFactory(
+      name: "SendAckSender",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SendAckSender__factory>;
 
+    getContractAt(
+      name: "IAxelarGasService",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAxelarGasService>;
+    getContractAt(
+      name: "IUpgradable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IUpgradable>;
+    getContractAt(
+      name: "AxelarExecutable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AxelarExecutable>;
+    getContractAt(
+      name: "IAxelarExecutable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAxelarExecutable>;
+    getContractAt(
+      name: "IAxelarGateway",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAxelarGateway>;
     getContractAt(
       name: "Ownable",
       address: string,
@@ -184,6 +241,21 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.NFTMarket>;
+    getContractAt(
+      name: "NFTMarketExposed",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NFTMarketExposed>;
+    getContractAt(
+      name: "SendAckReceiver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SendAckReceiver>;
+    getContractAt(
+      name: "SendAckSender",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SendAckSender>;
 
     // default types
     getContractFactory(
