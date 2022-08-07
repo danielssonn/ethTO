@@ -5,7 +5,7 @@ import { RadioGroup } from '@headlessui/react'
 const steps = [
     { name: 'Select NFT', href: '/rent', status: 'complete' },
     { name: 'Rental Information', href: '#', status: 'current' },
-    { name: 'Swap Tokens', href: '#', status: 'upcoming' },
+    { name: 'Cross Chain Swap', href: '#', status: 'upcoming' },
     { name: 'Confirmation', href: '#', status: 'upcoming' },
 ]
 const nft = {
