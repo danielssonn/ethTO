@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
-import { CHAIN_MAP } from '../utils/constants'
 import { TransactionContext } from '../context'
 import PropTypes from 'prop-types'
 
-// ethereum object from window, initiate provider and signer
+// ethereum object from window
 const { ethereum } = window
-const provider = new ethers.providers.Web3Provider(ethereum)
 
-// context provider
 const TransactionProvider = ({ children }) => {
     // states
     const [currentSigner, setCurrentSigner] = useState('')
     const [currentAccount, setCurrentAccount] = useState('')
-    const [currentChain, setCurrentChain] = useState()
+    const [currentChain, setCurrentChain] = useState(31337)
     const [ready, setReady] = useState(false)
+    const [web3Provider] = useState(new ethers.providers.Web3Provider(ethereum))
+    const [alchemyWS, setAlchemyWS] = useState()
 
     // check if wallet is connect
     const checkIfWalletIsConnected = async () => {
@@ -25,7 +24,7 @@ const TransactionProvider = ({ children }) => {
 
             if (accounts.length) {
                 setCurrentAccount(accounts[0])
-                setCurrentSigner(provider.getSigner())
+                setCurrentSigner(web3Provider.getSigner())
             } else {
                 console.log('No accounts found')
             }
@@ -42,7 +41,7 @@ const TransactionProvider = ({ children }) => {
                 method: 'eth_requestAccounts',
             })
             setCurrentAccount(accounts[0])
-            setCurrentSigner(provider.getSigner())
+            setCurrentSigner(web3Provider.getSigner())
         } catch (error) {
             console.error(error)
         }
@@ -53,7 +52,7 @@ const TransactionProvider = ({ children }) => {
             if (!ethereum) return alert('Please install MetaMask.')
 
             const chainId = await ethereum.request({ method: 'eth_chainId' })
-            setCurrentChain(CHAIN_MAP.get(Number.parseInt(chainId)))
+            setCurrentChain(Number.parseInt(chainId))
         } catch (error) {
             console.error(error)
         }
@@ -76,6 +75,17 @@ const TransactionProvider = ({ children }) => {
         }
     }, [currentSigner])
 
+    useEffect(() => {
+        /* eslint-disable no-undef */
+        setAlchemyWS(
+            ethers.providers.AlchemyProvider.getWebSocketProvider(
+                currentChain,
+                ALCHEMY_ID
+            )
+        )
+        /* eslint-enable no-undef */
+    }, [currentChain])
+
     // TODO: add a nicer loading state
     if (!ready) {
         return <>Loading...</>
@@ -84,10 +94,12 @@ const TransactionProvider = ({ children }) => {
     return (
         <TransactionContext.Provider
             value={{
+                alchemyWS,
                 connectWallet,
                 currentAccount,
                 currentSigner,
                 currentChain,
+                web3Provider,
             }}
         >
             {children}
