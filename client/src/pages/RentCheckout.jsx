@@ -72,7 +72,7 @@ export default function RentCheckout() {
                             <span className="sr-only">Workflow</span>
                             <img
                                 src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-                                alt=""
+                                alt="Conveyr logo"
                                 className="h-8 w-auto"
                             />
                         </a>

@@ -105,7 +105,7 @@ export default function Landing() {
                                             <img
                                                 className="h-8 w-auto sm:h-10"
                                                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                                alt=""
+                                                alt="Conveyr logo"
                                             />
                                         </a>
                                         <div className="-mr-2 flex items-center md:hidden">
@@ -152,7 +152,7 @@ export default function Landing() {
                                             <img
                                                 className="h-8 w-auto"
                                                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                                alt=""
+                                                alt="Conveyr logo"
                                             />
                                         </div>
                                         <div className="-mr-2">
