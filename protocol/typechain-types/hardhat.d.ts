@@ -97,10 +97,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "AxelarMarketExecutor",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.AxelarMarketExecutor__factory>;
-    getContractFactory(
       name: "DummyCoin",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.DummyCoin__factory>;
@@ -116,6 +112,10 @@ declare module "hardhat/types/runtime" {
       name: "NFTMarket",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTMarket__factory>;
+    getContractFactory(
+      name: "NFTMarketExposed",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.NFTMarketExposed__factory>;
     getContractFactory(
       name: "SendAckReceiver",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -231,11 +231,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "AxelarMarketExecutor",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.AxelarMarketExecutor>;
-    getContractAt(
       name: "DummyCoin",
       address: string,
       signer?: ethers.Signer
@@ -255,6 +250,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.NFTMarket>;
+    getContractAt(
+      name: "NFTMarketExposed",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NFTMarketExposed>;
     getContractAt(
       name: "SendAckReceiver",
       address: string,

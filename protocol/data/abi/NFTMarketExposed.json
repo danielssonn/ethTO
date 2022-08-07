@@ -476,5 +476,108 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "nftAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "renter",
+        "type": "address"
+      },
+      {
+        "internalType": "uint16",
+        "name": "daysToRent",
+        "type": "uint16"
+      }
+    ],
+    "name": "updateListing",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "renter",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "paymentToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pricePerDay",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Payment",
+        "name": "payment",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "collateralToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Collateral",
+        "name": "collateral",
+        "type": "tuple"
+      },
+      {
+        "internalType": "uint16",
+        "name": "daysToRent",
+        "type": "uint16"
+      }
+    ],
+    "name": "verifyPayment",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "nftAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint16",
+        "name": "daysToRent",
+        "type": "uint16"
+      }
+    ],
+    "name": "verifyRentConditions",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
 ]

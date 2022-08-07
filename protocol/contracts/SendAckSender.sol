@@ -3,13 +3,13 @@
 pragma solidity 0.8.9;
 
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-import { AxelarExecutable } from '@axelar-network/axelar-utils-solidity/contracts/executables/AxelarExecutable.sol';
-import { IAxelarGateway } from '@axelar-network/axelar-utils-solidity/contracts/interfaces/IAxelarGateway.sol';
-import { IAxelarGasService } from '@axelar-network/axelar-cgp-solidity/contracts/interfaces/IAxelarGasService.sol';
-import { StringToAddress, AddressToString } from '@axelar-network/axelar-utils-solidity/contracts/StringAddressUtils.sol';
-import { NFTMarket } from './NFTMarket.sol';
-import { Collateral } from './Collateral.sol';
-import { Payment } from './Payment.sol';
+import {AxelarExecutable} from '@axelar-network/axelar-utils-solidity/contracts/executables/AxelarExecutable.sol';
+import {IAxelarGateway} from '@axelar-network/axelar-utils-solidity/contracts/interfaces/IAxelarGateway.sol';
+import {IAxelarGasService} from '@axelar-network/axelar-cgp-solidity/contracts/interfaces/IAxelarGasService.sol';
+import {StringToAddress, AddressToString} from '@axelar-network/axelar-utils-solidity/contracts/StringAddressUtils.sol';
+import {NFTMarket} from './NFTMarket.sol';
+import {Collateral} from './Collateral.sol';
+import {Payment} from './Payment.sol';
 
 contract SendAckSender is AxelarExecutable, NFTMarket {
     using StringToAddress for string;
@@ -17,8 +17,17 @@ contract SendAckSender is AxelarExecutable, NFTMarket {
 
     error NotEnoughValueForGas();
 
-    event ContractCallSent(string destinationChain, string contractAddress, bytes payload, uint256 nonce);
-    event FalseAcknowledgment(string destinationChain, string contractAddress, uint256 nonce);
+    event ContractCallSent(
+        string destinationChain,
+        string contractAddress,
+        bytes payload,
+        uint256 nonce
+    );
+    event FalseAcknowledgment(
+        string destinationChain,
+        string contractAddress,
+        uint256 nonce
+    );
 
     uint256 public nonce;
     mapping(uint256 => bool) public executed;
@@ -41,7 +50,10 @@ contract SendAckSender is AxelarExecutable, NFTMarket {
         return _gateway;
     }
 
-    function _getDestinationHash(string memory destinationChain, string memory contractAddress) internal pure returns (bytes32) {
+    function _getDestinationHash(
+        string memory destinationChain,
+        string memory contractAddress
+    ) internal pure returns (bytes32) {
         return keccak256(abi.encode(destinationChain, contractAddress));
     }
 
@@ -53,11 +65,27 @@ contract SendAckSender is AxelarExecutable, NFTMarket {
         string calldata contractAddress,
         uint256 gasForRemote
     ) external payable {
-        (Payment memory payment, Collateral memory collateral, address lender) =
-            _verifyRentConditions(nftAddress, tokenId, daysToRent);
+        (
+            Payment memory payment,
+            Collateral memory collateral,
+            address lender
+        ) = _verifyRentConditions(nftAddress, tokenId, daysToRent);
         address renter = msgSender();
-        bytes memory payload = abi.encode(nftAddress, tokenId, daysToRent, payment, collateral, lender, renter);
-        _sendContractCall(destinationChain, contractAddress, payload, gasForRemote);
+        bytes memory payload = abi.encode(
+            nftAddress,
+            tokenId,
+            daysToRent,
+            payment,
+            collateral,
+            lender,
+            renter
+        );
+        _sendContractCall(
+            destinationChain,
+            contractAddress,
+            payload,
+            gasForRemote
+        );
     }
 
     function _sendContractCall(
@@ -72,7 +100,7 @@ contract SendAckSender is AxelarExecutable, NFTMarket {
         // verify gas is sufficient for roundtrip message
         if (gasForRemote > 0) {
             if (gasForRemote > msg.value) revert NotEnoughValueForGas();
-            gasReceiver.payNativeGasForContractCall{ value: gasForRemote }(
+            gasReceiver.payNativeGasForContractCall{value: gasForRemote}(
                 address(this),
                 destinationChain,
                 contractAddress,
@@ -80,7 +108,9 @@ contract SendAckSender is AxelarExecutable, NFTMarket {
                 msg.sender
             );
             if (msg.value > gasForRemote) {
-                gasReceiver.payNativeGasForContractCall{ value: msg.value - gasForRemote }(
+                gasReceiver.payNativeGasForContractCall{
+                    value: msg.value - gasForRemote
+                }(
                     contractAddress.toAddress(),
                     thisChain,
                     address(this).toString(),
@@ -91,10 +121,22 @@ contract SendAckSender is AxelarExecutable, NFTMarket {
         }
 
         // send to Receiver
-        gateway().callContract(destinationChain, contractAddress, noncedPayload);
-        emit ContractCallSent(destinationChain, contractAddress, payload, nonce_);
+        gateway().callContract(
+            destinationChain,
+            contractAddress,
+            noncedPayload
+        );
+        emit ContractCallSent(
+            destinationChain,
+            contractAddress,
+            payload,
+            nonce_
+        );
 
-        destination[nonce_] = _getDestinationHash(destinationChain, contractAddress);
+        destination[nonce_] = _getDestinationHash(
+            destinationChain,
+            contractAddress
+        );
         nonce = nonce_ + 1;
     }
 
@@ -106,22 +148,37 @@ contract SendAckSender is AxelarExecutable, NFTMarket {
         uint256 amount
     ) internal override {
         // nonce verification
-        (uint256 nonce_, bytes memory responsePayload) =
-            abi.decode(payload, (uint256, bytes));
-        if (destination[nonce_] != _getDestinationHash(sourceChain, sourceAddress)) {
+        (uint256 nonce_, bytes memory responsePayload) = abi.decode(
+            payload,
+            (uint256, bytes)
+        );
+        if (
+            destination[nonce_] !=
+            _getDestinationHash(sourceChain, sourceAddress)
+        ) {
             emit FalseAcknowledgment(sourceChain, sourceAddress, nonce_);
             return;
         }
         (
-         address nftAddress,
-         uint256 tokenId,
-         uint16 daysToRent,
-         ,
-         ,
-         address lender,
-         address renter
-         ) =
-            abi.decode(responsePayload, (address, uint256, uint16, Payment, Collateral, address, address));
+            address nftAddress,
+            uint256 tokenId,
+            uint16 daysToRent,
+            ,
+            ,
+            address lender,
+            address renter
+        ) = abi.decode(
+                responsePayload,
+                (
+                    address,
+                    uint256,
+                    uint16,
+                    Payment,
+                    Collateral,
+                    address,
+                    address
+                )
+            );
         address paymentTokenContract = gateway().tokenAddresses(tokenSymbol);
 
         IERC20(paymentTokenContract).transferFrom(renter, lender, amount);

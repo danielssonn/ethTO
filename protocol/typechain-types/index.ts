@@ -48,8 +48,6 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
-export type { AxelarMarketExecutor } from "./contracts/AxelarMarketExecutor";
-export { AxelarMarketExecutor__factory } from "./factories/contracts/AxelarMarketExecutor__factory";
 export type { DummyCoin } from "./contracts/DummyCoin";
 export { DummyCoin__factory } from "./factories/contracts/DummyCoin__factory";
 export type { INFTMarket } from "./contracts/INFTMarket";
@@ -58,6 +56,8 @@ export type { NFTDummy } from "./contracts/NFTDummy";
 export { NFTDummy__factory } from "./factories/contracts/NFTDummy__factory";
 export type { NFTMarket } from "./contracts/NFTMarket";
 export { NFTMarket__factory } from "./factories/contracts/NFTMarket__factory";
+export type { NFTMarketExposed } from "./contracts/NFTMarketExposed";
+export { NFTMarketExposed__factory } from "./factories/contracts/NFTMarketExposed__factory";
 export type { SendAckReceiver } from "./contracts/SendAckReceiver";
 export { SendAckReceiver__factory } from "./factories/contracts/SendAckReceiver__factory";
 export type { SendAckSender } from "./contracts/SendAckSender";

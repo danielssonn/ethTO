@@ -87,7 +87,15 @@ contract NFTMarket is
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
-    ) public nonReentrant returns(Payment memory payment, Collateral memory collateral, address lender) {
+    )
+        internal
+        nonReentrant
+        returns (
+            Payment memory payment,
+            Collateral memory collateral,
+            address lender
+        )
+    {
         NFTListing storage listing = listedNFTs[nftAddress][tokenId];
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
 
@@ -119,30 +127,30 @@ contract NFTMarket is
         Payment memory payment,
         Collateral memory collateral,
         uint16 daysToRent
-    ) internal nonReentrant returns (string memory paymentTokenSymbol, uint256 rentalCost) {
-
+    )
+        internal
+        nonReentrant
+        returns (string memory paymentTokenSymbol, uint256 rentalCost)
+    {
         ERC20 paymentTokenContract = ERC20(payment.paymentToken);
         paymentTokenSymbol = paymentTokenContract.symbol();
         ERC20 collateralTokenContract = ERC20(collateral.collateralToken);
         rentalCost = daysToRent * payment.pricePerDay;
 
-        if (
-            payment.paymentToken == collateral.collateralToken
-            ) {
-            uint256 totalCost = rentalCost +
-                collateral.collateralAmount;
+        if (payment.paymentToken == collateral.collateralToken) {
+            uint256 totalCost = rentalCost + collateral.collateralAmount;
             require(
-                paymentTokenContract.balanceOf(msgSender()) >= totalCost,
+                paymentTokenContract.balanceOf(renter) >= totalCost,
                 'Insufficient combined funds'
             );
         } else {
             require(
-                paymentTokenContract.balanceOf(msgSender()) >= rentalCost,
-               'Insufficient payment funds'
+                paymentTokenContract.balanceOf(renter) >= rentalCost,
+                'Insufficient payment funds'
             );
             require(
-                collateralTokenContract.balanceOf(msgSender()) >=
-                collateral.collateralAmount,
+                collateralTokenContract.balanceOf(renter) >=
+                    collateral.collateralAmount,
                 'Insufficient collateral funds'
             );
         }
@@ -200,9 +208,7 @@ contract NFTMarket is
     /**
      * NFT listing can be cancelled by lender
      */
-    function cancelNFTListing(address nftAddress, uint256 tokenId)
-        public
-    {
+    function cancelNFTListing(address nftAddress, uint256 tokenId) public {
         onlyApprovedOrOwner(msgSender(), nftAddress, tokenId);
 
         // Make sure it is not rented ATM

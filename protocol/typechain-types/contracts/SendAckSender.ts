@@ -13,59 +13,59 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from "ethers";
+} from 'ethers'
 import type {
   FunctionFragment,
   Result,
   EventFragment,
-} from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+} from '@ethersproject/abi'
+import type { Listener, Provider } from '@ethersproject/providers'
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../common";
+} from '../common'
 
 export type PaymentStruct = {
-  paymentToken: PromiseOrValue<string>;
-  pricePerDay: PromiseOrValue<BigNumberish>;
-};
+  paymentToken: PromiseOrValue<string>
+  pricePerDay: PromiseOrValue<BigNumberish>
+}
 
 export type PaymentStructOutput = [string, BigNumber] & {
-  paymentToken: string;
-  pricePerDay: BigNumber;
-};
+  paymentToken: string
+  pricePerDay: BigNumber
+}
 
 export type CollateralStruct = {
-  collateralToken: PromiseOrValue<string>;
-  collateralAmount: PromiseOrValue<BigNumberish>;
-};
+  collateralToken: PromiseOrValue<string>
+  collateralAmount: PromiseOrValue<BigNumberish>
+}
 
 export type CollateralStructOutput = [string, BigNumber] & {
-  collateralToken: string;
-  collateralAmount: BigNumber;
-};
+  collateralToken: string
+  collateralAmount: BigNumber
+}
 
 export type RentalStruct = {
-  renter: PromiseOrValue<string>;
-  expiryTime: PromiseOrValue<BigNumberish>;
-};
+  renter: PromiseOrValue<string>
+  expiryTime: PromiseOrValue<BigNumberish>
+}
 
 export type RentalStructOutput = [string, BigNumber] & {
-  renter: string;
-  expiryTime: BigNumber;
-};
+  renter: string
+  expiryTime: BigNumber
+}
 
 export type NFTListingStruct = {
-  lender: PromiseOrValue<string>;
-  maximumEndTime: PromiseOrValue<BigNumberish>;
-  createTime: PromiseOrValue<BigNumberish>;
-  rental: RentalStruct;
-  payment: PaymentStruct;
-  collateral: CollateralStruct;
-};
+  lender: PromiseOrValue<string>
+  maximumEndTime: PromiseOrValue<BigNumberish>
+  createTime: PromiseOrValue<BigNumberish>
+  rental: RentalStruct
+  payment: PaymentStruct
+  collateral: CollateralStruct
+}
 
 export type NFTListingStructOutput = [
   string,
@@ -75,91 +75,81 @@ export type NFTListingStructOutput = [
   PaymentStructOutput,
   CollateralStructOutput
 ] & {
-  lender: string;
-  maximumEndTime: BigNumber;
-  createTime: BigNumber;
-  rental: RentalStructOutput;
-  payment: PaymentStructOutput;
-  collateral: CollateralStructOutput;
-};
+  lender: string
+  maximumEndTime: BigNumber
+  createTime: BigNumber
+  rental: RentalStructOutput
+  payment: PaymentStructOutput
+  collateral: CollateralStructOutput
+}
 
 export interface SendAckSenderInterface extends utils.Interface {
   functions: {
-    "_verifyRentConditions(address,uint256,uint16)": FunctionFragment;
-    "cancelNFTListing(address,uint256)": FunctionFragment;
-    "destination(uint256)": FunctionFragment;
-    "execute(bytes32,string,string,bytes)": FunctionFragment;
-    "executeWithToken(bytes32,string,string,bytes,string,uint256)": FunctionFragment;
-    "executed(uint256)": FunctionFragment;
-    "gasReceiver()": FunctionFragment;
-    "gateway()": FunctionFragment;
-    "getListing(address,uint256)": FunctionFragment;
-    "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
-    "nonce()": FunctionFragment;
-    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
-    "onERC1155Received(address,address,uint256,uint256,bytes)": FunctionFragment;
-    "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
-    "owner()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "rent(address,uint256,uint16,string,string,uint256)": FunctionFragment;
-    "returnRentedNFT(address,uint256)": FunctionFragment;
-    "supportsInterface(bytes4)": FunctionFragment;
-    "thisChain()": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-  };
+    'cancelNFTListing(address,uint256)': FunctionFragment
+    'destination(uint256)': FunctionFragment
+    'execute(bytes32,string,string,bytes)': FunctionFragment
+    'executeWithToken(bytes32,string,string,bytes,string,uint256)': FunctionFragment
+    'executed(uint256)': FunctionFragment
+    'gasReceiver()': FunctionFragment
+    'gateway()': FunctionFragment
+    'getListing(address,uint256)': FunctionFragment
+    'listNFT(address,uint256,uint256,(address,uint256),(address,uint256))': FunctionFragment
+    'nonce()': FunctionFragment
+    'onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)': FunctionFragment
+    'onERC1155Received(address,address,uint256,uint256,bytes)': FunctionFragment
+    'onERC721Received(address,address,uint256,bytes)': FunctionFragment
+    'owner()': FunctionFragment
+    'renounceOwnership()': FunctionFragment
+    'rent(address,uint256,uint16,string,string,uint256)': FunctionFragment
+    'returnRentedNFT(address,uint256)': FunctionFragment
+    'supportsInterface(bytes4)': FunctionFragment
+    'thisChain()': FunctionFragment
+    'transferOwnership(address)': FunctionFragment
+  }
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "_verifyRentConditions"
-      | "cancelNFTListing"
-      | "destination"
-      | "execute"
-      | "executeWithToken"
-      | "executed"
-      | "gasReceiver"
-      | "gateway"
-      | "getListing"
-      | "listNFT"
-      | "nonce"
-      | "onERC1155BatchReceived"
-      | "onERC1155Received"
-      | "onERC721Received"
-      | "owner"
-      | "renounceOwnership"
-      | "rent"
-      | "returnRentedNFT"
-      | "supportsInterface"
-      | "thisChain"
-      | "transferOwnership"
-  ): FunctionFragment;
+      | 'cancelNFTListing'
+      | 'destination'
+      | 'execute'
+      | 'executeWithToken'
+      | 'executed'
+      | 'gasReceiver'
+      | 'gateway'
+      | 'getListing'
+      | 'listNFT'
+      | 'nonce'
+      | 'onERC1155BatchReceived'
+      | 'onERC1155Received'
+      | 'onERC721Received'
+      | 'owner'
+      | 'renounceOwnership'
+      | 'rent'
+      | 'returnRentedNFT'
+      | 'supportsInterface'
+      | 'thisChain'
+      | 'transferOwnership'
+  ): FunctionFragment
 
   encodeFunctionData(
-    functionFragment: "_verifyRentConditions",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "cancelNFTListing",
+    functionFragment: 'cancelNFTListing',
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "destination",
+    functionFragment: 'destination',
     values: [PromiseOrValue<BigNumberish>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "execute",
+    functionFragment: 'execute',
     values: [
       PromiseOrValue<BytesLike>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BytesLike>
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "executeWithToken",
+    functionFragment: 'executeWithToken',
     values: [
       PromiseOrValue<BytesLike>,
       PromiseOrValue<string>,
@@ -168,22 +158,22 @@ export interface SendAckSenderInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "executed",
+    functionFragment: 'executed',
     values: [PromiseOrValue<BigNumberish>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "gasReceiver",
+    functionFragment: 'gasReceiver',
     values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "gateway", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'gateway', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "getListing",
+    functionFragment: 'getListing',
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "listNFT",
+    functionFragment: 'listNFT',
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -191,10 +181,10 @@ export interface SendAckSenderInterface extends utils.Interface {
       PaymentStruct,
       CollateralStruct
     ]
-  ): string;
-  encodeFunctionData(functionFragment: "nonce", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'nonce', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "onERC1155BatchReceived",
+    functionFragment: 'onERC1155BatchReceived',
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -202,9 +192,9 @@ export interface SendAckSenderInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>[],
       PromiseOrValue<BytesLike>
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "onERC1155Received",
+    functionFragment: 'onERC1155Received',
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -212,23 +202,23 @@ export interface SendAckSenderInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "onERC721Received",
+    functionFragment: 'onERC721Received',
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
     ]
-  ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'renounceOwnership',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "rent",
+    functionFragment: 'rent',
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -237,128 +227,118 @@ export interface SendAckSenderInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "returnRentedNFT",
+    functionFragment: 'returnRentedNFT',
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "supportsInterface",
+    functionFragment: 'supportsInterface',
     values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(functionFragment: "thisChain", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'thisChain', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "transferOwnership",
+    functionFragment: 'transferOwnership',
     values: [PromiseOrValue<string>]
-  ): string;
+  ): string
 
   decodeFunctionResult(
-    functionFragment: "_verifyRentConditions",
+    functionFragment: 'cancelNFTListing',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'destination', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'execute', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "cancelNFTListing",
+    functionFragment: 'executeWithToken',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'executed', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'gasReceiver', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'gateway', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'getListing', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'listNFT', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'nonce', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "destination",
+    functionFragment: 'onERC1155BatchReceived',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "executeWithToken",
+    functionFragment: 'onERC1155Received',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "executed", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "gasReceiver",
+    functionFragment: 'onERC721Received',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getListing", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "listNFT", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "nonce", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "onERC1155BatchReceived",
+    functionFragment: 'renounceOwnership',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'rent', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "onERC1155Received",
+    functionFragment: 'returnRentedNFT',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "onERC721Received",
+    functionFragment: 'supportsInterface',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'thisChain', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'transferOwnership',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "rent", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "returnRentedNFT",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "thisChain", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
+  ): Result
 
   events: {
-    "ContractCallSent(string,string,bytes,uint256)": EventFragment;
-    "FalseAcknowledgment(string,string,uint256)": EventFragment;
-    "NFTListed(address,address,uint256,uint256,tuple,tuple)": EventFragment;
-    "NFTRented(address,uint256,tuple)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
-  };
+    'ContractCallSent(string,string,bytes,uint256)': EventFragment
+    'FalseAcknowledgment(string,string,uint256)': EventFragment
+    'NFTListed(address,address,uint256,uint256,tuple,tuple)': EventFragment
+    'NFTRented(address,uint256,tuple)': EventFragment
+    'OwnershipTransferred(address,address)': EventFragment
+  }
 
-  getEvent(nameOrSignatureOrTopic: "ContractCallSent"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "FalseAcknowledgment"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NFTListed"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NFTRented"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'ContractCallSent'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'FalseAcknowledgment'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'NFTListed'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'NFTRented'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment
 }
 
 export interface ContractCallSentEventObject {
-  destinationChain: string;
-  contractAddress: string;
-  payload: string;
-  nonce: BigNumber;
+  destinationChain: string
+  contractAddress: string
+  payload: string
+  nonce: BigNumber
 }
 export type ContractCallSentEvent = TypedEvent<
   [string, string, string, BigNumber],
   ContractCallSentEventObject
->;
+>
 
 export type ContractCallSentEventFilter =
-  TypedEventFilter<ContractCallSentEvent>;
+  TypedEventFilter<ContractCallSentEvent>
 
 export interface FalseAcknowledgmentEventObject {
-  destinationChain: string;
-  contractAddress: string;
-  nonce: BigNumber;
+  destinationChain: string
+  contractAddress: string
+  nonce: BigNumber
 }
 export type FalseAcknowledgmentEvent = TypedEvent<
   [string, string, BigNumber],
   FalseAcknowledgmentEventObject
->;
+>
 
 export type FalseAcknowledgmentEventFilter =
-  TypedEventFilter<FalseAcknowledgmentEvent>;
+  TypedEventFilter<FalseAcknowledgmentEvent>
 
 export interface NFTListedEventObject {
-  lender: string;
-  nftAddress: string;
-  tokenId: BigNumber;
-  maximumEndTime: BigNumber;
-  payment: PaymentStructOutput;
-  collateral: CollateralStructOutput;
+  lender: string
+  nftAddress: string
+  tokenId: BigNumber
+  maximumEndTime: BigNumber
+  payment: PaymentStructOutput
+  collateral: CollateralStructOutput
 }
 export type NFTListedEvent = TypedEvent<
   [
@@ -370,78 +350,71 @@ export type NFTListedEvent = TypedEvent<
     CollateralStructOutput
   ],
   NFTListedEventObject
->;
+>
 
-export type NFTListedEventFilter = TypedEventFilter<NFTListedEvent>;
+export type NFTListedEventFilter = TypedEventFilter<NFTListedEvent>
 
 export interface NFTRentedEventObject {
-  nftAddress: string;
-  tokenId: BigNumber;
-  rental: RentalStructOutput;
+  nftAddress: string
+  tokenId: BigNumber
+  rental: RentalStructOutput
 }
 export type NFTRentedEvent = TypedEvent<
   [string, BigNumber, RentalStructOutput],
   NFTRentedEventObject
->;
+>
 
-export type NFTRentedEventFilter = TypedEventFilter<NFTRentedEvent>;
+export type NFTRentedEventFilter = TypedEventFilter<NFTRentedEvent>
 
 export interface OwnershipTransferredEventObject {
-  previousOwner: string;
-  newOwner: string;
+  previousOwner: string
+  newOwner: string
 }
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
   OwnershipTransferredEventObject
->;
+>
 
 export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
+  TypedEventFilter<OwnershipTransferredEvent>
 
 export interface SendAckSender extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
-  attach(addressOrName: string): this;
-  deployed(): Promise<this>;
+  connect(signerOrProvider: Signer | Provider | string): this
+  attach(addressOrName: string): this
+  deployed(): Promise<this>
 
-  interface: SendAckSenderInterface;
+  interface: SendAckSenderInterface
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TEvent>>
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
+  ): Array<TypedListener<TEvent>>
+  listeners(eventName?: string): Array<Listener>
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  ): this
+  removeAllListeners(eventName?: string): this
+  off: OnEvent<this>
+  on: OnEvent<this>
+  once: OnEvent<this>
+  removeListener: OnEvent<this>
 
   functions: {
-    _verifyRentConditions(
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     cancelNFTListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     destination(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[string]>;
+    ): Promise<[string]>
 
     execute(
       commandId: PromiseOrValue<BytesLike>,
@@ -449,7 +422,7 @@ export interface SendAckSender extends BaseContract {
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
@@ -459,22 +432,22 @@ export interface SendAckSender extends BaseContract {
       tokenSymbol: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     executed(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    ): Promise<[boolean]>
 
-    gasReceiver(overrides?: CallOverrides): Promise<[string]>;
+    gasReceiver(overrides?: CallOverrides): Promise<[string]>
 
-    gateway(overrides?: CallOverrides): Promise<[string]>;
+    gateway(overrides?: CallOverrides): Promise<[string]>
 
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[NFTListingStructOutput]>;
+    ): Promise<[NFTListingStructOutput]>
 
     listNFT(
       nftAddress: PromiseOrValue<string>,
@@ -483,9 +456,9 @@ export interface SendAckSender extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
-    nonce(overrides?: CallOverrides): Promise<[BigNumber]>;
+    nonce(overrides?: CallOverrides): Promise<[BigNumber]>
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -494,7 +467,7 @@ export interface SendAckSender extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>[],
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     onERC1155Received(
       arg0: PromiseOrValue<string>,
@@ -503,7 +476,7 @@ export interface SendAckSender extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>,
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     onERC721Received(
       arg0: PromiseOrValue<string>,
@@ -511,13 +484,13 @@ export interface SendAckSender extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       arg3: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    owner(overrides?: CallOverrides): Promise<[string]>
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     rent(
       nftAddress: PromiseOrValue<string>,
@@ -527,44 +500,37 @@ export interface SendAckSender extends BaseContract {
       contractAddress: PromiseOrValue<string>,
       gasForRemote: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    ): Promise<[boolean]>
 
-    thisChain(overrides?: CallOverrides): Promise<[string]>;
+    thisChain(overrides?: CallOverrides): Promise<[string]>
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-  };
-
-  _verifyRentConditions(
-    nftAddress: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
-    daysToRent: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
+  }
 
   cancelNFTListing(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   destination(
     arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<string>;
+  ): Promise<string>
 
   execute(
     commandId: PromiseOrValue<BytesLike>,
@@ -572,7 +538,7 @@ export interface SendAckSender extends BaseContract {
     sourceAddress: PromiseOrValue<string>,
     payload: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   executeWithToken(
     commandId: PromiseOrValue<BytesLike>,
@@ -582,22 +548,22 @@ export interface SendAckSender extends BaseContract {
     tokenSymbol: PromiseOrValue<string>,
     amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   executed(
     arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<boolean>;
+  ): Promise<boolean>
 
-  gasReceiver(overrides?: CallOverrides): Promise<string>;
+  gasReceiver(overrides?: CallOverrides): Promise<string>
 
-  gateway(overrides?: CallOverrides): Promise<string>;
+  gateway(overrides?: CallOverrides): Promise<string>
 
   getListing(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<NFTListingStructOutput>;
+  ): Promise<NFTListingStructOutput>
 
   listNFT(
     nftAddress: PromiseOrValue<string>,
@@ -606,9 +572,9 @@ export interface SendAckSender extends BaseContract {
     payment: PaymentStruct,
     collateral: CollateralStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
-  nonce(overrides?: CallOverrides): Promise<BigNumber>;
+  nonce(overrides?: CallOverrides): Promise<BigNumber>
 
   onERC1155BatchReceived(
     arg0: PromiseOrValue<string>,
@@ -617,7 +583,7 @@ export interface SendAckSender extends BaseContract {
     arg3: PromiseOrValue<BigNumberish>[],
     arg4: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   onERC1155Received(
     arg0: PromiseOrValue<string>,
@@ -626,7 +592,7 @@ export interface SendAckSender extends BaseContract {
     arg3: PromiseOrValue<BigNumberish>,
     arg4: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   onERC721Received(
     arg0: PromiseOrValue<string>,
@@ -634,13 +600,13 @@ export interface SendAckSender extends BaseContract {
     arg2: PromiseOrValue<BigNumberish>,
     arg3: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
-  owner(overrides?: CallOverrides): Promise<string>;
+  owner(overrides?: CallOverrides): Promise<string>
 
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   rent(
     nftAddress: PromiseOrValue<string>,
@@ -650,50 +616,37 @@ export interface SendAckSender extends BaseContract {
     contractAddress: PromiseOrValue<string>,
     gasForRemote: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   returnRentedNFT(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<boolean>;
+  ): Promise<boolean>
 
-  thisChain(overrides?: CallOverrides): Promise<string>;
+  thisChain(overrides?: CallOverrides): Promise<string>
 
   transferOwnership(
     newOwner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   callStatic: {
-    _verifyRentConditions(
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [PaymentStructOutput, CollateralStructOutput, string] & {
-        payment: PaymentStructOutput;
-        collateral: CollateralStructOutput;
-        lender: string;
-      }
-    >;
-
     cancelNFTListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     destination(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<string>
 
     execute(
       commandId: PromiseOrValue<BytesLike>,
@@ -701,7 +654,7 @@ export interface SendAckSender extends BaseContract {
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
@@ -711,22 +664,22 @@ export interface SendAckSender extends BaseContract {
       tokenSymbol: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     executed(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<boolean>
 
-    gasReceiver(overrides?: CallOverrides): Promise<string>;
+    gasReceiver(overrides?: CallOverrides): Promise<string>
 
-    gateway(overrides?: CallOverrides): Promise<string>;
+    gateway(overrides?: CallOverrides): Promise<string>
 
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<NFTListingStructOutput>;
+    ): Promise<NFTListingStructOutput>
 
     listNFT(
       nftAddress: PromiseOrValue<string>,
@@ -735,9 +688,9 @@ export interface SendAckSender extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
-    nonce(overrides?: CallOverrides): Promise<BigNumber>;
+    nonce(overrides?: CallOverrides): Promise<BigNumber>
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -746,7 +699,7 @@ export interface SendAckSender extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>[],
       arg4: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<string>
 
     onERC1155Received(
       arg0: PromiseOrValue<string>,
@@ -755,7 +708,7 @@ export interface SendAckSender extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>,
       arg4: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<string>
 
     onERC721Received(
       arg0: PromiseOrValue<string>,
@@ -763,11 +716,11 @@ export interface SendAckSender extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       arg3: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<string>
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    owner(overrides?: CallOverrides): Promise<string>
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    renounceOwnership(overrides?: CallOverrides): Promise<void>
 
     rent(
       nftAddress: PromiseOrValue<string>,
@@ -777,60 +730,60 @@ export interface SendAckSender extends BaseContract {
       contractAddress: PromiseOrValue<string>,
       gasForRemote: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<boolean>
 
-    thisChain(overrides?: CallOverrides): Promise<string>;
+    thisChain(overrides?: CallOverrides): Promise<string>
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<void>;
-  };
+    ): Promise<void>
+  }
 
   filters: {
-    "ContractCallSent(string,string,bytes,uint256)"(
+    'ContractCallSent(string,string,bytes,uint256)'(
       destinationChain?: null,
       contractAddress?: null,
       payload?: null,
       nonce?: null
-    ): ContractCallSentEventFilter;
+    ): ContractCallSentEventFilter
     ContractCallSent(
       destinationChain?: null,
       contractAddress?: null,
       payload?: null,
       nonce?: null
-    ): ContractCallSentEventFilter;
+    ): ContractCallSentEventFilter
 
-    "FalseAcknowledgment(string,string,uint256)"(
+    'FalseAcknowledgment(string,string,uint256)'(
       destinationChain?: null,
       contractAddress?: null,
       nonce?: null
-    ): FalseAcknowledgmentEventFilter;
+    ): FalseAcknowledgmentEventFilter
     FalseAcknowledgment(
       destinationChain?: null,
       contractAddress?: null,
       nonce?: null
-    ): FalseAcknowledgmentEventFilter;
+    ): FalseAcknowledgmentEventFilter
 
-    "NFTListed(address,address,uint256,uint256,tuple,tuple)"(
+    'NFTListed(address,address,uint256,uint256,tuple,tuple)'(
       lender?: null,
       nftAddress?: null,
       tokenId?: null,
       maximumEndTime?: null,
       payment?: null,
       collateral?: null
-    ): NFTListedEventFilter;
+    ): NFTListedEventFilter
     NFTListed(
       lender?: null,
       nftAddress?: null,
@@ -838,47 +791,40 @@ export interface SendAckSender extends BaseContract {
       maximumEndTime?: null,
       payment?: null,
       collateral?: null
-    ): NFTListedEventFilter;
+    ): NFTListedEventFilter
 
-    "NFTRented(address,uint256,tuple)"(
+    'NFTRented(address,uint256,tuple)'(
       nftAddress?: null,
       tokenId?: null,
       rental?: null
-    ): NFTRentedEventFilter;
+    ): NFTRentedEventFilter
     NFTRented(
       nftAddress?: null,
       tokenId?: null,
       rental?: null
-    ): NFTRentedEventFilter;
+    ): NFTRentedEventFilter
 
-    "OwnershipTransferred(address,address)"(
+    'OwnershipTransferred(address,address)'(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
+    ): OwnershipTransferredEventFilter
     OwnershipTransferred(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
-  };
+    ): OwnershipTransferredEventFilter
+  }
 
   estimateGas: {
-    _verifyRentConditions(
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     cancelNFTListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     destination(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     execute(
       commandId: PromiseOrValue<BytesLike>,
@@ -886,7 +832,7 @@ export interface SendAckSender extends BaseContract {
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
@@ -896,22 +842,22 @@ export interface SendAckSender extends BaseContract {
       tokenSymbol: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     executed(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
-    gasReceiver(overrides?: CallOverrides): Promise<BigNumber>;
+    gasReceiver(overrides?: CallOverrides): Promise<BigNumber>
 
-    gateway(overrides?: CallOverrides): Promise<BigNumber>;
+    gateway(overrides?: CallOverrides): Promise<BigNumber>
 
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     listNFT(
       nftAddress: PromiseOrValue<string>,
@@ -920,9 +866,9 @@ export interface SendAckSender extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
-    nonce(overrides?: CallOverrides): Promise<BigNumber>;
+    nonce(overrides?: CallOverrides): Promise<BigNumber>
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -931,7 +877,7 @@ export interface SendAckSender extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>[],
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     onERC1155Received(
       arg0: PromiseOrValue<string>,
@@ -940,7 +886,7 @@ export interface SendAckSender extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>,
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     onERC721Received(
       arg0: PromiseOrValue<string>,
@@ -948,13 +894,13 @@ export interface SendAckSender extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       arg3: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    owner(overrides?: CallOverrides): Promise<BigNumber>
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     rent(
       nftAddress: PromiseOrValue<string>,
@@ -964,45 +910,38 @@ export interface SendAckSender extends BaseContract {
       contractAddress: PromiseOrValue<string>,
       gasForRemote: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
-    thisChain(overrides?: CallOverrides): Promise<BigNumber>;
+    thisChain(overrides?: CallOverrides): Promise<BigNumber>
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-  };
+    ): Promise<BigNumber>
+  }
 
   populateTransaction: {
-    _verifyRentConditions(
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     cancelNFTListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     destination(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     execute(
       commandId: PromiseOrValue<BytesLike>,
@@ -1010,7 +949,7 @@ export interface SendAckSender extends BaseContract {
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
@@ -1020,22 +959,22 @@ export interface SendAckSender extends BaseContract {
       tokenSymbol: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     executed(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
-    gasReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    gasReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
-    gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     listNFT(
       nftAddress: PromiseOrValue<string>,
@@ -1044,9 +983,9 @@ export interface SendAckSender extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
-    nonce(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    nonce(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -1055,7 +994,7 @@ export interface SendAckSender extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>[],
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     onERC1155Received(
       arg0: PromiseOrValue<string>,
@@ -1064,7 +1003,7 @@ export interface SendAckSender extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>,
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     onERC721Received(
       arg0: PromiseOrValue<string>,
@@ -1072,13 +1011,13 @@ export interface SendAckSender extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       arg3: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     rent(
       nftAddress: PromiseOrValue<string>,
@@ -1088,24 +1027,24 @@ export interface SendAckSender extends BaseContract {
       contractAddress: PromiseOrValue<string>,
       gasForRemote: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
-    thisChain(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    thisChain(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-  };
+    ): Promise<PopulatedTransaction>
+  }
 }
