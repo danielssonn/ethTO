@@ -46,7 +46,7 @@ const tokenLogos = {
 }
 
 const SwingSwapper = ({ active, onComplete, params }) => {
-    const { fetchQuote, swingReady, transferState } = useSwing()
+    const { fetchQuote, swingReady } = useSwing()
     const { currentAccount } = useWeb3()
     const [quote, setQuote] = useState(null)
     const [quoteLoading, setQuoteLoading] = useState(null)
@@ -104,11 +104,6 @@ const SwingSwapper = ({ active, onComplete, params }) => {
             {quoteLoading && (
                 <h2 className="text-lg font-medium text-gray-900 mt-6">
                     Loading quote...
-                </h2>
-            )}
-            {transferState && (
-                <h2 className="text-lg font-medium text-gray-900 mt-6 hidden">
-                    {transferState}
                 </h2>
             )}
             {quote && (

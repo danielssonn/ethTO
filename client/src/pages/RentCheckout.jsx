@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 
 import RentDaysPicker from '../components/RentDaysPicker'
 import SwingSwapper from '../components/SwingSwapper'
+import useSwing from '../hooks/use-swing'
 
 const nft = {
     id: 1,
@@ -26,6 +27,7 @@ export default function RentCheckout() {
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
     const [amount, setAmount] = useState()
+    const { transferState } = useSwing()
 
     const handleSwapComplete = () => {
         setStep(step + 1)
@@ -180,7 +182,11 @@ export default function RentCheckout() {
                                 Continue
                             </button>
                             <p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-left">
-                                Lorem ipsum
+                                {step === 2 && transferState
+                                    ? `${transferState[0].toUpperCase()}${transferState
+                                          .slice(1)
+                                          .toLowerCase()}`
+                                    : 'Lorem ipsum'}
                             </p>
                         </div>
                     </div>
