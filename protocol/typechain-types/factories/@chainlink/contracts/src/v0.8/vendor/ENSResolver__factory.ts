@@ -5,41 +5,41 @@
 import { Contract, Signer, utils } from 'ethers'
 import type { Provider } from '@ethersproject/providers'
 import type {
-  ENSResolver,
-  ENSResolverInterface,
+    ENSResolver,
+    ENSResolverInterface,
 } from '../../../../../../@chainlink/contracts/src/v0.8/vendor/ENSResolver'
 
 const _abi = [
-  {
-    inputs: [
-      {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32',
-      },
-    ],
-    name: 'addr',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
+    {
+        inputs: [
+            {
+                internalType: 'bytes32',
+                name: 'node',
+                type: 'bytes32',
+            },
+        ],
+        name: 'addr',
+        outputs: [
+            {
+                internalType: 'address',
+                name: '',
+                type: 'address',
+            },
+        ],
+        stateMutability: 'view',
+        type: 'function',
+    },
 ]
 
 export class ENSResolver__factory {
-  static readonly abi = _abi
-  static createInterface(): ENSResolverInterface {
-    return new utils.Interface(_abi) as ENSResolverInterface
-  }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): ENSResolver {
-    return new Contract(address, _abi, signerOrProvider) as ENSResolver
-  }
+    static readonly abi = _abi
+    static createInterface(): ENSResolverInterface {
+        return new utils.Interface(_abi) as ENSResolverInterface
+    }
+    static connect(
+        address: string,
+        signerOrProvider: Signer | Provider
+    ): ENSResolver {
+        return new Contract(address, _abi, signerOrProvider) as ENSResolver
+    }
 }

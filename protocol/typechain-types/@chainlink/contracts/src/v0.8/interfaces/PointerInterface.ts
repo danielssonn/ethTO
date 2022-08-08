@@ -2,81 +2,87 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
-  BaseContract,
-  BigNumber,
-  BytesLike,
-  CallOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
+    BaseContract,
+    BigNumber,
+    BytesLike,
+    CallOverrides,
+    PopulatedTransaction,
+    Signer,
+    utils,
 } from 'ethers'
 import type { FunctionFragment, Result } from '@ethersproject/abi'
 import type { Listener, Provider } from '@ethersproject/providers'
 import type {
-  TypedEventFilter,
-  TypedEvent,
-  TypedListener,
-  OnEvent,
-  PromiseOrValue,
+    TypedEventFilter,
+    TypedEvent,
+    TypedListener,
+    OnEvent,
+    PromiseOrValue,
 } from '../../../../../common'
 
 export interface PointerInterfaceInterface extends utils.Interface {
-  functions: {
-    'getAddress()': FunctionFragment
-  }
+    functions: {
+        'getAddress()': FunctionFragment
+    }
 
-  getFunction(nameOrSignatureOrTopic: 'getAddress'): FunctionFragment
+    getFunction(nameOrSignatureOrTopic: 'getAddress'): FunctionFragment
 
-  encodeFunctionData(functionFragment: 'getAddress', values?: undefined): string
+    encodeFunctionData(
+        functionFragment: 'getAddress',
+        values?: undefined
+    ): string
 
-  decodeFunctionResult(functionFragment: 'getAddress', data: BytesLike): Result
+    decodeFunctionResult(
+        functionFragment: 'getAddress',
+        data: BytesLike
+    ): Result
 
-  events: {}
+    events: {}
 }
 
 export interface PointerInterface extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this
-  attach(addressOrName: string): this
-  deployed(): Promise<this>
+    connect(signerOrProvider: Signer | Provider | string): this
+    attach(addressOrName: string): this
+    deployed(): Promise<this>
 
-  interface: PointerInterfaceInterface
+    interface: PointerInterfaceInterface
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
-    fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>
+    queryFilter<TEvent extends TypedEvent>(
+        event: TypedEventFilter<TEvent>,
+        fromBlockOrBlockhash?: string | number | undefined,
+        toBlock?: string | number | undefined
+    ): Promise<Array<TEvent>>
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>
-  listeners(eventName?: string): Array<Listener>
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this
-  removeAllListeners(eventName?: string): this
-  off: OnEvent<this>
-  on: OnEvent<this>
-  once: OnEvent<this>
-  removeListener: OnEvent<this>
+    listeners<TEvent extends TypedEvent>(
+        eventFilter?: TypedEventFilter<TEvent>
+    ): Array<TypedListener<TEvent>>
+    listeners(eventName?: string): Array<Listener>
+    removeAllListeners<TEvent extends TypedEvent>(
+        eventFilter: TypedEventFilter<TEvent>
+    ): this
+    removeAllListeners(eventName?: string): this
+    off: OnEvent<this>
+    on: OnEvent<this>
+    once: OnEvent<this>
+    removeListener: OnEvent<this>
 
-  functions: {
-    getAddress(overrides?: CallOverrides): Promise<[string]>
-  }
+    functions: {
+        getAddress(overrides?: CallOverrides): Promise<[string]>
+    }
 
-  getAddress(overrides?: CallOverrides): Promise<string>
-
-  callStatic: {
     getAddress(overrides?: CallOverrides): Promise<string>
-  }
 
-  filters: {}
+    callStatic: {
+        getAddress(overrides?: CallOverrides): Promise<string>
+    }
 
-  estimateGas: {
-    getAddress(overrides?: CallOverrides): Promise<BigNumber>
-  }
+    filters: {}
 
-  populateTransaction: {
-    getAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>
-  }
+    estimateGas: {
+        getAddress(overrides?: CallOverrides): Promise<BigNumber>
+    }
+
+    populateTransaction: {
+        getAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    }
 }
