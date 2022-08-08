@@ -22,18 +22,14 @@ const ContractProvider = ({ children }) => {
 
     const fetchListingsFrom = async (chainId) => {
         const chainConfig = CHAIN_MAP.get(chainId)
-        console.log(chainConfig)
         const contract = new ethers.Contract(
             chainConfig.sender,
             sender,
             provider
         )
         try {
-            const listings = await contract.getListing(
-                '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
-                1
-            )
-            console.log(listings)
+            const listings = await contract.getAllListings()
+            console.log('listings', listings)
             dispatch({ [chainConfig.name.toLowerCase()]: listings })
         } catch (e) {
             console.error(`Failed to fetch listings for ${chainConfig.name}`, e)
@@ -53,11 +49,11 @@ const ContractProvider = ({ children }) => {
     }, [currentChain, currentSigner])
 
     useEffect(() => {
-        if (currentChain) {
+        if (currentChain && currentSigner) {
             // TODO: fetch listings from all supported chains
             fetchListingsFrom(currentChain)
         }
-    }, [currentChain])
+    }, [currentChain, currentSigner])
 
     return (
         <ContractContext.Provider

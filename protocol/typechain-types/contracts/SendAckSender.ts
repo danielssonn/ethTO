@@ -98,8 +98,10 @@ export interface SendAckSenderInterface extends utils.Interface {
     "executed(uint256)": FunctionFragment;
     "gasReceiver()": FunctionFragment;
     "gateway()": FunctionFragment;
+    "getAllListings()": FunctionFragment;
     "getListing(address,uint256)": FunctionFragment;
     "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
+    "listings(uint256)": FunctionFragment;
     "nonce()": FunctionFragment;
     "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "onERC1155Received(address,address,uint256,uint256,bytes)": FunctionFragment;
@@ -122,8 +124,10 @@ export interface SendAckSenderInterface extends utils.Interface {
       | "executed"
       | "gasReceiver"
       | "gateway"
+      | "getAllListings"
       | "getListing"
       | "listNFT"
+      | "listings"
       | "nonce"
       | "onERC1155BatchReceived"
       | "onERC1155Received"
@@ -175,6 +179,10 @@ export interface SendAckSenderInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "gateway", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "getAllListings",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
@@ -187,6 +195,10 @@ export interface SendAckSenderInterface extends utils.Interface {
       PaymentStruct,
       CollateralStruct
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "listings",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "nonce", values?: undefined): string;
   encodeFunctionData(
@@ -267,8 +279,13 @@ export interface SendAckSenderInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getAllListings",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getListing", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "listNFT", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "listings", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "nonce", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "onERC1155BatchReceived",
@@ -455,6 +472,10 @@ export interface SendAckSender extends BaseContract {
 
     gateway(overrides?: CallOverrides): Promise<[string]>;
 
+    getAllListings(
+      overrides?: CallOverrides
+    ): Promise<[NFTListingStructOutput[]]>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -469,6 +490,31 @@ export interface SendAckSender extends BaseContract {
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        string,
+        BigNumber,
+        string,
+        BigNumber,
+        BigNumber,
+        RentalStructOutput,
+        PaymentStructOutput,
+        CollateralStructOutput
+      ] & {
+        nftAddress: string;
+        tokenId: BigNumber;
+        lender: string;
+        maximumEndTime: BigNumber;
+        createTime: BigNumber;
+        rental: RentalStructOutput;
+        payment: PaymentStructOutput;
+        collateral: CollateralStructOutput;
+      }
+    >;
 
     nonce(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -571,6 +617,8 @@ export interface SendAckSender extends BaseContract {
 
   gateway(overrides?: CallOverrides): Promise<string>;
 
+  getAllListings(overrides?: CallOverrides): Promise<NFTListingStructOutput[]>;
+
   getListing(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
@@ -585,6 +633,31 @@ export interface SendAckSender extends BaseContract {
     collateral: CollateralStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  listings(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      string,
+      BigNumber,
+      string,
+      BigNumber,
+      BigNumber,
+      RentalStructOutput,
+      PaymentStructOutput,
+      CollateralStructOutput
+    ] & {
+      nftAddress: string;
+      tokenId: BigNumber;
+      lender: string;
+      maximumEndTime: BigNumber;
+      createTime: BigNumber;
+      rental: RentalStructOutput;
+      payment: PaymentStructOutput;
+      collateral: CollateralStructOutput;
+    }
+  >;
 
   nonce(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -687,6 +760,10 @@ export interface SendAckSender extends BaseContract {
 
     gateway(overrides?: CallOverrides): Promise<string>;
 
+    getAllListings(
+      overrides?: CallOverrides
+    ): Promise<NFTListingStructOutput[]>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -701,6 +778,31 @@ export interface SendAckSender extends BaseContract {
       collateral: CollateralStruct,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        string,
+        BigNumber,
+        string,
+        BigNumber,
+        BigNumber,
+        RentalStructOutput,
+        PaymentStructOutput,
+        CollateralStructOutput
+      ] & {
+        nftAddress: string;
+        tokenId: BigNumber;
+        lender: string;
+        maximumEndTime: BigNumber;
+        createTime: BigNumber;
+        rental: RentalStructOutput;
+        payment: PaymentStructOutput;
+        collateral: CollateralStructOutput;
+      }
+    >;
 
     nonce(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -865,6 +967,8 @@ export interface SendAckSender extends BaseContract {
 
     gateway(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getAllListings(overrides?: CallOverrides): Promise<BigNumber>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -878,6 +982,11 @@ export interface SendAckSender extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     nonce(overrides?: CallOverrides): Promise<BigNumber>;
@@ -982,6 +1091,8 @@ export interface SendAckSender extends BaseContract {
 
     gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getAllListings(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -995,6 +1106,11 @@ export interface SendAckSender extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     nonce(overrides?: CallOverrides): Promise<PopulatedTransaction>;

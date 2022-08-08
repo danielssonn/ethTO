@@ -1,11 +1,18 @@
 import { createAndExport } from '@axelar-network/axelar-local-dev'
 import { ethers } from 'hardhat'
 
+import receiverJson from '../artifacts/contracts/SendAckReceiver.sol/SendAckReceiver.json'
+import senderJson from '../artifacts/contracts/SendAckSender.sol/SendAckSender.json'
+
 async function main() {
     await createAndExport({
         chains: ['Polygon', 'Avalanche'],
         async callback(network, info) {
             console.log(info)
+            const deployerWallet = new ethers.Wallet(
+                network.userWallets[0]._signingKey().privateKey,
+                network.provider
+            )
 
             const weth = await network.deployToken(
                 'WETH',
@@ -16,7 +23,11 @@ async function main() {
 
             console.log('WETH', weth.address)
 
-            const Sender = await ethers.getContractFactory('SendAckSender')
+            const Sender = new ethers.ContractFactory(
+                senderJson.abi,
+                senderJson.bytecode,
+                deployerWallet
+            )
             const sender = await Sender.deploy(
                 info.gateway,
                 info.gasReceiver,
@@ -26,13 +37,20 @@ async function main() {
 
             console.log('SendAckSender', sender.address)
 
-            const Receiver = await ethers.getContractFactory('SendAckReceiver')
+            const Receiver = new ethers.ContractFactory(
+                receiverJson.abi,
+                receiverJson.bytecode,
+                deployerWallet
+            )
             const receiver = await Receiver.deploy(info.gateway)
             await receiver.deployed()
 
             console.log('SendAckReceiver', receiver.address)
 
-            const NFT = await ethers.getContractFactory('NFTDummy')
+            const NFT = await ethers.getContractFactory(
+                'NFTDummy',
+                deployerWallet
+            )
             const nft = await NFT.deploy(
                 'https://arweave.net/9KOV2hEKM5P4xejfLMD5yRo8kQZHPxLH6kzHNQra2Qs'
             )
@@ -41,30 +59,82 @@ async function main() {
             console.log('NFTDummy', nft.address)
 
             // Mint some NFTs
-            ;[0, 1, 2, 3].forEach(
-                async () => await nft.connect(network.userWallets[0]).mint()
-            )
+            await nft.connect(deployerWallet).mint()
+            await nft.connect(deployerWallet).approve(sender.address, 0)
+
+            await nft.connect(deployerWallet).mint()
+            await nft.connect(deployerWallet).approve(sender.address, 1)
+
+            await nft.connect(deployerWallet).mint()
+            await nft.connect(deployerWallet).approve(sender.address, 2)
+
+            await nft.connect(deployerWallet).mint()
+            await nft.connect(deployerWallet).approve(sender.address, 3)
 
             // List some NFTs
-            ;[0, 1, 2, 3].forEach(async (tokenId) => {
-                const tx = await sender.connect(network.userWallets[0]).listNFT(
-                    nft.address,
-                    tokenId,
-                    Math.round(Date.now() / 1000) + 60 * 60 * 24 * 5,
-                    {
-                        paymentToken: weth.address,
-                        pricePerDay: ethers.utils.parseEther('0.01'),
-                    },
-                    {
-                        collateralToken: weth.address,
-                        collateralAmount: ethers.utils.parseEther('2'),
-                    }
-                )
+            const tx1 = await sender.connect(deployerWallet).listNFT(
+                nft.address,
+                0,
+                Math.round(Date.now() / 1000) + 60 * 60 * 24 * 5,
+                {
+                    paymentToken: weth.address,
+                    pricePerDay: ethers.utils.parseEther('0.01'),
+                },
+                {
+                    collateralToken: weth.address,
+                    collateralAmount: ethers.utils.parseEther('2'),
+                }
+            )
 
-                await tx.wait()
-                const listing = await sender.getListing(nft.address, tokenId)
-                console.log(listing)
-            })
+            await tx1.wait()
+
+            const tx2 = await sender.connect(deployerWallet).listNFT(
+                nft.address,
+                1,
+                Math.round(Date.now() / 1000) + 60 * 60 * 24 * 5,
+                {
+                    paymentToken: weth.address,
+                    pricePerDay: ethers.utils.parseEther('0.01'),
+                },
+                {
+                    collateralToken: weth.address,
+                    collateralAmount: ethers.utils.parseEther('2'),
+                }
+            )
+
+            await tx2.wait()
+
+            const tx3 = await sender.connect(deployerWallet).listNFT(
+                nft.address,
+                2,
+                Math.round(Date.now() / 1000) + 60 * 60 * 24 * 5,
+                {
+                    paymentToken: weth.address,
+                    pricePerDay: ethers.utils.parseEther('0.01'),
+                },
+                {
+                    collateralToken: weth.address,
+                    collateralAmount: ethers.utils.parseEther('2'),
+                }
+            )
+
+            await tx3.wait()
+
+            const tx4 = await sender.connect(deployerWallet).listNFT(
+                nft.address,
+                3,
+                Math.round(Date.now() / 1000) + 60 * 60 * 24 * 5,
+                {
+                    paymentToken: weth.address,
+                    pricePerDay: ethers.utils.parseEther('0.01'),
+                },
+                {
+                    collateralToken: weth.address,
+                    collateralAmount: ethers.utils.parseEther('2'),
+                }
+            )
+
+            await tx4.wait()
 
             const wallets = network.userWallets.map(async (wallet) => {
                 const balance = await wallet.provider.getBalance(wallet.address)
