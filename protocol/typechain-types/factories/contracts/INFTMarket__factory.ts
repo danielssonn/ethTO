@@ -213,6 +213,16 @@ const _abi = [
         components: [
           {
             internalType: "address",
+            name: "nftAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
             name: "lender",
             type: "address",
           },
@@ -390,6 +400,16 @@ const _abi = [
       },
       {
         components: [
+          {
+            internalType: "address",
+            name: "nftAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256",
+          },
           {
             internalType: "address",
             name: "lender",

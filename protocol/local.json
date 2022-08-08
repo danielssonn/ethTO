@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Polygon",
+    "chainId": 2500,
+    "gateway": "0x186038359000c32da660ecA49C3d494001A30Ffe",
+    "gasReceiver": "0xe90560ba227BA579eb4D883abe73E85a9123a615",
+    "constAddressDeployer": "0x69aeB7Dc4f2A86873Dae8D753DE89326Cf90a77a",
+    "tokens": {
+      "aWETH": "aWETH"
+    },
+    "rpc": "http://localhost:8500/0",
+    "tokenName": "Matic",
+    "tokenSymbol": "MATIC"
+  },
+  {
+    "name": "Avalanche",
+    "chainId": 2501,
+    "gateway": "0x411fB36E488f22bBE872C345e652e45ff0EB319f",
+    "gasReceiver": "0xc17a3E5357146d7b9CC3fB025356f25dd450554F",
+    "constAddressDeployer": "0x69aeB7Dc4f2A86873Dae8D753DE89326Cf90a77a",
+    "tokens": {
+      "aWETH": "aWETH"
+    },
+    "rpc": "http://localhost:8500/1",
+    "tokenName": "Avax",
+    "tokenSymbol": "AVAX"
+  }
+]

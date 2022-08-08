@@ -59,6 +59,8 @@ export type CollateralStructOutput = [string, BigNumber] & {
 };
 
 export type NFTListingStruct = {
+  nftAddress: PromiseOrValue<string>;
+  tokenId: PromiseOrValue<BigNumberish>;
   lender: PromiseOrValue<string>;
   maximumEndTime: PromiseOrValue<BigNumberish>;
   createTime: PromiseOrValue<BigNumberish>;
@@ -70,11 +72,15 @@ export type NFTListingStruct = {
 export type NFTListingStructOutput = [
   string,
   BigNumber,
+  string,
+  BigNumber,
   BigNumber,
   RentalStructOutput,
   PaymentStructOutput,
   CollateralStructOutput
 ] & {
+  nftAddress: string;
+  tokenId: BigNumber;
   lender: string;
   maximumEndTime: BigNumber;
   createTime: BigNumber;
@@ -89,7 +95,7 @@ export interface INFTMarketInterface extends utils.Interface {
     "getListing(address,uint256)": FunctionFragment;
     "lend(address,uint256,uint16,bool)": FunctionFragment;
     "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
-    "rent(address,uint256,uint16,(address,uint256,uint256,(address,uint256),(address,uint256),(address,uint256)))": FunctionFragment;
+    "rent(address,uint256,uint16,(address,uint256,address,uint256,uint256,(address,uint256),(address,uint256),(address,uint256)))": FunctionFragment;
     "returnRentedNFT(address,uint256)": FunctionFragment;
   };
 

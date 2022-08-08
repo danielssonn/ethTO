@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import SwingSDK from '@swing.xyz/sdk'
-import { SwingContext } from '../context'
 import PropTypes from 'prop-types'
+
+import { SwingContext } from '../context'
 
 const sdk = new SwingSDK({
     debug: true,

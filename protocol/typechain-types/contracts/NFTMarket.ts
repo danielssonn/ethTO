@@ -59,6 +59,8 @@ export type RentalStructOutput = [string, BigNumber] & {
 };
 
 export type NFTListingStruct = {
+  nftAddress: PromiseOrValue<string>;
+  tokenId: PromiseOrValue<BigNumberish>;
   lender: PromiseOrValue<string>;
   maximumEndTime: PromiseOrValue<BigNumberish>;
   createTime: PromiseOrValue<BigNumberish>;
@@ -70,11 +72,15 @@ export type NFTListingStruct = {
 export type NFTListingStructOutput = [
   string,
   BigNumber,
+  string,
+  BigNumber,
   BigNumber,
   RentalStructOutput,
   PaymentStructOutput,
   CollateralStructOutput
 ] & {
+  nftAddress: string;
+  tokenId: BigNumber;
   lender: string;
   maximumEndTime: BigNumber;
   createTime: BigNumber;
@@ -86,8 +92,10 @@ export type NFTListingStructOutput = [
 export interface NFTMarketInterface extends utils.Interface {
   functions: {
     "cancelNFTListing(address,uint256)": FunctionFragment;
+    "getAllListings()": FunctionFragment;
     "getListing(address,uint256)": FunctionFragment;
     "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
+    "listings(uint256)": FunctionFragment;
     "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "onERC1155Received(address,address,uint256,uint256,bytes)": FunctionFragment;
     "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
@@ -101,8 +109,10 @@ export interface NFTMarketInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "cancelNFTListing"
+      | "getAllListings"
       | "getListing"
       | "listNFT"
+      | "listings"
       | "onERC1155BatchReceived"
       | "onERC1155Received"
       | "onERC721Received"
@@ -118,6 +128,10 @@ export interface NFTMarketInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getAllListings",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
@@ -130,6 +144,10 @@ export interface NFTMarketInterface extends utils.Interface {
       PaymentStruct,
       CollateralStruct
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "listings",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "onERC1155BatchReceived",
@@ -182,8 +200,13 @@ export interface NFTMarketInterface extends utils.Interface {
     functionFragment: "cancelNFTListing",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAllListings",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getListing", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "listNFT", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "listings", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "onERC1155BatchReceived",
     data: BytesLike
@@ -304,6 +327,10 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    getAllListings(
+      overrides?: CallOverrides
+    ): Promise<[NFTListingStructOutput[]]>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -318,6 +345,31 @@ export interface NFTMarket extends BaseContract {
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        string,
+        BigNumber,
+        string,
+        BigNumber,
+        BigNumber,
+        RentalStructOutput,
+        PaymentStructOutput,
+        CollateralStructOutput
+      ] & {
+        nftAddress: string;
+        tokenId: BigNumber;
+        lender: string;
+        maximumEndTime: BigNumber;
+        createTime: BigNumber;
+        rental: RentalStructOutput;
+        payment: PaymentStructOutput;
+        collateral: CollateralStructOutput;
+      }
+    >;
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -374,6 +426,8 @@ export interface NFTMarket extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getAllListings(overrides?: CallOverrides): Promise<NFTListingStructOutput[]>;
+
   getListing(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
@@ -388,6 +442,31 @@ export interface NFTMarket extends BaseContract {
     collateral: CollateralStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  listings(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      string,
+      BigNumber,
+      string,
+      BigNumber,
+      BigNumber,
+      RentalStructOutput,
+      PaymentStructOutput,
+      CollateralStructOutput
+    ] & {
+      nftAddress: string;
+      tokenId: BigNumber;
+      lender: string;
+      maximumEndTime: BigNumber;
+      createTime: BigNumber;
+      rental: RentalStructOutput;
+      payment: PaymentStructOutput;
+      collateral: CollateralStructOutput;
+    }
+  >;
 
   onERC1155BatchReceived(
     arg0: PromiseOrValue<string>,
@@ -444,6 +523,10 @@ export interface NFTMarket extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getAllListings(
+      overrides?: CallOverrides
+    ): Promise<NFTListingStructOutput[]>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -458,6 +541,31 @@ export interface NFTMarket extends BaseContract {
       collateral: CollateralStruct,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        string,
+        BigNumber,
+        string,
+        BigNumber,
+        BigNumber,
+        RentalStructOutput,
+        PaymentStructOutput,
+        CollateralStructOutput
+      ] & {
+        nftAddress: string;
+        tokenId: BigNumber;
+        lender: string;
+        maximumEndTime: BigNumber;
+        createTime: BigNumber;
+        rental: RentalStructOutput;
+        payment: PaymentStructOutput;
+        collateral: CollateralStructOutput;
+      }
+    >;
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -552,6 +660,8 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    getAllListings(overrides?: CallOverrides): Promise<BigNumber>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -565,6 +675,11 @@ export interface NFTMarket extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     onERC1155BatchReceived(
@@ -623,6 +738,8 @@ export interface NFTMarket extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    getAllListings(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -636,6 +753,11 @@ export interface NFTMarket extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     onERC1155BatchReceived(
