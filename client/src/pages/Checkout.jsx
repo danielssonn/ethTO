@@ -3,19 +3,10 @@ import { ChevronRightIcon } from '@heroicons/react/solid'
 import { useParams } from 'react-router-dom'
 
 import useSwing from '../hooks/use-swing'
+import useContract from '../hooks/use-contract'
 import AuthRoute from '../components/AuthRoute'
 import RentDaysPicker from '../components/RentDaysPicker'
 import SwingSwapper from '../components/SwingSwapper'
-
-const nft = {
-    id: 1,
-    name: 'Bored Ape Yacht Club',
-    price: '50',
-    token: '#3',
-    imageSrc:
-        'https://ipfs.io/ipfs/QmYxT4LnK8sqLupjbS6eRvu1si7Ly2wFQAqFebxhWntcf6',
-    imageAlt: 'Bored Ape Yacht Club #3',
-}
 
 export default function Checkout() {
     const [steps, setSteps] = useState([
@@ -24,6 +15,8 @@ export default function Checkout() {
         { name: 'Cross Chain Swap', href: '#', status: 'upcoming' },
         { name: 'Confirmation', href: '#', status: 'upcoming' },
     ])
+    const [listing, setListing] = useState()
+    const { listings } = useContract()
     const { address, chainName, tokenId } = useParams()
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
@@ -46,16 +39,27 @@ export default function Checkout() {
     }
 
     useEffect(() => {
-        // TODO: get the url params to
-        // get the listing data.
-        console.log(address, chainName, tokenId)
-    }, [address, chainName, tokenId])
+        if (listing) {
+            setAmount(listing.pricePerDay * daysToRent)
+        }
+    }, [listing, daysToRent])
 
     useEffect(() => {
-        // TODO; get the price from the listing
-        const price = 0.01
-        setAmount(price * daysToRent)
-    }, [daysToRent])
+        if (listings.length) {
+            const listing = listings.find(
+                (l) =>
+                    l.nftAddress === address &&
+                    l.chainName.toLowerCase() === chainName &&
+                    l.tokenId.toString() === tokenId
+            )
+
+            setListing(listing)
+        }
+    }, [listings, address, chainName, tokenId])
+
+    if (listing === undefined) {
+        return <h2>Loading...</h2>
+    }
 
     return (
         <AuthRoute>
@@ -138,18 +142,18 @@ export default function Checkout() {
                                 className="text-sm font-medium text-gray-900 divide-y divide-gray-200"
                             >
                                 <li
-                                    key={nft?.id}
+                                    key={listing.nft.tokenId}
                                     className="flex items-start py-6 space-x-4"
                                 >
                                     <img
-                                        src={nft?.imageSrc}
-                                        alt={nft?.imageAlt}
+                                        src={listing.nft.image}
+                                        alt={listing.nft.name}
                                         className="flex-none w-40 h-40 rounded-md object-center object-cover"
                                     />
                                     <div className="flex-auto space-y-1">
-                                        <h3>{nft?.name}</h3>
+                                        <h3>{listing.nft.name}</h3>
                                         <p className="text-gray-500">
-                                            {nft?.token}
+                                            {listing.tokeId}
                                         </p>
                                     </div>
                                     <div className="flex text-base font-medium items-center">
@@ -158,7 +162,7 @@ export default function Checkout() {
                                             alt=""
                                             className="w-8 h-8 rounded-md object-center object-cover"
                                         />
-                                        <p className="ml-2">{nft?.price}</p>
+                                        <p className="ml-2">{amount}</p>
                                     </div>
                                 </li>
                             </ul>

@@ -49,7 +49,7 @@ contract NFTDummy is ERC721 {
                         baseURI,
                         '/',
                         tokenId.toString(),
-                        '.json"}'
+                        '.png"}'
                     )
                 )
             )
