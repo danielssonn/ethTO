@@ -14,9 +14,6 @@ import '@openzeppelin/contracts/utils/Base64.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
 
 contract NFTDummy is ERC721, ERC721Holder, AxelarExecutable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _totalMinted;
-
     using StringToAddress for string;
     using AddressToString for address;
     using Strings for uint256;
@@ -36,18 +33,28 @@ contract NFTDummy is ERC721, ERC721Holder, AxelarExecutable {
     IAxelarGasService public gasReceiver;
     IAxelarGateway _gateway;
 
-    string public baseURI;
 
-    constructor(string memory baseURI_) ERC721('Dummy NFT', 'DFT') {
+    using Counters for Counters.Counter;
+    Counters.Counter private _totalMinted;
+    string public baseURI;
+    uint256 immutable mintingChainHash;
+
+    bool public executed;
+
+    constructor(string memory baseURI_, string memory _mintingChain) ERC721('Dummy NFT', 'DFT') {
         baseURI = baseURI_;
+        mintingChainHash = uint256(keccak256(abi.encodePacked(_mintingChain)));
     }
 
+
     function mint() public returns (uint256) {
+        require(
+                mintingChainHash == uint256(keccak256(abi.encodePacked(chainName))),
+                "Not allowed to mint on this chain"
+                );
         uint256 tokenId = _totalMinted.current();
 
         _safeMint(msg.sender, tokenId);
-
-        _totalMinted.increment();
 
         emit NFTMinted(tokenId);
 
@@ -109,71 +116,12 @@ contract NFTDummy is ERC721, ERC721Holder, AxelarExecutable {
         string memory destinationChain,
         address destinationAddress
     ) external payable {
-        //If we are the operator then this is a minted token that lives remotely.
-        address sender = _msgSender();
-        if (sender == address(this)) {
-            require(ownerOf(tokenId) == sender, 'NOT_YOUR_TOKEN');
-            _sendMintedToken(tokenId, destinationChain, destinationAddress);
-        } else {
-            // IERC721(sender).transferFrom(
-            //     sender,
-            //     address(this),
-            //     tokenId
-            // );
 
-            _sendNativeToken(
-                sender,
-                tokenId,
-                destinationChain,
-                destinationAddress
-            );
-        }
-    }
-
-    //Burns and sends a token.
-    function _sendMintedToken(
-        uint256 tokenId,
-        string memory destinationChain,
-        address destinationAddress
-    ) internal {
         _burn(tokenId);
-        //Get the original information.
-        (
-            string memory originalChain,
-            address operator,
-            uint256 originalTokenId
-        ) = abi.decode(original[tokenId], (string, address, uint256));
-        //Create the payload.
-        bytes memory payload = abi.encode(
-            originalChain,
-            operator,
-            originalTokenId,
-            destinationAddress
-        );
-        string memory stringAddress = address(this).toString();
-        //Pay for gas. We could also send the contract call here but then the sourceAddress will be that of the gas receiver which is a problem later.
-        gasReceiver.payNativeGasForContractCall{value: msg.value}(
-            address(this),
-            destinationChain,
-            stringAddress,
-            payload,
-            msg.sender
-        );
-        //Call the remote contract.
-        gateway().callContract(destinationChain, stringAddress, payload);
-    }
 
-    //Locks and sends a token.
-    function _sendNativeToken(
-        address operator,
-        uint256 tokenId,
-        string memory destinationChain,
-        address destinationAddress
-    ) internal {
         //Create the payload.
         bytes memory payload = abi.encode(
             chainName,
-            operator,
             tokenId,
             destinationAddress
         );
@@ -186,7 +134,11 @@ contract NFTDummy is ERC721, ERC721Holder, AxelarExecutable {
             payload,
             msg.sender
         );
-        //Call remote contract.
+
+
+        emit NFTSent(tokenId, chainName, destinationAddress);
+
+        //Call the remote contract.
         gateway().callContract(destinationChain, stringAddress, payload);
     }
 
@@ -196,36 +148,28 @@ contract NFTDummy is ERC721, ERC721Holder, AxelarExecutable {
         string calldata sourceAddress,
         bytes calldata payload
     ) internal override {
+        executed = true;
+
         //Check that the sender is another token linker.
-        require(sourceAddress.toAddress() == address(this), 'NOT_A_LINKER');
+        // require(sourceAddress.toAddress() == address(this), 'NOT_A_LINKER');
         //Decode the payload.
         (
             string memory originalChain,
-            address operator,
             uint256 tokenId,
             address destinationAddress
-        ) = abi.decode(payload, (string, address, uint256, address));
+        ) = abi.decode(payload, (string, uint256, address));
+
         //If this is the original chain then we give the NFT locally.
         if (keccak256(bytes(originalChain)) == keccak256(bytes(chainName))) {
-            IERC721(operator).transferFrom(
+            transferFrom(
                 address(this),
                 destinationAddress,
                 tokenId
             );
             //Otherwise we need to mint a new one.
         } else {
-            //We need to save all the relevant information.
-            bytes memory originalData = abi.encode(
-                originalChain,
-                operator,
-                tokenId
-            );
-            //Avoids tokenId collisions.
-            uint256 newTokenId = uint256(keccak256(originalData));
-            original[newTokenId] = originalData;
-            _safeMint(destinationAddress, newTokenId);
-        }
 
-        emit NFTSent(tokenId, chainName, destinationAddress);
+            _safeMint(destinationAddress, tokenId);
+        }
     }
 }

@@ -5,6 +5,11 @@
         "internalType": "string",
         "name": "baseURI_",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_mintingChain",
+        "type": "string"
       }
     ],
     "stateMutability": "nonpayable",
@@ -260,6 +265,19 @@
     "name": "executeWithToken",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "executed",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

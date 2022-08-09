@@ -36,6 +36,7 @@ export interface NFTDummyInterface extends utils.Interface {
     "chainName()": FunctionFragment;
     "execute(bytes32,string,string,bytes)": FunctionFragment;
     "executeWithToken(bytes32,string,string,bytes,string,uint256)": FunctionFragment;
+    "executed()": FunctionFragment;
     "gasReceiver()": FunctionFragment;
     "gateway()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
@@ -64,6 +65,7 @@ export interface NFTDummyInterface extends utils.Interface {
       | "chainName"
       | "execute"
       | "executeWithToken"
+      | "executed"
       | "gasReceiver"
       | "gateway"
       | "getApproved"
@@ -114,6 +116,7 @@ export interface NFTDummyInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>
     ]
   ): string;
+  encodeFunctionData(functionFragment: "executed", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gasReceiver",
     values?: undefined
@@ -210,6 +213,7 @@ export interface NFTDummyInterface extends utils.Interface {
     functionFragment: "executeWithToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "executed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gasReceiver",
     data: BytesLike
@@ -386,6 +390,8 @@ export interface NFTDummy extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    executed(overrides?: CallOverrides): Promise<[boolean]>;
+
     gasReceiver(overrides?: CallOverrides): Promise<[string]>;
 
     gateway(overrides?: CallOverrides): Promise<[string]>;
@@ -513,6 +519,8 @@ export interface NFTDummy extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  executed(overrides?: CallOverrides): Promise<boolean>;
+
   gasReceiver(overrides?: CallOverrides): Promise<string>;
 
   gateway(overrides?: CallOverrides): Promise<string>;
@@ -639,6 +647,8 @@ export interface NFTDummy extends BaseContract {
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    executed(overrides?: CallOverrides): Promise<boolean>;
 
     gasReceiver(overrides?: CallOverrides): Promise<string>;
 
@@ -815,6 +825,8 @@ export interface NFTDummy extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    executed(overrides?: CallOverrides): Promise<BigNumber>;
+
     gasReceiver(overrides?: CallOverrides): Promise<BigNumber>;
 
     gateway(overrides?: CallOverrides): Promise<BigNumber>;
@@ -942,6 +954,8 @@ export interface NFTDummy extends BaseContract {
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    executed(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     gasReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

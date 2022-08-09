@@ -4,6 +4,11 @@ import { BigNumber, Contract, Wallet } from 'ethers'
 import { ethers } from 'hardhat'
 import { expect } from 'chai'
 
+function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+
 describe('Testing setup preconditions', function () {
     let destinationChain: Network | undefined
     let sourceChain: Network | undefined
@@ -19,19 +24,12 @@ describe('Testing setup preconditions', function () {
 
     before(async function () {
         destinationChain = await createNetwork({ name: 'Polygon' })
-        sourceChain = await createNetwork({ name: 'Moonbeam' })
+        sourceChain = await createNetwork({ name: 'Avalanche' })
 
         sourceDeployer = sourceChain.userWallets[0]
         destinationDeployer = destinationChain.userWallets[0]
 
         sender = sourceChain.userWallets[1]
-
-        sourceChain.giveToken(
-            sender!.address,
-            'wGLMR',
-            senderBalance.toBigInt()
-        )
-
         receiver = destinationChain.userWallets[1]
 
         const NFTContractSource = await ethers.getContractFactory(
@@ -40,8 +38,18 @@ describe('Testing setup preconditions', function () {
         )
 
         // deploy the contract on source
-        nftContractSource = await NFTContractSource.deploy('https://www.example.com')
-        await nftContractSource.deployed()
+        nftContractSource = await NFTContractSource.deploy(
+            'https://www.example.com',
+            'Avalanche'
+        )
+        await nftContractSource!.deployed()
+        await (
+            await nftContractSource!.init(
+                sourceChain!.name,
+                sourceChain!.gateway.address,
+                sourceChain!.gasReceiver.address
+            )
+        ).wait()
         await (await nftContractSource!.connect(sender!).mint()).wait()
 
         // deploy the contract on destination
@@ -49,18 +57,24 @@ describe('Testing setup preconditions', function () {
             'NFTDummy',
             destinationDeployer
         )
-        nftContractDestination = await NFTContractDestination.deploy('https://www.example.com')
-        await nftContractDestination.deployed()
-
-        await (await nftContractSource!
-            .connect(sender!)
-            .approve(nftContractSource!.address, tokenId)).wait()
-
-        const tx = await nftContractSource!.connect(sender!).sendNFT(
-                tokenId,
+        nftContractDestination = await NFTContractDestination.deploy(
+            'https://www.example.com',
+            'Avalanche'
+        )
+        await nftContractDestination!.deployed()
+        await (
+            await nftContractDestination!.init(
                 destinationChain!.name,
-                receiver!.address,
+                destinationChain!.gateway.address,
+                destinationChain!.gasReceiver.address
             )
+        ).wait()
+
+        await (
+            await nftContractSource!
+                .connect(sender!)
+                .approve(nftContractSource!.address, tokenId)
+        ).wait()
     })
     describe('Verify setup preconditions', function () {
         it('Should mint the nft to sender', async function () {
@@ -68,34 +82,49 @@ describe('Testing setup preconditions', function () {
             expect(senderAddr).to.be.equal(sender!.address)
         })
 
-        it('Should give the sender some native tokens', async function() {
+        it('Should give the sender some native tokens', async function () {
             const balance = await sender!.getBalance()
             expect(balance).to.be.above(0)
         })
-        it('Should have the nft contract be approved', async function() {
+        it('Should have the nft contract be approved', async function () {
             const approved = await nftContractSource!.getApproved(tokenId)
             expect(approved).to.be.equal(nftContractSource!.address)
         })
-        it('Should have the nft owner be sender', async function() {
+        it('Should have the nft owner be sender', async function () {
             const owner = await nftContractSource!.ownerOf(tokenId)
             expect(owner).to.be.equal(sender!.address)
         })
     })
     describe('Verify send conditions', function () {
         before(async function () {
-            const gatewayGasAmount = BigNumber.from(1e9)
-            const gatewayGasPrice = BigNumber.from(1)
-            const gatewayGasCost = gatewayGasPrice.mul(gatewayGasAmount)
+            const gatewayGasLimit = BigNumber.from(5e6)
+            const gatewayGasPrice = BigNumber.from(10)
+            const gatewayGasCost = gatewayGasPrice.mul(gatewayGasLimit)
 
-            console.log('---------------- nft about to be sent ---------------')
-            const tx = await nftContractSource!.connect(sender!).sendNFT(
-                tokenId,
-                destinationChain!.name,
-                receiver!.address,
-                { value: gatewayGasCost }
-            )
-            //await expect(tx).to.emit(nftContract!, 'NFTSent')
+            const sendTx = await nftContractSource!
+                .connect(sender!)
+                .sendNFT(tokenId, destinationChain!.name, receiver!.address, {
+                    value: gatewayGasCost,
+                })
+
+            await expect(sendTx).to.emit(nftContractSource!, 'NFTSent')
+
+            let executed = false
+            while (!executed) {
+                executed = await nftContractDestination!.executed()
+                // try {
+                //     executed = await nftContractDestination!.executed()
+                // } catch (e) {
+                //     console.log(
+                //         '--------- protocol not completed ---------------'
+                //     )
+                // }
+                delay(2000)
+            }
+            console.log('---------------- done ------------------')
         })
-        it('Sholud transfer nft to the dest chain', async function () {})
+        it('Should burn the nft on source chain', async function () {
+            await expect(nftContractSource!.ownerOf(tokenId)).to.be.reverted
+        })
     })
 })
