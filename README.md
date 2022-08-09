@@ -23,12 +23,24 @@
 </p>
 
 <p align="center">
-<a>[<img src="assets/cross-chain-ux-rocks.svg" alt="Cross Chain UX Rocks">](https://conveyr.xyz/)</a>
-<a>![Powered by Axelar](assets/powered-by-axelar.svg)</a>
-<a>![Made with SwingXYZ](assets/made-with-swing.xyz.svg)</a>
-<a>![Runs On Moonbeam](assets/runs-on-moonbeam.svg)</a>
-<a>![Runs On Ethereum](assets/runs-on-ethereum.svg)</a>
-<a>![Runs On Polygon](assets/runs-on-polygon.svg)</a>
+  <a>
+    <img src="assets/cross-chain-ux-rocks.svg" alt="Cross Chain UX Rocks">
+  </a>
+  <a>
+    <img src="assets/powered-by-axelar.svg" alt="Powered by Axelar">
+  </a>
+  <a>
+    <img src="assets/powered-by-axelar.svg" alt="Made with SwingXYZ">
+  </a>
+  <a>
+    <img src="assets/runs-on-moonbeam.svg" alt="Runs On Moonbeam">
+  </a>
+  <a>
+    <img src="assets/runs-on-ethereum.svg" alt="Runs On Ethereum">
+  </a>
+  <a>
+    <img src="assets/runs-on-polygon.svg" alt="Runs On Polygon">
+  </a>
 </p>
 
 ## Table of Contents
