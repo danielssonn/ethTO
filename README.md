@@ -54,13 +54,18 @@
   - [Pull Requests](#pull-requests)
   - [Merging Into Main](#merging-into-main)
 - [License](#-license)
+- [Thanks](#-thanks)
 
 Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here
 
 - **Rent NFTs From Anywhere.** Conveyr pulls NFTs from any chain, whether it’s Ethereum, a Layer-2 scaling sidechain solution like Polygon, or Moonbeam.
+
 - **Some Feature.** Some description.
+
 - **Some Feature.** Some description.
+
 - **Some Feature.** Some description.
+
 - **Some Feature.** Some description.
 
 [<img src="assets/screenshot.png" alt="Conveyr">](https://conveyr.xyz/)
@@ -241,3 +246,7 @@ Always “Squash & merge” your commits into `main`.
 ## 🧐 License
 
 Licensed under the [MIT License](./LICENSE).
+
+## 💜 Thanks
+
+Thanks go out to all of the many sponsors and [ETHToronto](https://www.ethtoronto.ca/).
