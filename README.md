@@ -30,23 +30,23 @@
     <img src="assets/powered-by-axelar.svg" alt="Powered by Axelar">
   </a>
   <a>
-    <img src="assets/powered-by-axelar.svg" alt="Made with SwingXYZ">
+    <img src="assets/made-with-swing.xyz.svg" alt="Made with Swing.xyz">
   </a>
   <a>
-    <img src="assets/runs-on-moonbeam.svg" alt="Runs On Moonbeam">
+    <img src="assets/runs-on-moonbeam.svg" alt="Runs on Moonbeam">
   </a>
   <a>
-    <img src="assets/runs-on-ethereum.svg" alt="Runs On Ethereum">
+    <img src="assets/runs-on-ethereum.svg" alt="Runs on Ethereum">
   </a>
   <a>
-    <img src="assets/runs-on-polygon.svg" alt="Runs On Polygon">
+    <img src="assets/runs-on-polygon.svg" alt="Runs on Polygon">
   </a>
 </p>
 
 ## Table of Contents
 
 - [Features](#features)
-- [Quick Start](#quick-start)
+- [Get started with Conveyr _locally_ in 5 minutes](#get-started-with-conveyr-locally-in-5-minutes)
 - [Contributing](#contributing)
   - [Types](#types)
   - [Branches](#branches)
@@ -65,9 +65,9 @@ Story goes here Story goes here Story goes here Story goes here Story goes here 
 
 [<img src="assets/dashboard-main.png" alt="Conveyr">](https://conveyr.xyz/)
 
-[**👉 [Our Glorious Deployment URL](https://here.xyz) 👈**](https://www.gatsbyjs.com/docs/)
+[**👉 Our Glorious Deployment URL 👈**](https://conveyr.xyz/)
 
-### Why we built it
+### Why We Built It
 
 - There are many blockchains out there, each with great assets and communities
 - The future is definitely multi-chain!
@@ -76,14 +76,14 @@ Story goes here Story goes here Story goes here Story goes here Story goes here 
   - Tokens need to be swapped around, also by the user
   - It is so easy to make a mistake, lose out on an opportunity, or simply get discouraged
 
-### What we built
+### What We Built
 
 - Cross-chain NFT renting experience
 - With simple and straightforward UX
 - No matter what chain and which wallet or tokens you have
 - You can list and rent NFTs on multiple chains, without the multi chain hassle
 
-### How we built it
+### How We Built It
 
 - We have created NFT renting contracts for lenders and renters
 - We have deployed the contracts on Polygon and Moonbeam
@@ -102,7 +102,7 @@ Story goes here Story goes here Story goes here Story goes here Story goes here 
 - [lint-staged](https://github.com/okonet/lint-staged)—for pre-commit code formatting and linting.
 - [Prettier](https://prettier.io/)—for code formatting.
 
-## 💻 Get Started with Conveyr _locally_ in 5 minutes
+## 💻 Get started with Conveyr _locally_ in 5 minutes
 
 To run the dev environment you'll need to start the local blockchains in the `./protocol` directory in a separate terminal.
 
