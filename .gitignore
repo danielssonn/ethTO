@@ -8,5 +8,5 @@ typechain
 cache
 artifacts
 
-oracles/node_modules
+dist
 
