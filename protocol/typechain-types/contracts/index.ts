@@ -6,3 +6,6 @@ export type { INFTMarket } from "./INFTMarket";
 export type { MarketSyncher } from "./MarketSyncher";
 export type { NFTDummy } from "./NFTDummy";
 export type { NFTMarket } from "./NFTMarket";
+export type { NFTMarketExposed } from "./NFTMarketExposed";
+export type { SendAckReceiver } from "./SendAckReceiver";
+export type { SendAckSender } from "./SendAckSender";

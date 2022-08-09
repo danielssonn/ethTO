@@ -59,7 +59,7 @@ describe('NFTMarket', function () {
       const tx = await nftMarket!.connect(addr1).listNFT(
         nftContract!.address,
         0,
-        Math.round(Date.now() / 1000) + 60 * 60 * 24, // a day from now
+        Math.round(Date.now() / 1000) + 60 * 60 * 48, // a day from now
         {
           paymentToken: dummyCoin!.address,
           pricePerDay: ethers.utils.parseEther('0.001'),
@@ -154,13 +154,6 @@ describe('NFTMarket', function () {
       it('Should increase the collateral escrow', async () => {
         expect(await dummyCoin!.balanceOf(nftMarket!.address)).to.equal(
           ethers.utils.parseEther('0.01').toString()
-        )
-      })
-
-      it('Should increase the lenders balance', async () => {
-        const [, addr1] = await ethers.getSigners()
-        expect(await dummyCoin!.balanceOf(addr1.address)).to.equal(
-          ethers.utils.parseEther('0.001')
         )
       })
 
