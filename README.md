@@ -195,8 +195,6 @@ feat/add-xyz
 
 ### Commits
 
-<s>Conventional Commits are enforced using [commitlint](https://commitlint.js.org/) in a [husky](https://github.com/typicode/husky) pre-commit hook.</s>
-
 Convention:
 
 ```shell
