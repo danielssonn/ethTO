@@ -22,12 +22,11 @@ contract AxelarMarketExecutor is
     IAxelarGasService public gasReceiver;
     string public chainName; // see valid chain names at https://docs.axelar.dev/dev/build/chain-names
 
-    function init(
-        string memory _chainName,
+    constructor(
         address _gateway,
-        address _gasReceiver
-    ) external {
-        if (address(gateway()) != address(0) || address(gasReceiver) != address(0)) revert AlreadyInitialized();
+        address _gasReceiver,
+        string memory _chainName
+    ) {
         gasReceiver = IAxelarGasService(_gasReceiver);
         s_gateway = IAxelarGateway(_gateway);
         chainName = _chainName;

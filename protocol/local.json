@@ -6,7 +6,7 @@
     "gasReceiver": "0xe90560ba227BA579eb4D883abe73E85a9123a615",
     "constAddressDeployer": "0x69aeB7Dc4f2A86873Dae8D753DE89326Cf90a77a",
     "tokens": {
-      "aWETH": "aWETH"
+      "aMATIC": "aMATIC"
     },
     "rpc": "http://localhost:8500/0",
     "tokenName": "Matic",
@@ -19,7 +19,7 @@
     "gasReceiver": "0x5737A424F8e9A0dbA8701A4cDaB8E425F9031b33",
     "constAddressDeployer": "0x69aeB7Dc4f2A86873Dae8D753DE89326Cf90a77a",
     "tokens": {
-      "aWETH": "aWETH"
+      "aMATIC": "aMATIC"
     },
     "rpc": "http://localhost:8500/1",
     "tokenName": "DEV",

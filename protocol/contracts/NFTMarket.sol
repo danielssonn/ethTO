@@ -30,6 +30,8 @@ contract NFTMarket is
     // uint256 represents the tokenId of the NFT
     mapping(address => mapping(uint256 => NFTListing)) internal listedNFTs;
 
+    NFTListing[] public listings;
+
     function msgSender() internal view virtual returns (address) {
       return msg.sender;
     }
@@ -51,11 +53,15 @@ contract NFTMarket is
         // Create the listing Struct with default values.
         // We need to do it this way because the renter is not yet defined.
         NFTListing storage listing = listedNFTs[nftAddress][tokenId];
+        listing.nftAddress = nftAddress;
+        listing.tokenId = tokenId;
         listing.lender = lender;
         listing.maximumEndTime = maximumEndTime;
         listing.createTime = block.timestamp;
         listing.payment = payment;
         listing.collateral = collateral;
+
+        listings.push(listing);
 
         // transfer the NFT to this contract for an escrow (see ERC721Holder and ERC1155Holder)
         IERC721(nftAddress).safeTransferFrom(lender, address(this), tokenId);
@@ -164,6 +170,10 @@ contract NFTMarket is
         returns (NFTListing memory)
     {
         return listedNFTs[nftAddress][tokenId];
+    }
+
+    function getAllListings() public view returns (NFTListing[] memory) {
+        return listings;
     }
 
     /**
