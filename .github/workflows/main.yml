@@ -12,7 +12,7 @@ jobs:
     defaults:
       run:
         working-directory: ./client
-        
+
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16
@@ -50,5 +50,5 @@ jobs:
           invalidation: /
           delete-removed: true
           no-cache: true
-          private: true
+          private: false
           filesToInclude: ".*/*,*/*,**"
