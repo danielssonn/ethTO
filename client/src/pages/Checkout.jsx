@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
 import { ChevronRightIcon } from '@heroicons/react/solid'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
-import useSwing from '../hooks/use-swing'
 import AuthRoute from '../components/AuthRoute'
 import RentDaysPicker from '../components/RentDaysPicker'
-import SwingSwapper from '../components/SwingSwapper'
 
 const nft = {
     id: 1,
@@ -19,20 +17,14 @@ const nft = {
 
 export default function Checkout() {
     const [steps, setSteps] = useState([
-        { name: 'Select NFT', href: '/rent', status: 'complete' },
+        { name: 'Select NFT', href: '/arrivals', status: 'complete' },
         { name: 'Rental Information', href: '#', status: 'current' },
-        { name: 'Cross Chain Swap', href: '#', status: 'upcoming' },
         { name: 'Confirmation', href: '#', status: 'upcoming' },
     ])
     const { address, chainName, tokenId } = useParams()
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
-    const [amount, setAmount] = useState()
-    const { transferState } = useSwing()
-
-    const handleSwapComplete = () => {
-        setStep(step + 1)
-    }
+    // const [amount, setAmount] = useState()
 
     const handleContinue = (event) => {
         event.preventDefault()
@@ -53,8 +45,8 @@ export default function Checkout() {
 
     useEffect(() => {
         // TODO; get the price from the listing
-        const price = 0.01
-        setAmount(price * daysToRent)
+        // const price = 0.01
+        // setAmount(price * daysToRent)
     }, [daysToRent])
 
     return (
@@ -72,17 +64,17 @@ export default function Checkout() {
                 <header className="relative bg-white border-b border-gray-200 text-sm font-medium text-gray-700">
                     <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
                         <div className="relative flex justify-end sm:justify-center">
-                            <a
-                                href="#"
+                            <Link
+                                to="/"
                                 className="absolute left-0 top-1/2 -mt-4"
                             >
-                                <span className="sr-only">Workflow</span>
+                                <span className="sr-only">Conveyr</span>
                                 <img
                                     src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
                                     alt="Conveyr logo"
                                     className="h-8 w-auto"
                                 />
-                            </a>
+                            </Link>
                             <nav
                                 aria-label="Progress"
                                 className="hidden sm:block"
@@ -94,17 +86,17 @@ export default function Checkout() {
                                             className="flex items-center"
                                         >
                                             {step.status === 'current' ? (
-                                                <a
-                                                    href={step.href}
+                                                <Link
+                                                    to={step.href}
                                                     aria-current="page"
                                                     className="text-green-600"
                                                 >
                                                     {step.name}
-                                                </a>
+                                                </Link>
                                             ) : (
-                                                <a href={step.href}>
+                                                <Link to={step.href}>
                                                     {step.name}
-                                                </a>
+                                                </Link>
                                             )}
                                             {stepIdx !== steps.length - 1 ? (
                                                 <ChevronRightIcon
@@ -171,18 +163,6 @@ export default function Checkout() {
                                 selectedDay={daysToRent}
                                 setSelectedDays={setDaysToRent}
                             />
-                            <SwingSwapper
-                                active={step === 2}
-                                onComplete={handleSwapComplete}
-                                params={{
-                                    amount,
-                                    // TODO: get this data from the listing
-                                    fromChain: 'polygon',
-                                    fromToken: 'WETH',
-                                    toChain: 'avalanche',
-                                    toToken: 'AVAX',
-                                }}
-                            />
                             <div className="mt-10 pt-6 border-t border-gray-200 sm:flex sm:items-center sm:justify-between">
                                 <button
                                     type="submit"
@@ -192,11 +172,7 @@ export default function Checkout() {
                                     Continue
                                 </button>
                                 <p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-left">
-                                    {step === 2 && transferState
-                                        ? `${transferState[0].toUpperCase()}${transferState
-                                              .slice(1)
-                                              .toLowerCase()}`
-                                        : 'Lorem ipsum'}
+                                    Lorem ipsum
                                 </p>
                             </div>
                         </div>
