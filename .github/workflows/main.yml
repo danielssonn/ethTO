@@ -34,13 +34,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      # - name: Test
-      #   run: npm test
-
       - name: Build
         run: npm run build
 
       - name: Deploy
+        if: contains(github.ref, 'main')
         uses: reggionick/s3-deploy@v3
         with:
           folder: ./client/dist
