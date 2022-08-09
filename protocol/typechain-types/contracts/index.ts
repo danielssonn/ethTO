@@ -2,9 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { DummyCoin } from "./DummyCoin";
-export type { INFTMarket } from "./INFTMarket";
 export type { NFTDummy } from "./NFTDummy";
-export type { NFTMarket } from "./NFTMarket";
-export type { NFTMarketExposed } from "./NFTMarketExposed";
-export type { SendAckReceiver } from "./SendAckReceiver";
-export type { SendAckSender } from "./SendAckSender";

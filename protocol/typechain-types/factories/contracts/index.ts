@@ -2,9 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { DummyCoin__factory } from "./DummyCoin__factory";
-export { INFTMarket__factory } from "./INFTMarket__factory";
 export { NFTDummy__factory } from "./NFTDummy__factory";
-export { NFTMarket__factory } from "./NFTMarket__factory";
-export { NFTMarketExposed__factory } from "./NFTMarketExposed__factory";
-export { SendAckReceiver__factory } from "./SendAckReceiver__factory";
-export { SendAckSender__factory } from "./SendAckSender__factory";

@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -32,13 +33,22 @@ export interface NFTDummyInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseURI()": FunctionFragment;
+    "chainName()": FunctionFragment;
+    "execute(bytes32,string,string,bytes)": FunctionFragment;
+    "executeWithToken(bytes32,string,string,bytes,string,uint256)": FunctionFragment;
+    "gasReceiver()": FunctionFragment;
+    "gateway()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "init(string,address,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint()": FunctionFragment;
     "name()": FunctionFragment;
+    "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
+    "original(uint256)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
+    "sendNFT(uint256,string,address)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
@@ -51,13 +61,22 @@ export interface NFTDummyInterface extends utils.Interface {
       | "approve"
       | "balanceOf"
       | "baseURI"
+      | "chainName"
+      | "execute"
+      | "executeWithToken"
+      | "gasReceiver"
+      | "gateway"
       | "getApproved"
+      | "init"
       | "isApprovedForAll"
       | "mint"
       | "name"
+      | "onERC721Received"
+      | "original"
       | "ownerOf"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
+      | "sendNFT"
       | "setApprovalForAll"
       | "supportsInterface"
       | "symbol"
@@ -74,9 +93,43 @@ export interface NFTDummyInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "baseURI", values?: undefined): string;
+  encodeFunctionData(functionFragment: "chainName", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "execute",
+    values: [
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "executeWithToken",
+    values: [
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "gasReceiver",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "gateway", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "init",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -84,6 +137,19 @@ export interface NFTDummyInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "mint", values?: undefined): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "onERC721Received",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "original",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [PromiseOrValue<BigNumberish>]
@@ -103,6 +169,14 @@ export interface NFTDummyInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "sendNFT",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>
     ]
   ): string;
   encodeFunctionData(
@@ -130,16 +204,33 @@ export interface NFTDummyInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "baseURI", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "chainName", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "executeWithToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "gasReceiver",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "init", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "onERC721Received",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "original", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -149,6 +240,7 @@ export interface NFTDummyInterface extends utils.Interface {
     functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "sendNFT", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
     data: BytesLike
@@ -167,11 +259,15 @@ export interface NFTDummyInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "NFTMinted(uint256)": EventFragment;
+    "NFTSent(uint256,string,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NFTMinted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NFTSent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -198,6 +294,25 @@ export type ApprovalForAllEvent = TypedEvent<
 >;
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
+
+export interface NFTMintedEventObject {
+  token: BigNumber;
+}
+export type NFTMintedEvent = TypedEvent<[BigNumber], NFTMintedEventObject>;
+
+export type NFTMintedEventFilter = TypedEventFilter<NFTMintedEvent>;
+
+export interface NFTSentEventObject {
+  _tokenId: BigNumber;
+  _destinationChain: string;
+  _destinationAdress: string;
+}
+export type NFTSentEvent = TypedEvent<
+  [BigNumber, string, string],
+  NFTSentEventObject
+>;
+
+export type NFTSentEventFilter = TypedEventFilter<NFTSentEvent>;
 
 export interface TransferEventObject {
   from: string;
@@ -251,10 +366,41 @@ export interface NFTDummy extends BaseContract {
 
     baseURI(overrides?: CallOverrides): Promise<[string]>;
 
+    chainName(overrides?: CallOverrides): Promise<[string]>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    gasReceiver(overrides?: CallOverrides): Promise<[string]>;
+
+    gateway(overrides?: CallOverrides): Promise<[string]>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    init(
+      chainName_: PromiseOrValue<string>,
+      gateway_: PromiseOrValue<string>,
+      gasReceiver_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -267,6 +413,19 @@ export interface NFTDummy extends BaseContract {
     ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
+
+    onERC721Received(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    original(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -286,6 +445,13 @@ export interface NFTDummy extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    sendNFT(
+      tokenId: PromiseOrValue<BigNumberish>,
+      destinationChain: PromiseOrValue<string>,
+      destinationAddress: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     setApprovalForAll(
@@ -327,10 +493,41 @@ export interface NFTDummy extends BaseContract {
 
   baseURI(overrides?: CallOverrides): Promise<string>;
 
+  chainName(overrides?: CallOverrides): Promise<string>;
+
+  execute(
+    commandId: PromiseOrValue<BytesLike>,
+    sourceChain: PromiseOrValue<string>,
+    sourceAddress: PromiseOrValue<string>,
+    payload: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  executeWithToken(
+    commandId: PromiseOrValue<BytesLike>,
+    sourceChain: PromiseOrValue<string>,
+    sourceAddress: PromiseOrValue<string>,
+    payload: PromiseOrValue<BytesLike>,
+    tokenSymbol: PromiseOrValue<string>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  gasReceiver(overrides?: CallOverrides): Promise<string>;
+
+  gateway(overrides?: CallOverrides): Promise<string>;
+
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  init(
+    chainName_: PromiseOrValue<string>,
+    gateway_: PromiseOrValue<string>,
+    gasReceiver_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   isApprovedForAll(
     owner: PromiseOrValue<string>,
@@ -343,6 +540,19 @@ export interface NFTDummy extends BaseContract {
   ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
+
+  onERC721Received(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<string>,
+    arg2: PromiseOrValue<BigNumberish>,
+    arg3: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  original(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   ownerOf(
     tokenId: PromiseOrValue<BigNumberish>,
@@ -362,6 +572,13 @@ export interface NFTDummy extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     data: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  sendNFT(
+    tokenId: PromiseOrValue<BigNumberish>,
+    destinationChain: PromiseOrValue<string>,
+    destinationAddress: PromiseOrValue<string>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   setApprovalForAll(
@@ -403,10 +620,41 @@ export interface NFTDummy extends BaseContract {
 
     baseURI(overrides?: CallOverrides): Promise<string>;
 
+    chainName(overrides?: CallOverrides): Promise<string>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    gasReceiver(overrides?: CallOverrides): Promise<string>;
+
+    gateway(overrides?: CallOverrides): Promise<string>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    init(
+      chainName_: PromiseOrValue<string>,
+      gateway_: PromiseOrValue<string>,
+      gasReceiver_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -417,6 +665,19 @@ export interface NFTDummy extends BaseContract {
     mint(overrides?: CallOverrides): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<string>;
+
+    onERC721Received(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    original(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -435,6 +696,13 @@ export interface NFTDummy extends BaseContract {
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    sendNFT(
+      tokenId: PromiseOrValue<BigNumberish>,
+      destinationChain: PromiseOrValue<string>,
+      destinationAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -487,6 +755,20 @@ export interface NFTDummy extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
+    "NFTMinted(uint256)"(token?: null): NFTMintedEventFilter;
+    NFTMinted(token?: null): NFTMintedEventFilter;
+
+    "NFTSent(uint256,string,address)"(
+      _tokenId?: PromiseOrValue<BigNumberish> | null,
+      _destinationChain?: PromiseOrValue<string> | null,
+      _destinationAdress?: PromiseOrValue<string> | null
+    ): NFTSentEventFilter;
+    NFTSent(
+      _tokenId?: PromiseOrValue<BigNumberish> | null,
+      _destinationChain?: PromiseOrValue<string> | null,
+      _destinationAdress?: PromiseOrValue<string> | null
+    ): NFTSentEventFilter;
+
     "Transfer(address,address,uint256)"(
       from?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
@@ -513,9 +795,40 @@ export interface NFTDummy extends BaseContract {
 
     baseURI(overrides?: CallOverrides): Promise<BigNumber>;
 
+    chainName(overrides?: CallOverrides): Promise<BigNumber>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    gasReceiver(overrides?: CallOverrides): Promise<BigNumber>;
+
+    gateway(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    init(
+      chainName_: PromiseOrValue<string>,
+      gateway_: PromiseOrValue<string>,
+      gasReceiver_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     isApprovedForAll(
@@ -529,6 +842,19 @@ export interface NFTDummy extends BaseContract {
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
+
+    onERC721Received(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    original(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -548,6 +874,13 @@ export interface NFTDummy extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    sendNFT(
+      tokenId: PromiseOrValue<BigNumberish>,
+      destinationChain: PromiseOrValue<string>,
+      destinationAddress: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     setApprovalForAll(
@@ -590,9 +923,40 @@ export interface NFTDummy extends BaseContract {
 
     baseURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    chainName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    execute(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    executeWithToken(
+      commandId: PromiseOrValue<BytesLike>,
+      sourceChain: PromiseOrValue<string>,
+      sourceAddress: PromiseOrValue<string>,
+      payload: PromiseOrValue<BytesLike>,
+      tokenSymbol: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    gasReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    init(
+      chainName_: PromiseOrValue<string>,
+      gateway_: PromiseOrValue<string>,
+      gasReceiver_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
@@ -606,6 +970,19 @@ export interface NFTDummy extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    onERC721Received(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      arg3: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    original(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -625,6 +1002,13 @@ export interface NFTDummy extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       data: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    sendNFT(
+      tokenId: PromiseOrValue<BigNumberish>,
+      destinationChain: PromiseOrValue<string>,
+      destinationAddress: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     setApprovalForAll(

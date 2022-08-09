@@ -17,6 +17,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAxelarGasService__factory>;
     getContractFactory(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
       name: "IUpgradable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IUpgradable__factory>;
@@ -97,35 +101,20 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.DummyCoin__factory>;
     getContractFactory(
-      name: "INFTMarket",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.INFTMarket__factory>;
-    getContractFactory(
       name: "NFTDummy",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTDummy__factory>;
-    getContractFactory(
-      name: "NFTMarket",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NFTMarket__factory>;
-    getContractFactory(
-      name: "NFTMarketExposed",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NFTMarketExposed__factory>;
-    getContractFactory(
-      name: "SendAckReceiver",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SendAckReceiver__factory>;
-    getContractFactory(
-      name: "SendAckSender",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SendAckSender__factory>;
 
     getContractAt(
       name: "IAxelarGasService",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IAxelarGasService>;
+    getContractAt(
+      name: "IERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
     getContractAt(
       name: "IUpgradable",
       address: string,
@@ -227,35 +216,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.DummyCoin>;
     getContractAt(
-      name: "INFTMarket",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.INFTMarket>;
-    getContractAt(
       name: "NFTDummy",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.NFTDummy>;
-    getContractAt(
-      name: "NFTMarket",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.NFTMarket>;
-    getContractAt(
-      name: "NFTMarketExposed",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.NFTMarketExposed>;
-    getContractAt(
-      name: "SendAckReceiver",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SendAckReceiver>;
-    getContractAt(
-      name: "SendAckSender",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SendAckSender>;
 
     // default types
     getContractFactory(
