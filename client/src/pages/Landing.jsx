@@ -1,10 +1,9 @@
+import { Link, useNavigate } from 'react-router-dom'
 import { Fragment, useEffect } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import { useNavigate } from 'react-router-dom'
 
 import useWeb3 from '../hooks/use-web3'
-
 import { LandingFooter } from '../components'
 
 export default function Landing() {
@@ -98,16 +97,16 @@ export default function Landing() {
                             >
                                 <div className="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
                                     <div className="flex items-center justify-between w-full md:w-auto">
-                                        <a href="#">
+                                        <Link to="/">
                                             <span className="sr-only">
-                                                Workflow
+                                                Conveyr logo
                                             </span>
                                             <img
                                                 className="h-8 w-auto sm:h-10"
                                                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                                                 alt="Conveyr logo"
                                             />
-                                        </a>
+                                        </Link>
                                         <div className="-mr-2 flex items-center md:hidden">
                                             <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500">
                                                 <span className="sr-only">

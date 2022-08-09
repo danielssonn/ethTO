@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const navigation = {
     solutions: [
         { name: 'Arrivals', href: '/arrivals' },
@@ -68,12 +70,12 @@ export default function Footer() {
                                 <ul role="list" className="mt-4 space-y-4">
                                     {navigation.solutions.map((item) => (
                                         <li key={item.name}>
-                                            <a
-                                                href={item.href}
+                                            <Link
+                                                to={item.href}
                                                 className="text-base text-gray-500 hover:text-gray-900"
                                             >
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>

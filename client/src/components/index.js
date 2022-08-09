@@ -1,5 +1,4 @@
 export { default as Footer } from './Footer'
 export { default as Header } from './Header'
 export { default as LandingFooter } from './LandingFooter'
-export { default as NftCard } from './NftCard'
-export { default as NftModal } from './NftModal'
+export { default as SwingModal } from './SwingModal'
