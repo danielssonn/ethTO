@@ -63,7 +63,7 @@ Story goes here Story goes here Story goes here Story goes here Story goes here 
 - **Some Feature.** Some description.
 - **Some Feature.** Some description.
 
-[<img src="assets/dashboard-main.png" alt="Conveyr">](https://conveyr.xyz/)
+[<img src="assets/screenshot.png" alt="Conveyr">](https://conveyr.xyz/)
 
 [**👉 Our Glorious Deployment URL 👈**](https://conveyr.xyz/)
 
