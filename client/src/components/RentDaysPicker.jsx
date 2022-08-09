@@ -17,9 +17,8 @@ const days = [
 ]
 
 const RentDaysPicker = ({ active, selectedDay, setSelectedDays }) => {
-    const handleDaysChanged = (event) => {
-        const day = event.target.value
-        setSelectedDays(Number.parseInt(day, 10))
+    const handleDaysChanged = (days) => {
+        setSelectedDays(Number.parseInt(days, 10))
     }
 
     return (

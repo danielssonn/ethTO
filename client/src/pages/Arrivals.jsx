@@ -8,9 +8,11 @@ import {
     PlusSmIcon,
     ViewGridIcon,
 } from '@heroicons/react/solid'
+import { useNavigate } from 'react-router-dom'
 
-import { Footer, Header, NftCard, NftModal } from '../components'
+import { Footer, Header, NftCard } from '../components'
 import AuthRoute from '../components/AuthRoute'
+import useContract from '../hooks/use-contract'
 
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
@@ -40,58 +42,22 @@ const filters = [
         ],
     },
 ]
-const nfts = [
-    {
-        id: 1,
-        name: 'Bored Ape Yacht Club',
-        price: '50',
-        token: '#3',
-        imageSrc:
-            'https://ipfs.io/ipfs/QmYxT4LnK8sqLupjbS6eRvu1si7Ly2wFQAqFebxhWntcf6',
-        imageAlt: 'Bored Ape Yacht Club #3',
-    },
-    {
-        id: 2,
-        name: 'Bored Ape Yacht Club',
-        price: '140',
-        token: '#9',
-        imageSrc:
-            'https://ipfs.io/ipfs/QmUQgKka8EW7exiUHnMwZ4UoXA11wV7NFjHAogVAbasSYy',
-        imageAlt: 'Bored Ape Yacht Club #9',
-    },
-    {
-        id: 3,
-        name: 'Bored Ape Yacht Club',
-        price: '50',
-        token: '#6',
-        imageSrc:
-            'https://ipfs.io/ipfs/QmWBgfBhyVmHNhBfEQ7p1P4Mpn7pm5b8KgSab2caELnTuV',
-        imageAlt: 'Bored Ape Yacht Club #6',
-    },
-    {
-        id: 4,
-        name: 'Bored Ape Yacht Club',
-        price: '140',
-        token: '#1',
-        imageSrc:
-            'https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi',
-        imageAlt: 'Bored Ape Yacht Club #1',
-    },
-]
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function Arrival() {
+    const navigate = useNavigate()
+    const { listings } = useContract()
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-    const [isNftModalOpen, setIsNftModalOpen] = useState(false)
-    const [currentNft, setCurrentNft] = useState(null)
 
-    const handleNftCardClick = (nft) => {
-        setCurrentNft(nft)
-        setIsNftModalOpen(true)
-    }
+    const handleNftCardClick = (listing) =>
+        navigate(
+            `/checkout/${listing.chainName.toLowerCase()}/${
+                listing.nftAddress
+            }/${listing.tokenId}`
+        )
 
     return (
         <AuthRoute>
@@ -391,13 +357,11 @@ export default function Arrival() {
                                 </form>
                                 {/* Product grid */}
                                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:col-span-3 lg:gap-x-8 lg:grid-cols-3">
-                                    {nfts.map((nft) => (
+                                    {listings.map((listing, i) => (
                                         <NftCard
-                                            key={nft.id}
-                                            nft={nft}
-                                            onClick={() =>
-                                                handleNftCardClick(nft)
-                                            }
+                                            key={`NFTListing ${i}`}
+                                            listing={listing}
+                                            onClick={handleNftCardClick}
                                         />
                                     ))}
                                 </div>
@@ -406,11 +370,6 @@ export default function Arrival() {
                     </main>
                 </div>
             </div>
-            <NftModal
-                close={() => setIsNftModalOpen(false)}
-                nft={currentNft}
-                open={isNftModalOpen}
-            />
             <Footer />
         </AuthRoute>
     )
