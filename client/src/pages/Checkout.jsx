@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { ChevronRightIcon } from '@heroicons/react/solid'
 import { Link, useParams } from 'react-router-dom'
+import { ChevronRightIcon } from '@heroicons/react/solid'
 
 import AuthRoute from '../components/AuthRoute'
 import RentDaysPicker from '../components/RentDaysPicker'

@@ -1,10 +1,9 @@
+import { Link, useNavigate } from 'react-router-dom'
 import { Fragment, useEffect } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import { Link, useNavigate } from 'react-router-dom'
 
 import useWeb3 from '../hooks/use-web3'
-
 import { LandingFooter } from '../components'
 
 export default function Landing() {
