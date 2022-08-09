@@ -14,7 +14,7 @@
 
 <p align="center">
   <strong>
-    Cross. Chain. Marketplace.
+    Cross. Chain. NFT Renting.
   </strong>
 </p>
 
@@ -23,7 +23,7 @@
 </p>
 
 <p align="center">
-<a>![Cross Chain UX Rocks](assets/cross-chain-ux-rocks.svg)</a>
+<a>[<img src="assets/cross-chain-ux-rocks.svg" alt="Cross Chain UX Rocks">](https://conveyr.xyz/)</a>
 <a>![Powered by Axelar](assets/powered-by-axelar.svg)</a>
 <a>![Made with SwingXYZ](assets/made-with-swing.xyz.svg)</a>
 <a>![Runs On Moonbeam](assets/runs-on-moonbeam.svg)</a>
@@ -33,7 +33,6 @@
 
 ## Table of Contents
 
-<h2 align="center">
 - [Features](#features)
 - [Quick Start](#quick-start)
 - [Contributing](#contributing)
@@ -43,7 +42,6 @@
   - [Pull Requests](#pull-requests)
   - [Merging Into Main](#merging-into-main)
 - [License](#license)
-</h2>
 
 Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here
 
