@@ -13,61 +13,65 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from 'ethers'
+} from "ethers";
 import type {
   FunctionFragment,
   Result,
   EventFragment,
-} from '@ethersproject/abi'
-import type { Listener, Provider } from '@ethersproject/providers'
+} from "@ethersproject/abi";
+import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from '../common'
+} from "../common";
 
 export type RentalStruct = {
-  renter: PromiseOrValue<string>
-  expiryTime: PromiseOrValue<BigNumberish>
-}
+  renter: PromiseOrValue<string>;
+  expiryTime: PromiseOrValue<BigNumberish>;
+};
 
 export type RentalStructOutput = [string, BigNumber] & {
-  renter: string
-  expiryTime: BigNumber
-}
+  renter: string;
+  expiryTime: BigNumber;
+};
 
 export type PaymentStruct = {
-  paymentToken: PromiseOrValue<string>
-  pricePerDay: PromiseOrValue<BigNumberish>
-}
+  paymentToken: PromiseOrValue<string>;
+  pricePerDay: PromiseOrValue<BigNumberish>;
+};
 
 export type PaymentStructOutput = [string, BigNumber] & {
-  paymentToken: string
-  pricePerDay: BigNumber
-}
+  paymentToken: string;
+  pricePerDay: BigNumber;
+};
 
 export type CollateralStruct = {
-  collateralToken: PromiseOrValue<string>
-  collateralAmount: PromiseOrValue<BigNumberish>
-}
+  collateralToken: PromiseOrValue<string>;
+  collateralAmount: PromiseOrValue<BigNumberish>;
+};
 
 export type CollateralStructOutput = [string, BigNumber] & {
-  collateralToken: string
-  collateralAmount: BigNumber
-}
+  collateralToken: string;
+  collateralAmount: BigNumber;
+};
 
 export type NFTListingStruct = {
-  lender: PromiseOrValue<string>
-  maximumEndTime: PromiseOrValue<BigNumberish>
-  createTime: PromiseOrValue<BigNumberish>
-  rental: RentalStruct
-  payment: PaymentStruct
-  collateral: CollateralStruct
-}
+  nftAddress: PromiseOrValue<string>;
+  tokenId: PromiseOrValue<BigNumberish>;
+  lender: PromiseOrValue<string>;
+  maximumEndTime: PromiseOrValue<BigNumberish>;
+  createTime: PromiseOrValue<BigNumberish>;
+  rental: RentalStruct;
+  payment: PaymentStruct;
+  collateral: CollateralStruct;
+};
 
 export type NFTListingStructOutput = [
+  string,
+  BigNumber,
   string,
   BigNumber,
   BigNumber,
@@ -75,88 +79,91 @@ export type NFTListingStructOutput = [
   PaymentStructOutput,
   CollateralStructOutput
 ] & {
-  lender: string
-  maximumEndTime: BigNumber
-  createTime: BigNumber
-  rental: RentalStructOutput
-  payment: PaymentStructOutput
-  collateral: CollateralStructOutput
-}
+  nftAddress: string;
+  tokenId: BigNumber;
+  lender: string;
+  maximumEndTime: BigNumber;
+  createTime: BigNumber;
+  rental: RentalStructOutput;
+  payment: PaymentStructOutput;
+  collateral: CollateralStructOutput;
+};
 
 export interface AxelarMarketExecutorInterface extends utils.Interface {
   functions: {
-    'cancelNFTListing(address,uint256)': FunctionFragment
-    'chainName()': FunctionFragment
-    'execute(bytes32,string,string,bytes)': FunctionFragment
-    'executeRent(string,address,uint256,uint16,(address,uint256,uint256,(address,uint256),(address,uint256),(address,uint256)))': FunctionFragment
-    'executeWithToken(bytes32,string,string,bytes,string,uint256)': FunctionFragment
-    'gasReceiver()': FunctionFragment
-    'gateway()': FunctionFragment
-    'getListing(address,uint256)': FunctionFragment
-    'init(string,address,address)': FunctionFragment
-    'lend(address,uint256,uint16,bool)': FunctionFragment
-    'listNFT(address,uint256,uint256,(address,uint256),(address,uint256))': FunctionFragment
-    'onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)': FunctionFragment
-    'onERC1155Received(address,address,uint256,uint256,bytes)': FunctionFragment
-    'onERC721Received(address,address,uint256,bytes)': FunctionFragment
-    'owner()': FunctionFragment
-    'renounceOwnership()': FunctionFragment
-    'rent(address,uint256,uint16,(address,uint256,uint256,(address,uint256),(address,uint256),(address,uint256)))': FunctionFragment
-    'returnRentedNFT(address,uint256)': FunctionFragment
-    'supportsInterface(bytes4)': FunctionFragment
-    'transferOwnership(address)': FunctionFragment
-  }
+    "cancelNFTListing(address,uint256)": FunctionFragment;
+    "chainName()": FunctionFragment;
+    "execute(bytes32,string,string,bytes)": FunctionFragment;
+    "executeRent(string,address,uint256,uint16)": FunctionFragment;
+    "executeWithToken(bytes32,string,string,bytes,string,uint256)": FunctionFragment;
+    "gasReceiver()": FunctionFragment;
+    "gateway()": FunctionFragment;
+    "getAllListings()": FunctionFragment;
+    "getListing(address,uint256)": FunctionFragment;
+    "lend(address,uint256,uint16,bool)": FunctionFragment;
+    "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
+    "listings(uint256)": FunctionFragment;
+    "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
+    "onERC1155Received(address,address,uint256,uint256,bytes)": FunctionFragment;
+    "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "rent(address,uint256,uint16)": FunctionFragment;
+    "returnRentedNFT(address,uint256)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+  };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | 'cancelNFTListing'
-      | 'chainName'
-      | 'execute'
-      | 'executeRent'
-      | 'executeWithToken'
-      | 'gasReceiver'
-      | 'gateway'
-      | 'getListing'
-      | 'init'
-      | 'lend'
-      | 'listNFT'
-      | 'onERC1155BatchReceived'
-      | 'onERC1155Received'
-      | 'onERC721Received'
-      | 'owner'
-      | 'renounceOwnership'
-      | 'rent'
-      | 'returnRentedNFT'
-      | 'supportsInterface'
-      | 'transferOwnership'
-  ): FunctionFragment
+      | "cancelNFTListing"
+      | "chainName"
+      | "execute"
+      | "executeRent"
+      | "executeWithToken"
+      | "gasReceiver"
+      | "gateway"
+      | "getAllListings"
+      | "getListing"
+      | "lend"
+      | "listNFT"
+      | "listings"
+      | "onERC1155BatchReceived"
+      | "onERC1155Received"
+      | "onERC721Received"
+      | "owner"
+      | "renounceOwnership"
+      | "rent"
+      | "returnRentedNFT"
+      | "supportsInterface"
+      | "transferOwnership"
+  ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: 'cancelNFTListing',
+    functionFragment: "cancelNFTListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string
-  encodeFunctionData(functionFragment: 'chainName', values?: undefined): string
+  ): string;
+  encodeFunctionData(functionFragment: "chainName", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'execute',
+    functionFragment: "execute",
     values: [
       PromiseOrValue<BytesLike>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BytesLike>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'executeRent',
+    functionFragment: "executeRent",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      NFTListingStruct
+      PromiseOrValue<BigNumberish>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'executeWithToken',
+    functionFragment: "executeWithToken",
     values: [
       PromiseOrValue<BytesLike>,
       PromiseOrValue<string>,
@@ -165,35 +172,31 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'gasReceiver',
+    functionFragment: "gasReceiver",
     values?: undefined
-  ): string
-  encodeFunctionData(functionFragment: 'gateway', values?: undefined): string
+  ): string;
+  encodeFunctionData(functionFragment: "gateway", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'getListing',
+    functionFragment: "getAllListings",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'init',
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>
-    ]
-  ): string
-  encodeFunctionData(
-    functionFragment: 'lend',
+    functionFragment: "lend",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<boolean>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'listNFT',
+    functionFragment: "listNFT",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -201,9 +204,13 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       PaymentStruct,
       CollateralStruct
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'onERC1155BatchReceived',
+    functionFragment: "listings",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "onERC1155BatchReceived",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -211,9 +218,9 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>[],
       PromiseOrValue<BytesLike>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'onERC1155Received',
+    functionFragment: "onERC1155Received",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -221,138 +228,147 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'onERC721Received',
+    functionFragment: "onERC721Received",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
     ]
-  ): string
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string
+  ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'rent',
+    functionFragment: "rent",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      NFTListingStruct
+      PromiseOrValue<BigNumberish>
     ]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'returnRentedNFT',
+    functionFragment: "returnRentedNFT",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'supportsInterface',
+    functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
-  ): string
+  ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [PromiseOrValue<string>]
-  ): string
+  ): string;
 
   decodeFunctionResult(
-    functionFragment: 'cancelNFTListing',
+    functionFragment: "cancelNFTListing",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'chainName', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'execute', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'executeRent', data: BytesLike): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "chainName", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'executeWithToken',
+    functionFragment: "executeRent",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'gasReceiver', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'gateway', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'getListing', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'init', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'lend', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'listNFT', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'onERC1155BatchReceived',
+    functionFragment: "executeWithToken",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'onERC1155Received',
+    functionFragment: "gasReceiver",
     data: BytesLike
-  ): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'onERC721Received',
+    functionFragment: "getAllListings",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "getListing", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "lend", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "listNFT", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "listings", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "onERC1155BatchReceived",
     data: BytesLike
-  ): Result
-  decodeFunctionResult(functionFragment: 'rent', data: BytesLike): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'returnRentedNFT',
+    functionFragment: "onERC1155Received",
     data: BytesLike
-  ): Result
+  ): Result;
   decodeFunctionResult(
-    functionFragment: 'supportsInterface',
+    functionFragment: "onERC721Received",
     data: BytesLike
-  ): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "renounceOwnership",
     data: BytesLike
-  ): Result
+  ): Result;
+  decodeFunctionResult(functionFragment: "rent", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "returnRentedNFT",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
 
   events: {
-    'CancelNFTListing(address,address,uint256)': EventFragment
-    'NFTLent(address,uint256,tuple)': EventFragment
-    'NFTListed(address,address,uint256,uint256,tuple,tuple)': EventFragment
-    'NFTRented(address,uint256,tuple)': EventFragment
-    'OwnershipTransferred(address,address)': EventFragment
-  }
+    "CancelNFTListing(address,address,uint256)": EventFragment;
+    "NFTLent(address,uint256,tuple)": EventFragment;
+    "NFTListed(address,address,uint256,uint256,tuple,tuple)": EventFragment;
+    "NFTRented(address,uint256,tuple)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+  };
 
-  getEvent(nameOrSignatureOrTopic: 'CancelNFTListing'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'NFTLent'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'NFTListed'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'NFTRented'): EventFragment
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment
+  getEvent(nameOrSignatureOrTopic: "CancelNFTListing"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NFTLent"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NFTListed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NFTRented"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
 export interface CancelNFTListingEventObject {
-  lender: string
-  nftAddress: string
-  tokenId: BigNumber
+  lender: string;
+  nftAddress: string;
+  tokenId: BigNumber;
 }
 export type CancelNFTListingEvent = TypedEvent<
   [string, string, BigNumber],
   CancelNFTListingEventObject
->
+>;
 
 export type CancelNFTListingEventFilter =
-  TypedEventFilter<CancelNFTListingEvent>
+  TypedEventFilter<CancelNFTListingEvent>;
 
 export interface NFTLentEventObject {
-  nftAddress: string
-  tokenId: BigNumber
-  rental: RentalStructOutput
+  nftAddress: string;
+  tokenId: BigNumber;
+  rental: RentalStructOutput;
 }
 export type NFTLentEvent = TypedEvent<
   [string, BigNumber, RentalStructOutput],
   NFTLentEventObject
->
+>;
 
-export type NFTLentEventFilter = TypedEventFilter<NFTLentEvent>
+export type NFTLentEventFilter = TypedEventFilter<NFTLentEvent>;
 
 export interface NFTListedEventObject {
-  lender: string
-  nftAddress: string
-  tokenId: BigNumber
-  maximumEndTime: BigNumber
-  payment: PaymentStructOutput
-  collateral: CollateralStructOutput
+  lender: string;
+  nftAddress: string;
+  tokenId: BigNumber;
+  maximumEndTime: BigNumber;
+  payment: PaymentStructOutput;
+  collateral: CollateralStructOutput;
 }
 export type NFTListedEvent = TypedEvent<
   [
@@ -364,68 +380,68 @@ export type NFTListedEvent = TypedEvent<
     CollateralStructOutput
   ],
   NFTListedEventObject
->
+>;
 
-export type NFTListedEventFilter = TypedEventFilter<NFTListedEvent>
+export type NFTListedEventFilter = TypedEventFilter<NFTListedEvent>;
 
 export interface NFTRentedEventObject {
-  nftAddress: string
-  tokenId: BigNumber
-  rental: RentalStructOutput
+  nftAddress: string;
+  tokenId: BigNumber;
+  rental: RentalStructOutput;
 }
 export type NFTRentedEvent = TypedEvent<
   [string, BigNumber, RentalStructOutput],
   NFTRentedEventObject
->
+>;
 
-export type NFTRentedEventFilter = TypedEventFilter<NFTRentedEvent>
+export type NFTRentedEventFilter = TypedEventFilter<NFTRentedEvent>;
 
 export interface OwnershipTransferredEventObject {
-  previousOwner: string
-  newOwner: string
+  previousOwner: string;
+  newOwner: string;
 }
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
   OwnershipTransferredEventObject
->
+>;
 
 export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>
+  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface AxelarMarketExecutor extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this
-  attach(addressOrName: string): this
-  deployed(): Promise<this>
+  connect(signerOrProvider: Signer | Provider | string): this;
+  attach(addressOrName: string): this;
+  deployed(): Promise<this>;
 
-  interface: AxelarMarketExecutorInterface
+  interface: AxelarMarketExecutorInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>
+  ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>
-  listeners(eventName?: string): Array<Listener>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this
-  removeAllListeners(eventName?: string): this
-  off: OnEvent<this>
-  on: OnEvent<this>
-  once: OnEvent<this>
-  removeListener: OnEvent<this>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
     cancelNFTListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
-    chainName(overrides?: CallOverrides): Promise<[string]>
+    chainName(overrides?: CallOverrides): Promise<[string]>;
 
     execute(
       commandId: PromiseOrValue<BytesLike>,
@@ -433,16 +449,15 @@ export interface AxelarMarketExecutor extends BaseContract {
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     executeRent(
       destinationChain: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
@@ -452,24 +467,21 @@ export interface AxelarMarketExecutor extends BaseContract {
       tokenSymbol: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
-    gasReceiver(overrides?: CallOverrides): Promise<[string]>
+    gasReceiver(overrides?: CallOverrides): Promise<[string]>;
 
-    gateway(overrides?: CallOverrides): Promise<[string]>
+    gateway(overrides?: CallOverrides): Promise<[string]>;
+
+    getAllListings(
+      overrides?: CallOverrides
+    ): Promise<[NFTListingStructOutput[]]>;
 
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[NFTListingStructOutput]>
-
-    init(
-      _chainName: PromiseOrValue<string>,
-      _gateway: PromiseOrValue<string>,
-      _gasReceiver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<[NFTListingStructOutput]>;
 
     lend(
       nftAddress: PromiseOrValue<string>,
@@ -477,7 +489,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       daysToRent: PromiseOrValue<BigNumberish>,
       isNativeChain: PromiseOrValue<boolean>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     listNFT(
       nftAddress: PromiseOrValue<string>,
@@ -486,7 +498,32 @@ export interface AxelarMarketExecutor extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        string,
+        BigNumber,
+        string,
+        BigNumber,
+        BigNumber,
+        RentalStructOutput,
+        PaymentStructOutput,
+        CollateralStructOutput
+      ] & {
+        nftAddress: string;
+        tokenId: BigNumber;
+        lender: string;
+        maximumEndTime: BigNumber;
+        createTime: BigNumber;
+        rental: RentalStructOutput;
+        payment: PaymentStructOutput;
+        collateral: CollateralStructOutput;
+      }
+    >;
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -495,7 +532,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>[],
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     onERC1155Received(
       arg0: PromiseOrValue<string>,
@@ -504,7 +541,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>,
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     onERC721Received(
       arg0: PromiseOrValue<string>,
@@ -512,46 +549,45 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       arg3: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>
+    owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     rent(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
+    ): Promise<ContractTransaction>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<[boolean]>
+    ): Promise<[boolean]>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>
-  }
+    ): Promise<ContractTransaction>;
+  };
 
   cancelNFTListing(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
-  chainName(overrides?: CallOverrides): Promise<string>
+  chainName(overrides?: CallOverrides): Promise<string>;
 
   execute(
     commandId: PromiseOrValue<BytesLike>,
@@ -559,16 +595,15 @@ export interface AxelarMarketExecutor extends BaseContract {
     sourceAddress: PromiseOrValue<string>,
     payload: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   executeRent(
     destinationChain: PromiseOrValue<string>,
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     daysToRent: PromiseOrValue<BigNumberish>,
-    listing: NFTListingStruct,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   executeWithToken(
     commandId: PromiseOrValue<BytesLike>,
@@ -578,24 +613,19 @@ export interface AxelarMarketExecutor extends BaseContract {
     tokenSymbol: PromiseOrValue<string>,
     amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
-  gasReceiver(overrides?: CallOverrides): Promise<string>
+  gasReceiver(overrides?: CallOverrides): Promise<string>;
 
-  gateway(overrides?: CallOverrides): Promise<string>
+  gateway(overrides?: CallOverrides): Promise<string>;
+
+  getAllListings(overrides?: CallOverrides): Promise<NFTListingStructOutput[]>;
 
   getListing(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<NFTListingStructOutput>
-
-  init(
-    _chainName: PromiseOrValue<string>,
-    _gateway: PromiseOrValue<string>,
-    _gasReceiver: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<NFTListingStructOutput>;
 
   lend(
     nftAddress: PromiseOrValue<string>,
@@ -603,7 +633,7 @@ export interface AxelarMarketExecutor extends BaseContract {
     daysToRent: PromiseOrValue<BigNumberish>,
     isNativeChain: PromiseOrValue<boolean>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   listNFT(
     nftAddress: PromiseOrValue<string>,
@@ -612,7 +642,32 @@ export interface AxelarMarketExecutor extends BaseContract {
     payment: PaymentStruct,
     collateral: CollateralStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
+
+  listings(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      string,
+      BigNumber,
+      string,
+      BigNumber,
+      BigNumber,
+      RentalStructOutput,
+      PaymentStructOutput,
+      CollateralStructOutput
+    ] & {
+      nftAddress: string;
+      tokenId: BigNumber;
+      lender: string;
+      maximumEndTime: BigNumber;
+      createTime: BigNumber;
+      rental: RentalStructOutput;
+      payment: PaymentStructOutput;
+      collateral: CollateralStructOutput;
+    }
+  >;
 
   onERC1155BatchReceived(
     arg0: PromiseOrValue<string>,
@@ -621,7 +676,7 @@ export interface AxelarMarketExecutor extends BaseContract {
     arg3: PromiseOrValue<BigNumberish>[],
     arg4: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   onERC1155Received(
     arg0: PromiseOrValue<string>,
@@ -630,7 +685,7 @@ export interface AxelarMarketExecutor extends BaseContract {
     arg3: PromiseOrValue<BigNumberish>,
     arg4: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   onERC721Received(
     arg0: PromiseOrValue<string>,
@@ -638,46 +693,45 @@ export interface AxelarMarketExecutor extends BaseContract {
     arg2: PromiseOrValue<BigNumberish>,
     arg3: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
-  owner(overrides?: CallOverrides): Promise<string>
+  owner(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   rent(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     daysToRent: PromiseOrValue<BigNumberish>,
-    listing: NFTListingStruct,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   returnRentedNFT(
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<boolean>
+  ): Promise<boolean>;
 
   transferOwnership(
     newOwner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>
+  ): Promise<ContractTransaction>;
 
   callStatic: {
     cancelNFTListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
-    chainName(overrides?: CallOverrides): Promise<string>
+    chainName(overrides?: CallOverrides): Promise<string>;
 
     execute(
       commandId: PromiseOrValue<BytesLike>,
@@ -685,16 +739,15 @@ export interface AxelarMarketExecutor extends BaseContract {
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     executeRent(
       destinationChain: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
@@ -704,24 +757,21 @@ export interface AxelarMarketExecutor extends BaseContract {
       tokenSymbol: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
-    gasReceiver(overrides?: CallOverrides): Promise<string>
+    gasReceiver(overrides?: CallOverrides): Promise<string>;
 
-    gateway(overrides?: CallOverrides): Promise<string>
+    gateway(overrides?: CallOverrides): Promise<string>;
+
+    getAllListings(
+      overrides?: CallOverrides
+    ): Promise<NFTListingStructOutput[]>;
 
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<NFTListingStructOutput>
-
-    init(
-      _chainName: PromiseOrValue<string>,
-      _gateway: PromiseOrValue<string>,
-      _gasReceiver: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<NFTListingStructOutput>;
 
     lend(
       nftAddress: PromiseOrValue<string>,
@@ -729,7 +779,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       daysToRent: PromiseOrValue<BigNumberish>,
       isNativeChain: PromiseOrValue<boolean>,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
 
     listNFT(
       nftAddress: PromiseOrValue<string>,
@@ -738,7 +788,32 @@ export interface AxelarMarketExecutor extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: CallOverrides
-    ): Promise<void>
+    ): Promise<void>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        string,
+        BigNumber,
+        string,
+        BigNumber,
+        BigNumber,
+        RentalStructOutput,
+        PaymentStructOutput,
+        CollateralStructOutput
+      ] & {
+        nftAddress: string;
+        tokenId: BigNumber;
+        lender: string;
+        maximumEndTime: BigNumber;
+        createTime: BigNumber;
+        rental: RentalStructOutput;
+        payment: PaymentStructOutput;
+        collateral: CollateralStructOutput;
+      }
+    >;
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -747,7 +822,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>[],
       arg4: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>
+    ): Promise<string>;
 
     onERC1155Received(
       arg0: PromiseOrValue<string>,
@@ -756,7 +831,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>,
       arg4: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>
+    ): Promise<string>;
 
     onERC721Received(
       arg0: PromiseOrValue<string>,
@@ -764,68 +839,67 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       arg3: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<string>
+    ): Promise<string>;
 
-    owner(overrides?: CallOverrides): Promise<string>
+    owner(overrides?: CallOverrides): Promise<string>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     rent(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: CallOverrides
-    ): Promise<[string, BigNumber]>
+    ): Promise<[string, BigNumber]>;
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<boolean>
+    ): Promise<boolean>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<void>
-  }
+    ): Promise<void>;
+  };
 
   filters: {
-    'CancelNFTListing(address,address,uint256)'(
+    "CancelNFTListing(address,address,uint256)"(
       lender?: null,
       nftAddress?: null,
       tokenId?: null
-    ): CancelNFTListingEventFilter
+    ): CancelNFTListingEventFilter;
     CancelNFTListing(
       lender?: null,
       nftAddress?: null,
       tokenId?: null
-    ): CancelNFTListingEventFilter
+    ): CancelNFTListingEventFilter;
 
-    'NFTLent(address,uint256,tuple)'(
+    "NFTLent(address,uint256,tuple)"(
       nftAddress?: null,
       tokenId?: null,
       rental?: null
-    ): NFTLentEventFilter
+    ): NFTLentEventFilter;
     NFTLent(
       nftAddress?: null,
       tokenId?: null,
       rental?: null
-    ): NFTLentEventFilter
+    ): NFTLentEventFilter;
 
-    'NFTListed(address,address,uint256,uint256,tuple,tuple)'(
+    "NFTListed(address,address,uint256,uint256,tuple,tuple)"(
       lender?: null,
       nftAddress?: null,
       tokenId?: null,
       maximumEndTime?: null,
       payment?: null,
       collateral?: null
-    ): NFTListedEventFilter
+    ): NFTListedEventFilter;
     NFTListed(
       lender?: null,
       nftAddress?: null,
@@ -833,37 +907,37 @@ export interface AxelarMarketExecutor extends BaseContract {
       maximumEndTime?: null,
       payment?: null,
       collateral?: null
-    ): NFTListedEventFilter
+    ): NFTListedEventFilter;
 
-    'NFTRented(address,uint256,tuple)'(
+    "NFTRented(address,uint256,tuple)"(
       nftAddress?: null,
       tokenId?: null,
       rental?: null
-    ): NFTRentedEventFilter
+    ): NFTRentedEventFilter;
     NFTRented(
       nftAddress?: null,
       tokenId?: null,
       rental?: null
-    ): NFTRentedEventFilter
+    ): NFTRentedEventFilter;
 
-    'OwnershipTransferred(address,address)'(
+    "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter
+    ): OwnershipTransferredEventFilter;
     OwnershipTransferred(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter
-  }
+    ): OwnershipTransferredEventFilter;
+  };
 
   estimateGas: {
     cancelNFTListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
-    chainName(overrides?: CallOverrides): Promise<BigNumber>
+    chainName(overrides?: CallOverrides): Promise<BigNumber>;
 
     execute(
       commandId: PromiseOrValue<BytesLike>,
@@ -871,16 +945,15 @@ export interface AxelarMarketExecutor extends BaseContract {
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     executeRent(
       destinationChain: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
@@ -890,24 +963,19 @@ export interface AxelarMarketExecutor extends BaseContract {
       tokenSymbol: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
-    gasReceiver(overrides?: CallOverrides): Promise<BigNumber>
+    gasReceiver(overrides?: CallOverrides): Promise<BigNumber>;
 
-    gateway(overrides?: CallOverrides): Promise<BigNumber>
+    gateway(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getAllListings(overrides?: CallOverrides): Promise<BigNumber>;
 
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>
-
-    init(
-      _chainName: PromiseOrValue<string>,
-      _gateway: PromiseOrValue<string>,
-      _gasReceiver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     lend(
       nftAddress: PromiseOrValue<string>,
@@ -915,7 +983,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       daysToRent: PromiseOrValue<BigNumberish>,
       isNativeChain: PromiseOrValue<boolean>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     listNFT(
       nftAddress: PromiseOrValue<string>,
@@ -924,7 +992,12 @@ export interface AxelarMarketExecutor extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -933,7 +1006,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>[],
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     onERC1155Received(
       arg0: PromiseOrValue<string>,
@@ -942,7 +1015,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>,
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     onERC721Received(
       arg0: PromiseOrValue<string>,
@@ -950,47 +1023,46 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       arg3: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     rent(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>
+    ): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>
-  }
+    ): Promise<BigNumber>;
+  };
 
   populateTransaction: {
     cancelNFTListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
-    chainName(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    chainName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     execute(
       commandId: PromiseOrValue<BytesLike>,
@@ -998,16 +1070,15 @@ export interface AxelarMarketExecutor extends BaseContract {
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     executeRent(
       destinationChain: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
@@ -1017,24 +1088,19 @@ export interface AxelarMarketExecutor extends BaseContract {
       tokenSymbol: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
-    gasReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    gasReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getAllListings(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getListing(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
-
-    init(
-      _chainName: PromiseOrValue<string>,
-      _gateway: PromiseOrValue<string>,
-      _gasReceiver: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     lend(
       nftAddress: PromiseOrValue<string>,
@@ -1042,7 +1108,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       daysToRent: PromiseOrValue<BigNumberish>,
       isNativeChain: PromiseOrValue<boolean>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     listNFT(
       nftAddress: PromiseOrValue<string>,
@@ -1051,7 +1117,12 @@ export interface AxelarMarketExecutor extends BaseContract {
       payment: PaymentStruct,
       collateral: CollateralStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
+
+    listings(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     onERC1155BatchReceived(
       arg0: PromiseOrValue<string>,
@@ -1060,7 +1131,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>[],
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     onERC1155Received(
       arg0: PromiseOrValue<string>,
@@ -1069,7 +1140,7 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg3: PromiseOrValue<BigNumberish>,
       arg4: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     onERC721Received(
       arg0: PromiseOrValue<string>,
@@ -1077,36 +1148,35 @@ export interface AxelarMarketExecutor extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       arg3: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     rent(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>
+    ): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>
-  }
+    ): Promise<PopulatedTransaction>;
+  };
 }

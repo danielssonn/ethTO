@@ -1,12 +1,11 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useReducer } from 'react'
 import { ethers } from 'ethers'
 
 import { ContractContext } from '../context'
 import useWeb3 from '../hooks/use-web3'
 import { CHAIN_MAP } from '../utils/constants'
 
-import { abi as receiver } from '../../../protocol/artifacts/contracts/SendAckReceiver.sol/SendAckReceiver.json'
-import { abi as sender } from '../../../protocol/artifacts/contracts/SendAckSender.sol/SendAckSender.json'
+import { abi as marketAbi } from '../../../protocol/artifacts/contracts/AxelarMarketExecutor.sol/AxelarMarketExecutor.json'
 import { abi as nftAbi } from '../../../protocol/artifacts/contracts/NFTDummy.sol/NFTDummy.json'
 
 async function fetchMetadata(chainId, address, tokenId) {
@@ -63,25 +62,33 @@ function formatListings(rawListings, { chainName, chainId, currentAccount }) {
     )
 }
 
+function getContractFor(chainId) {
+    const chainConfig = CHAIN_MAP.get(chainId)
+
+    return new ethers.Contract(
+        chainConfig.market,
+        marketAbi,
+        new ethers.providers.JsonRpcProvider(chainConfig.rpc)
+    )
+}
+
 const reducer = (state, action) => {
     return [...state, ...action.data]
 }
 
 const ContractProvider = ({ children }) => {
-    const { currentAccount, currentChain, currentSigner, provider } = useWeb3()
+    const { currentAccount, currentChain, currentSigner } = useWeb3()
     const [listings, dispatch] = useReducer(reducer, [])
-    const [contract, setContract] = useState()
 
     const fetchListingsFrom = async (chainId) => {
         const chainConfig = CHAIN_MAP.get(chainId)
-        const contract = new ethers.Contract(
-            chainConfig.sender,
-            sender,
-            provider
-        )
+        // Use the contract for the specified chain
+        const contract = getContractFor(chainId)
         try {
             const chainName = chainConfig.name
             const listings = await contract.getAllListings()
+
+            console.log(listings)
 
             if (listings.length > 0) {
                 const data = await formatListings(listings, {
@@ -97,18 +104,6 @@ const ContractProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (currentSigner) {
-            setContract(
-                new ethers.Contract(
-                    CHAIN_MAP.get(currentChain).receiver,
-                    receiver,
-                    currentSigner
-                )
-            )
-        }
-    }, [currentChain, currentSigner])
-
-    useEffect(() => {
         if (currentChain && currentSigner) {
             // TODO: fetch listings from all supported chains
             fetchListingsFrom(currentChain)
@@ -118,7 +113,6 @@ const ContractProvider = ({ children }) => {
     return (
         <ContractContext.Provider
             value={{
-                contract,
                 listings,
             }}
         >

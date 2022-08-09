@@ -10,7 +10,6 @@ export default function Checkout() {
     const [steps, setSteps] = useState([
         { name: 'Select NFT', href: '/arrivals', status: 'complete' },
         { name: 'Rental Information', href: '#', status: 'current' },
-        { name: 'Cross Chain Swap', href: '#', status: 'upcoming' },
         { name: 'Confirmation', href: '#', status: 'upcoming' },
     ])
     const [listing, setListing] = useState()

@@ -95,7 +95,7 @@ export interface INFTMarketInterface extends utils.Interface {
     "getListing(address,uint256)": FunctionFragment;
     "lend(address,uint256,uint16,bool)": FunctionFragment;
     "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
-    "rent(address,uint256,uint16,(address,uint256,address,uint256,uint256,(address,uint256),(address,uint256),(address,uint256)))": FunctionFragment;
+    "rent(address,uint256,uint16)": FunctionFragment;
     "returnRentedNFT(address,uint256)": FunctionFragment;
   };
 
@@ -141,8 +141,7 @@ export interface INFTMarketInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      NFTListingStruct
+      PromiseOrValue<BigNumberish>
     ]
   ): string;
   encodeFunctionData(
@@ -295,7 +294,6 @@ export interface INFTMarket extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -339,7 +337,6 @@ export interface INFTMarket extends BaseContract {
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     daysToRent: PromiseOrValue<BigNumberish>,
-    listing: NFTListingStruct,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -383,7 +380,6 @@ export interface INFTMarket extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: CallOverrides
     ): Promise<[string, BigNumber]>;
 
@@ -480,7 +476,6 @@ export interface INFTMarket extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -525,7 +520,6 @@ export interface INFTMarket extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
-      listing: NFTListingStruct,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
