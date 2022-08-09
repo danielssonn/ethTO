@@ -1,56 +1,12 @@
 import { Link } from 'react-router-dom'
 
-import AuthRoute from '../components/AuthRoute'
 import { Footer, Header } from '../components'
+import AuthRoute from '../components/AuthRoute'
+import useContract from '../hooks/use-contract'
 
-const nfts = [
-    {
-        id: 1,
-        name: 'Bored Ape Yacht Club',
-        price: '50',
-        token: '#3',
-        imageSrc:
-            'https://ipfs.io/ipfs/QmYxT4LnK8sqLupjbS6eRvu1si7Ly2wFQAqFebxhWntcf6',
-        imageAlt: 'Bored Ape Yacht Club #3',
-        daysAvailable: 28,
-        isCurrent: false,
-    },
-    {
-        id: 2,
-        name: 'Bored Ape Yacht Club',
-        price: '140',
-        token: '#9',
-        imageSrc:
-            'https://ipfs.io/ipfs/QmUQgKka8EW7exiUHnMwZ4UoXA11wV7NFjHAogVAbasSYy',
-        imageAlt: 'Bored Ape Yacht Club #9',
-        daysAvailable: 28,
-        isCurrent: true,
-    },
-    {
-        id: 3,
-        name: 'Bored Ape Yacht Club',
-        price: '50',
-        token: '#6',
-        imageSrc:
-            'https://ipfs.io/ipfs/QmWBgfBhyVmHNhBfEQ7p1P4Mpn7pm5b8KgSab2caELnTuV',
-        imageAlt: 'Bored Ape Yacht Club #6',
-        daysAvailable: 28,
-        isCurrent: true,
-    },
-    {
-        id: 4,
-        name: 'Bored Ape Yacht Club',
-        price: '140',
-        token: '#1',
-        imageSrc:
-            'https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi',
-        imageAlt: 'Bored Ape Yacht Club #1',
-        daysAvailable: 28,
-        isCurrent: true,
-    },
-]
+export default function Arrivals() {
+    const { listings } = useContract()
 
-export default function Arrival() {
     return (
         <AuthRoute>
             <Header />
@@ -107,24 +63,29 @@ export default function Arrival() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 bg-white">
-                                        {nfts.map((nft) => (
-                                            <tr key={nft?.id}>
+                                        {listings.map((listing, i) => (
+                                            <tr key={`NFTListing ${i}`}>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                                     <div className="flex items-center">
                                                         <div className="h-40 w-40 flex-shrink-0">
                                                             <Link
-                                                                disabled={
-                                                                    nft?.isCurrent
-                                                                }
-                                                                to="/checkout/ethereum/0x123b30e25973fecd8354dd5f41cc45a3065ef88c/1"
+                                                                to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                    listing.nftAddress
+                                                                }/${
+                                                                    listing.tokenId
+                                                                }`}
                                                             >
                                                                 <img
                                                                     className="h-40 w-40 rounded-lg"
                                                                     src={
-                                                                        nft?.imageSrc
+                                                                        listing
+                                                                            .nft
+                                                                            .image
                                                                     }
                                                                     alt={
-                                                                        nft?.imageAlt
+                                                                        listing
+                                                                            .nft
+                                                                            .name
                                                                     }
                                                                 />
                                                             </Link>
@@ -132,22 +93,31 @@ export default function Arrival() {
                                                         <div className="ml-4">
                                                             <div className="font-medium text-gray-900">
                                                                 <Link
-                                                                    disabled={
-                                                                        nft?.isCurrent
-                                                                    }
-                                                                    to="/checkout/ethereum/0x123b30e25973fecd8354dd5f41cc45a3065ef88c/1"
+                                                                    to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                        listing.nftAddress
+                                                                    }/${
+                                                                        listing.tokenId
+                                                                    }`}
                                                                 >
-                                                                    {nft?.name}
+                                                                    {
+                                                                        listing
+                                                                            .nft
+                                                                            .name
+                                                                    }
                                                                 </Link>
                                                             </div>
                                                             <div className="text-gray-500">
                                                                 <Link
-                                                                    disabled={
-                                                                        nft?.isCurrent
-                                                                    }
-                                                                    to="/checkout/ethereum/0x123b30e25973fecd8354dd5f41cc45a3065ef88c/1"
+                                                                    to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                        listing.nftAddress
+                                                                    }/${
+                                                                        listing.tokenId
+                                                                    }`}
                                                                 >
-                                                                    {nft?.token}
+                                                                    #
+                                                                    {
+                                                                        listing?.tokenId
+                                                                    }
                                                                 </Link>
                                                             </div>
                                                         </div>
@@ -161,31 +131,31 @@ export default function Arrival() {
                                                             className="w-8 h-8 rounded-md object-center object-cover"
                                                         />
                                                         <p className="ml-2">
-                                                            {nft?.price}
+                                                            Price/Day:{' '}
+                                                            {
+                                                                listing.pricePerDay
+                                                            }
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                                                        {nft?.isCurrent
-                                                            ? 'Active'
-                                                            : 'Rented'}
+                                                        Active
                                                     </span>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    {nft?.daysAvailable}
+                                                    Days available
                                                 </td>
                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                     <Link
                                                         className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                                                        disabled={
-                                                            nft?.isCurrent
-                                                        }
-                                                        to="/checkout/ethereum/0x123b30e25973fecd8354dd5f41cc45a3065ef88c/1"
+                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                            listing.nftAddress
+                                                        }/${listing.tokenId}`}
                                                     >
                                                         Rent
                                                         <span className="sr-only">
-                                                            , {nft?.name}
+                                                            , {listing.nft.name}
                                                         </span>
                                                     </Link>
                                                 </td>
