@@ -45,15 +45,15 @@
 
 ## Table of Contents
 
-- [Features](#features)
-- [Get started with Conveyr _locally_ in 5 minutes](#get-started-with-conveyr-locally-in-5-minutes)
-- [Contributing](#contributing)
+- [Features](#-features)
+- [Get started with Conveyr _locally_ in 5 minutes](#-get-started-with-conveyr-locally-in-5-minutes)
+- [Contributing](#-contributing)
   - [Types](#types)
   - [Branches](#branches)
   - [Commits](#commits)
   - [Pull Requests](#pull-requests)
   - [Merging Into Main](#merging-into-main)
-- [License](#license)
+- [License](#-license)
 
 Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here
 
