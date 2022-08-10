@@ -16,7 +16,7 @@ export const CHAIN_MAP = new Map([
     [
         2501,
         {
-            name: 'Moonbeam',
+            name: 'Avalanche',
             rpc: 'http://localhost:8500/1',
             market: '0x205a725d4b0E46436B6B8ABE5b024B5302b91593',
             nft: '0xc5F1743Cf48B2877f8955dCe802eE4b9062b247E',

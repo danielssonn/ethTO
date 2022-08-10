@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import useSwing from '../hooks/use-swing'
 import useWeb3 from '../hooks/use-web3'
 
-const SwingSwapper = ({ active, onComplete, params }) => {
+const SwingSwapper = ({ active, quoteReceiver, params }) => {
     const { chains, fetchQuote, sdk, swingReady } = useSwing()
     const { currentAccount } = useWeb3()
     const [quote, setQuote] = useState(null)
@@ -18,6 +18,7 @@ const SwingSwapper = ({ active, onComplete, params }) => {
         fromToken,
         toChain,
         toToken,
+        toUserAccount,
     }) => {
         setError(null)
         setQuote(null)
@@ -38,10 +39,12 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                 toToken,
                 amount: amount.toString(),
                 fromUserAddress: currentAccount,
+                toUserAccount,
             })
 
             if (quote.routes.length) {
                 setQuote(quote)
+                quoteReceiver(quote)
                 setQuoteLoading(false)
             } else {
                 setQuoteLoading(false)
@@ -54,14 +57,14 @@ const SwingSwapper = ({ active, onComplete, params }) => {
     }
 
     useEffect(() => {
-        if (active && currentAccount && swingReady) {
+        if (active && currentAccount && swingReady && !quote) {
             try {
                 getQuote(params)
             } catch (e) {
                 setError(e.message)
             }
         }
-    }, [active, currentAccount, swingReady, params])
+    }, [active, currentAccount, swingReady, params, quote])
 
     return (
         <section
@@ -154,7 +157,7 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                             <dd>{quote.routes[0].gas}</dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-                            <dt className="text-base">Amount received</dt>
+                            <dt className="text-base">Amount to send</dt>
                             <dd className="text-base flex items-center">
                                 <img
                                     src={
