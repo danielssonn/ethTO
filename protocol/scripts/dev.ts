@@ -3,7 +3,7 @@ import { ethers } from 'hardhat'
 
 async function main() {
     await createAndExport({
-        chains: ['Polygon', 'Moonbeam'],
+        chains: ['Polygon', 'Avalanche'],
         async callback(network, info) {
             console.log(info)
             const deployerWallet = new ethers.Wallet(

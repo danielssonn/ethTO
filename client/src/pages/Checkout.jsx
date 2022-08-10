@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useReducer } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ChevronRightIcon } from '@heroicons/react/solid'
 
@@ -12,15 +12,29 @@ import SwingSwapper from '../components/SwingSwapper'
 
 import { CHAIN_MAP } from '../utils/constants'
 
+function reducer(state, action) {
+    const { step } = action
+
+    if (step < state.length) {
+        const updatedSteps = [...state]
+        updatedSteps[step].status = 'complete'
+        if (step + 1 < state.length) updatedSteps[step + 1].status = 'current'
+
+        return updatedSteps
+    }
+
+    return state
+}
+
 export default function Checkout() {
-    const [steps, setSteps] = useState([
+    const [steps, dispatch] = useReducer(reducer, [
         { name: 'Select NFT', href: '/arrivals', status: 'complete' },
         { name: 'Rental Information', href: '#', status: 'current' },
         { name: 'Cross Chain Swap', href: '#', status: 'upcoming' },
         { name: 'Confirmation', href: '#', status: 'upcoming' },
     ])
     const [listing, setListing] = useState()
-    const { listings } = useContract()
+    const { listings, executeRent } = useContract()
     const { address, chainName, tokenId } = useParams()
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
@@ -36,12 +50,8 @@ export default function Checkout() {
         setQuote(quote)
     }
 
-    const handleContinue = (event) => {
+    const handleContinue = async (event) => {
         event.preventDefault()
-
-        const updatedSteps = [...steps]
-        updatedSteps[step].status = 'complete'
-        updatedSteps[step + 1].status = 'current'
 
         if (step === 2 && quote && quote.routes.length > 0) {
             const transferRoute = quote.routes[0]
@@ -49,9 +59,18 @@ export default function Checkout() {
                 // TODO: uncomment for mainnet
                 // transfer(transferRoute, transferParams)
             }
+        } else if (step === 3) {
+            // Contract Call
+            const response = await executeRent(
+                listing.nftAddress,
+                listing.tokenId,
+                daysToRent
+            )
+
+            console.log(response)
         }
 
-        setSteps(updatedSteps)
+        dispatch({ step })
         setStep(step + 1)
     }
 

@@ -18,9 +18,9 @@ export const CHAIN_MAP = new Map([
         {
             name: 'Avalanche',
             rpc: 'http://localhost:8500/1',
-            market: '0x205a725d4b0E46436B6B8ABE5b024B5302b91593',
-            nft: '0xc5F1743Cf48B2877f8955dCe802eE4b9062b247E',
-            wmatic: '0x322c2A44Ab092c982e539d086BA25a8b5f8F5FfC',
+            market: '0x1Eb966b012Ecdb0ec0EfB30A127f4cF36e4faF8B',
+            nft: '0x9C7010Dd10a684e8E20005c995891d0f21DDb198',
+            wmatic: '0x2eD5b6eD872d3D9b76b08c9FB15F249864eA50E3',
         },
     ],
 ])
