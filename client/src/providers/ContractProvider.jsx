@@ -80,6 +80,7 @@ const ContractProvider = ({ children }) => {
     const { currentAccount, currentChain, currentSigner } = useWeb3()
     const [listings, dispatch] = useReducer(reducer, [])
 
+    // eslint-disable-next-line
     const fetchListingsFrom = async (chainId) => {
         const chainConfig = CHAIN_MAP.get(chainId)
         // Use the contract for the specified chain
@@ -194,6 +195,7 @@ const ContractProvider = ({ children }) => {
 
     const executeRent = async (nftAddress, tokenId, daysToRent) => {
         if (currentSigner) {
+            // TODO: use the mainnet / testnet chain ID
             const contract = getContractFor(2501, currentSigner)
             try {
                 const tx = await contract.rent(nftAddress, tokenId, daysToRent)
@@ -211,7 +213,111 @@ const ContractProvider = ({ children }) => {
     useEffect(() => {
         if (currentChain && currentSigner) {
             // TODO: fetch listings from all supported chains
-            fetchListingsFrom(currentChain)
+            // fetchListingsFrom(currentChain)
+            dispatch({
+                data: [
+                    {
+                        nft: {
+                            name: 'Dummy #0',
+                            description: 'The dumbest NFT around, guaranteed!',
+                            image: 'https://arweave.net/9KOV2hEKM5P4xejfLMD5yRo8kQZHPxLH6kzHNQra2Qs/0.png',
+                        },
+                        chainName: 'Polygon',
+                        chainId: 2500,
+                        lender: '0x716dE4a2cfa56eB3E682D6f418Ac4A52F9F535aB',
+                        nftAddress:
+                            '0x3EEc5E941c318ba3Fe7Dd2E1Cbf27E6e0532486f',
+                        tokenId: 0,
+                        paymentToken:
+                            '0x1A3de3A4d24f63604a8efF9A8e8BDf639F9cECF8',
+                        pricePerDay: 0.1,
+                        collateralToken:
+                            '0x1A3de3A4d24f63604a8efF9A8e8BDf639F9cECF8',
+                        collateralAmount: 2,
+                        createTime: new Date('2022-08-10T11:52:53.000Z'),
+                        maximumEndTime: new Date('2022-08-15T11:52:53.000Z'),
+                        isRented: false,
+                        isRentedByCurrentAccount: false,
+                        renter: '0x0000000000000000000000000000000000000000',
+                        rentalExpiry: new Date('1970-01-01T00:00:00.000Z'),
+                    },
+                    {
+                        nft: {
+                            name: 'Dummy #1',
+                            description: 'The dumbest NFT around, guaranteed!',
+                            image: 'https://arweave.net/9KOV2hEKM5P4xejfLMD5yRo8kQZHPxLH6kzHNQra2Qs/1.png',
+                        },
+                        chainName: 'Polygon',
+                        chainId: 2500,
+                        lender: '0x716dE4a2cfa56eB3E682D6f418Ac4A52F9F535aB',
+                        nftAddress:
+                            '0x3EEc5E941c318ba3Fe7Dd2E1Cbf27E6e0532486f',
+                        tokenId: 1,
+                        paymentToken:
+                            '0x1A3de3A4d24f63604a8efF9A8e8BDf639F9cECF8',
+                        pricePerDay: 0.1,
+                        collateralToken:
+                            '0x1A3de3A4d24f63604a8efF9A8e8BDf639F9cECF8',
+                        collateralAmount: 2,
+                        createTime: new Date('2022-08-10T11:52:53.000Z'),
+                        maximumEndTime: new Date('2022-08-15T11:52:53.000Z'),
+                        isRented: false,
+                        isRentedByCurrentAccount: false,
+                        renter: '0x0000000000000000000000000000000000000000',
+                        rentalExpiry: new Date('1970-01-01T00:00:00.000Z'),
+                    },
+                    {
+                        nft: {
+                            name: 'Dummy #2',
+                            description: 'The dumbest NFT around, guaranteed!',
+                            image: 'https://arweave.net/9KOV2hEKM5P4xejfLMD5yRo8kQZHPxLH6kzHNQra2Qs/2.png',
+                        },
+                        chainName: 'Polygon',
+                        chainId: 2500,
+                        lender: '0x716dE4a2cfa56eB3E682D6f418Ac4A52F9F535aB',
+                        nftAddress:
+                            '0x3EEc5E941c318ba3Fe7Dd2E1Cbf27E6e0532486f',
+                        tokenId: 2,
+                        paymentToken:
+                            '0x1A3de3A4d24f63604a8efF9A8e8BDf639F9cECF8',
+                        pricePerDay: 0.1,
+                        collateralToken:
+                            '0x1A3de3A4d24f63604a8efF9A8e8BDf639F9cECF8',
+                        collateralAmount: 2,
+                        createTime: new Date('2022-08-10T11:52:53.000Z'),
+                        maximumEndTime: new Date('2022-08-15T11:52:53.000Z'),
+                        isRented: false,
+                        isRentedByCurrentAccount: false,
+                        renter: '0x0000000000000000000000000000000000000000',
+                        rentalExpiry: new Date('1970-01-01T00:00:00.000Z'),
+                    },
+                    {
+                        nft: {
+                            name: 'Dummy #3',
+                            description: 'The dumbest NFT around, guaranteed!',
+                            image: 'https://arweave.net/9KOV2hEKM5P4xejfLMD5yRo8kQZHPxLH6kzHNQra2Qs/3.png',
+                        },
+                        chainName: 'Polygon',
+                        chainId: 2500,
+                        lender: '0x716dE4a2cfa56eB3E682D6f418Ac4A52F9F535aB',
+                        nftAddress:
+                            '0x3EEc5E941c318ba3Fe7Dd2E1Cbf27E6e0532486f',
+                        tokenId: 3,
+                        paymentToken:
+                            '0x1A3de3A4d24f63604a8efF9A8e8BDf639F9cECF8',
+                        pricePerDay: 0.1,
+                        collateralToken:
+                            '0x1A3de3A4d24f63604a8efF9A8e8BDf639F9cECF8',
+                        collateralAmount: 2,
+                        createTime: new Date('2022-08-10T11:52:53.000Z'),
+                        maximumEndTime: new Date('2022-08-15T11:52:53.000Z'),
+                        isRented: false,
+                        isRentedByCurrentAccount: false,
+                        renter: '0x0000000000000000000000000000000000000000',
+                        rentalExpiry: new Date('1970-01-01T00:00:00.000Z'),
+                    },
+                ],
+            })
         }
     }, [currentChain, currentSigner])
 
