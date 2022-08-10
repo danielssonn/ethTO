@@ -3,14 +3,17 @@ import { Link, useParams } from 'react-router-dom'
 import { ChevronRightIcon } from '@heroicons/react/solid'
 
 import useContract from '../hooks/use-contract'
+import useSwing from '../hooks/use-swing'
 import AuthRoute from '../components/AuthRoute'
 import IMAGES from '../../images'
 import RentDaysPicker from '../components/RentDaysPicker'
+import SwingSwapper from '../components/SwingSwapper'
 
 export default function Checkout() {
     const [steps, setSteps] = useState([
         { name: 'Select NFT', href: '/arrivals', status: 'complete' },
         { name: 'Rental Information', href: '#', status: 'current' },
+        { name: 'Cross Chain Swap', href: '#', status: 'upcoming' },
         { name: 'Confirmation', href: '#', status: 'upcoming' },
     ])
     const [listing, setListing] = useState()
@@ -19,13 +22,18 @@ export default function Checkout() {
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
     const [amount, setAmount] = useState()
+    const { transferState } = useSwing()
+
+    const handleSwapComplete = () => {
+        setStep(step + 1)
+    }
 
     const handleContinue = (event) => {
         event.preventDefault()
 
         const updatedSteps = [...steps]
-        updatedSteps[1].status = 'complete'
-        updatedSteps[2].status = 'current'
+        updatedSteps[step].status = 'complete'
+        updatedSteps[step + 1].status = 'current'
 
         setSteps(updatedSteps)
         setStep(step + 1)
@@ -168,6 +176,28 @@ export default function Checkout() {
                                 selectedDay={daysToRent}
                                 setSelectedDays={setDaysToRent}
                             />
+                            <SwingSwapper
+                                active={step === 2}
+                                onComplete={handleSwapComplete}
+                                params={{
+                                    amount,
+                                    // TODO: get this data from the listing
+                                    fromChain: 'avalanche',
+                                    fromToken: 'AVAX',
+                                    toChain: 'polygon',
+                                    toToken: 'MATIC',
+                                }}
+                            />
+                            {step === 3 && (
+                                <section aria-labelledby="confirmation-heading">
+                                    <h2
+                                        id="confirmation-heading"
+                                        className="text-lg font-medium text-gray-900"
+                                    >
+                                        Confirmation
+                                    </h2>
+                                </section>
+                            )}
                             <div className="mt-10 pt-6 border-t border-gray-200 sm:flex sm:items-center sm:justify-between">
                                 <button
                                     type="submit"
@@ -177,7 +207,11 @@ export default function Checkout() {
                                     Continue
                                 </button>
                                 <p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-left">
-                                    Lorem ipsum
+                                    {step === 2 && transferState
+                                        ? `${transferState[0].toUpperCase()}${transferState
+                                              .slice(1)
+                                              .toLowerCase()}`
+                                        : 'Lorem ipsum'}
                                 </p>
                             </div>
                         </div>

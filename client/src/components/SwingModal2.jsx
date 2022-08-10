@@ -2,9 +2,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 
-import SwingSwapper from './SwingSwapper'
+import SwingSwapper2 from './SwingSwapper2'
 
-export default function SwingModal({ close, open }) {
+export default function SwingModal2({ close, open }) {
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -45,7 +45,7 @@ export default function SwingModal({ close, open }) {
                                     </button>
                                     <div className="w-full grid grid-cols-1 gap-y-8 gap-x-6 items-start sm:grid-cols-12 lg:gap-x-8">
                                         <div className="sm:col-span-12">
-                                            <SwingSwapper />
+                                            <SwingSwapper2 />
                                         </div>
                                     </div>
                                 </div>

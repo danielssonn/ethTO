@@ -6,7 +6,7 @@ import cn from 'classnames'
 
 import useWeb3 from '../hooks/use-web3'
 import IMAGES from '../../images'
-import { SwingModal } from '../components'
+import { SwingModal2 } from '../components'
 
 export default function Header() {
     const [isSwingModalOpen, setIsSwingModalOpen] = useState(false)
@@ -150,7 +150,7 @@ export default function Header() {
                     </Transition>
                 </div>
             </Popover>
-            <SwingModal
+            <SwingModal2
                 close={() => setIsSwingModalOpen(false)}
                 open={isSwingModalOpen}
             />
