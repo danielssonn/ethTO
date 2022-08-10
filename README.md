@@ -109,10 +109,9 @@ This process will allow the renter to rent the NFT without switching the network
 
 ## Business Potential
 
-- The Renter pays a rental fee to the Lender, via our NFTMarket smart contract
-- Prior to transfering the fee to the Lender, the contract earmarks a portion of the fee:
-  - For gas and swap fees (TBD)
-  - For protocol profit (TBD)
+- The Renter pays a rental fee to the Lender, via our NFTMarket smart contract.
+- The platform will charge an extra percentage to the renter on top of the rental cost
+- The platform can eventually make profits by providing API data about nft statistics, once the volume of the NFT listed is high enough
 
 ## 🧐 License
 
@@ -120,4 +119,5 @@ Licensed under the [MIT License](./LICENSE).
 
 ## 💜 Thanks
 
-Thanks go out to all of the many sponsors and [ETHToronto](https://www.ethtoronto.ca/).
+Thanks go out to all of the many sponsors and [ETHToronto](https://www.ethtoronto.ca/),
+in particular to Vivek from swing.xyz and the devs at Axelar
