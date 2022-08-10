@@ -270,10 +270,10 @@ export default function Checkout() {
                                         complete NFT rent.
                                     </p>
                                     <p className="mt-4">
-                                        In the NFTMarketplace contract, Axelar
-                                        takes over calling the contract on the
-                                        Lenders chain with the payment and
-                                        collateral in the swapped currency.
+                                        In the NFTMarket contract, Axelar takes
+                                        over calling the contract on the Lenders
+                                        chain with the payment and collateral in
+                                        the swapped currency.
                                     </p>
                                     <p className="mt-4">
                                         NFTMarket contract verifies and sends
