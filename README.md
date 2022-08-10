@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">
-  Conveyr: Cross-Chain NFT Renting
+  Conveyr
 </h1>
 
 <p align="center">
@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  Creating a seamless cross chain NFT renting experience. <br> The future is multi-chain, but where is your wallet?
+  Creating a seamless cross chain NFT renting experience.<br>The future is multi-chain, but where is your wallet?
 </p>
 
 <p align="center">
@@ -40,7 +40,9 @@
   </a>
 </p>
 
-[<img src="assets/screenshot.png" alt="Conveyr">](https://conveyr.xyz/)
+[<img src="assets/screenshot-1.png" alt="Conveyr">](https://conveyr.xyz/)
+
+[<img src="assets/screenshot-2.png" alt="Conveyr">](https://conveyr.xyz/)
 
 [**👉 Our Glorious Deployment URL 👈**](https://conveyr.xyz/)
 
@@ -49,11 +51,10 @@
 - [Concept](#concept)
 - [Product](#product)
 - [Technical Implementation](#technical-implementation)
-- [UX inspiration](#ux-inspiration)
+- [UX Inspiration](#ux-inspiration)
 - [Business Potential](#business-potential)
 - [License](#license)
 - [Thanks](#thanks)
-
 
 ### Concept
 
@@ -70,15 +71,16 @@
 - With simple and straightforward UX, without wallet juggling
 - No matter what chain and which wallet or tokens you have
 - You can list and rent NFTs on multiple chains, without the multi chain hassle
-- At the end of the reantal period, the NFT can be:  
-    - automatically returned (future)
-    - forfeited and collateral returned to the lender (future)
+- At the end of the reantal period, the NFT can be:
+  - Automatically returned (future)
+  - Forfeited and collateral returned to the lender (future)
 
 ### UX inspiration
-- We didn't want to use the typical grid-based listings
+
+- We didn’t want to use the typical grid-based listings
 - Our UX concept is that of Arrivals and Departures boards at airports
 - We think this might provide novel engagement for users
-  - Instantly knowing what NFTs are new and incoming    
+  - Instantly knowing what NFTs are new and incoming
   - Instantly knowing which rented NFTs will be returned soon
   - Driving engagement
 
@@ -97,10 +99,11 @@
   - [Our Glorious Deployment URL](https://conveyr.xyz/)
 
 ### Business Potential
- - Renter pays a rent fee to the Lender, via our NFTMarket smart contract
- - Prior transfering the fee to the lender, the contract earmarks a portion of the fee
-    - for gas and swap fees (TBD)
-    - for protocol profit (TBD)
+
+- Renter pays a rent fee to the Lender, via our NFTMarket smart contract
+- Prior transfering the fee to the lender, the contract earmarks a portion of the fee
+  - For gas and swap fees (TBD)
+  - For protocol profit (TBD)
 
 ## 🧐 License
 
