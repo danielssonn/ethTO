@@ -1,0 +1,39 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "INftLinker",
+  "sourceName": "contracts/INftLinker.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "destinationChain",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "destinationAddress",
+          "type": "address"
+        }
+      ],
+      "name": "sendNFT",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

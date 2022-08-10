@@ -414,7 +414,7 @@ export interface NFTDummy extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    mint(overrides?: CallOverrides): Promise<BigNumber>;
+    mint(overrides?: CallOverrides): Promise<void>;
 
     name(overrides?: CallOverrides): Promise<string>;
 

@@ -7,9 +7,9 @@ import '@openzeppelin/contracts/utils/Base64.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
 
 contract NFTDummy is ERC721 {
+    using Strings for uint256;
     using Counters for Counters.Counter;
     Counters.Counter private _totalMinted;
-    using Strings for uint256;
 
     string public baseURI;
 
@@ -17,14 +17,12 @@ contract NFTDummy is ERC721 {
         baseURI = baseURI_;
     }
 
-    function mint() public returns (uint256) {
+    function mint() public {
         uint256 tokenId = _totalMinted.current();
 
         _safeMint(msg.sender, tokenId);
 
         _totalMinted.increment();
-
-        return tokenId;
     }
 
     function tokenURI(uint256 tokenId)
@@ -43,13 +41,13 @@ contract NFTDummy is ERC721 {
             bytes(
                 string(
                     abi.encodePacked(
-                        '{"name": "Dummy #',
+                        '{"name": "Dodo #',
                         tokenId.toString(),
                         '", "description": "The dumbest NFT around, guaranteed!", "image": "',
                         baseURI,
                         '/',
                         tokenId.toString(),
-                        '.png"}'
+                        '.json"}'
                     )
                 )
             )
