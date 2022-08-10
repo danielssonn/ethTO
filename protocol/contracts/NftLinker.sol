@@ -2,6 +2,7 @@
 
 pragma solidity 0.8.9;
 
+import './INftLinker.sol'
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 import { AxelarExecutable } from '@axelar-network/axelar-utils-solidity/contracts/executables/AxelarExecutable.sol';
 import { IAxelarGateway } from '@axelar-network/axelar-utils-solidity/contracts/interfaces/IAxelarGateway.sol';
@@ -9,7 +10,7 @@ import { StringToAddress, AddressToString } from '@axelar-network/axelar-utils-s
 import { IERC20 } from '@axelar-network/axelar-cgp-solidity/contracts/interfaces/IERC20.sol';
 import { IAxelarGasService } from '@axelar-network/axelar-cgp-solidity/contracts/interfaces/IAxelarGasService.sol';
 
-contract NftLinker is ERC721, AxelarExecutable {
+contract NftLinker is ERC721, AxelarExecutable, INftLinker {
     using StringToAddress for string;
     using AddressToString for address;
 
@@ -43,7 +44,7 @@ contract NftLinker is ERC721, AxelarExecutable {
         uint256 tokenId,
         string memory destinationChain,
         address destinationAddress
-    ) external payable {
+    ) external override payable {
         //If we are the operator then this is a minted token that lives remotely.
         if (operator == address(this)) {
             require(ownerOf(tokenId) == _msgSender(), 'NOT_YOUR_TOKEN');

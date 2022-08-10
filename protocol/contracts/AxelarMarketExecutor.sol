@@ -2,6 +2,8 @@
 
 pragma solidity ^0.8.0;
 
+import './INftLinker.sol'
+import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 import { AxelarExecutable } from "@axelar-network/axelar-utils-solidity/contracts/executables/AxelarExecutable.sol";
 import { IAxelarGateway } from "@axelar-network/axelar-utils-solidity/contracts/interfaces/IAxelarGateway.sol";
 import { StringToAddress, AddressToString } from "@axelar-network/axelar-utils-solidity/contracts/StringAddressUtils.sol";
@@ -18,53 +20,82 @@ contract AxelarMarketExecutor is
 
     error AlreadyInitialized();
 
-    IAxelarGateway private s_gateway;
+    IAxelarGateway private _gateway;
     IAxelarGasService public gasReceiver;
     string public chainName; // see valid chain names at https://docs.axelar.dev/dev/build/chain-names
+     mapping(uint256 => address) _nftLinkerContract;
 
     constructor(
-        address _gateway,
-        address _gasReceiver,
-        string memory _chainName
+        address gateway,
+        address gasReceiver_,
+        string memory chainName_
     ) {
-        gasReceiver = IAxelarGasService(_gasReceiver);
-        s_gateway = IAxelarGateway(_gateway);
-        chainName = _chainName;
+        gasReceiver = IAxelarGasService(gasReceiver_);
+        _gateway = IAxelarGateway(gateway);
+        chainName = chainName_;
     }
 
     function gateway() public view override returns(IAxelarGateway) {
-        return s_gateway;
+        return _gateway;
     }
 
-    function executeRent(
-        string calldata destinationChain,
+    /**
+     * @dev request a rent on the listing chain from the renter's chain
+     */
+    function requestRent(
+        string memory destinationChain,
         address nftAddress,
         uint256 tokenId,
-        uint16 daysToRent
+        uint16 daysToRent,
+        uint256 gasForRemote
     ) public payable nonReentrant {
-        // verify that user has
-         bytes memory payload = abi.encode(nftAddress, tokenId, daysToRent, address(0));
-         string memory stringAddress = address(this).toString();
+        address sender = msgSender();
+        if (_compareStrings(destinationChain, chainName)) {
+            // non cross-chain case: listing is on renter's chain
+            rent(nftAddress, tokenId, daysToRent);
+            IERC721(nftAddress).transferFrom(sender, address(this), tokenId);
+        } else {
+            // cross-chain case: listing is on a differnt chain
+            bytes memory payload = abi.encode(nftAddress, tokenId, daysToRent, sender, chainName);
+            string memory stringAddress = address(this).toString();
 
-         (string memory tokenSymbol, uint256 amount) = rent(nftAddress, tokenId, daysToRent);
+            if (gasForRemote > 0) {
+            require(gasForRemote > msg.value, "Not enough value for gas");
+            gasReceiver.payNativeGasForContractCall{ value: gasForRemote }(
+                address(this),
+                destinationChain,
+                contractAddress,
+                modifiedPayload,
+                msg.sender
+            );
+            if (msg.value > gasForRemote) {
+                gasReceiver.payNativeGasForContractCall{ value: msg.value - gasForRemote }(
+                    contractAddress.toAddress(),
+                    thisChain,
+                    address(this).toString(),
+                    abi.encode(nonce_),
+                    msg.sender
+                );
+            }
+        }
 
-         gasReceiver.payNativeGasForContractCall{ value: msg.value }(address(this), destinationChain, stringAddress, payload, msg.sender);
-         gateway().callContractWithToken(destinationChain, stringAddress, payload, tokenSymbol, amount);
+            gasReceiver.payNativeGasForContractCall{ value: msg.value }(address(this), destinationChain, stringAddress, payload, sender);
+            gateway().callContract(destinationChain, stringAddress, payload);
+        }
     }
 
-    function _executeWithToken(
+    /**
+     * @dev executes the request on the lender's chain
+     */
+    function _execute(
         string memory sourceChain,
         string memory _sourceAddress,
-        bytes calldata payload,
-        string memory tokenSymbol,
-        uint256 amount
+        bytes calldata payload
     ) internal override {
-        bool isNativeChain = _compareStrings(sourceChain, chainName);
-        (address nftAddress, uint256 nftId, uint16 daysToRent, address recipient) = abi.decode(payload, (address,  uint256, uint16, address));
-        address tokenAddress = gateway().tokenAddresses(tokenSymbol);
+        (address nftAddress, uint256 nftId, uint16 daysToRent, address recipient, string memory renterChain) = abi.decode(payload, (address,  uint256, uint16, address, string));
 
-        lend(nftAddress, nftId, daysToRent, isNativeChain);
-        IERC20(tokenAddress).transfer(recipient, amount);
+        rent(nftAddress, nftId, daysToRent);
+        INftLinker(_nftLinkeContract[tokenId]).sendNFT(nftAddress, tokenId, renterChain, recipient)
     }
 
     function _compareStrings(string memory a, string memory b) internal pure returns (bool) {
