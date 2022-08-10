@@ -1,128 +1,113 @@
-
-![Cross Chain UX Rocks](assets/cross-chain-ux-rocks.svg)
-![Powered by Axelar](assets/powered-by-axelar.svg)
-![Made with SwingXYZ](assets/made-with-swing.xyz.svg)
-
-
-![Runs On Moonbeam](assets/runs-on-moonbeam.svg)
-![Runs On Ethereum](assets/runs-on-ethereum.svg)
-![Runs On Polygon](assets/runs-on-polygon.svg)
-
-
-
-
-
-
-# The future is multi-chain, but where is your wallet?
-
-## Creating a seamless cross chain NFT renting experience
-<br><br>
-
-<p>
-
-  <a href="https://amplication.com" target="_blank">
-    <img alt="amplication-logo" height="70" alt="Amplication Logo" src="https://amplication.com/images/amplication-logo-purple.svg"/>
+<p align="center">
+  <a href="https://conveyr.xyz/">
+    <img alt="Conveyr" src="assets/logo.svg" width="60" />
   </a>
 </p>
 
+<h1 align="center">
+  Conveyr: Cross-Chain NFT Renting
+</h1>
 
-![Dashboard](assets/dashboard-main.png)
+<p align="center">
+  ⚔️ ⛓️ 🤑
+</p>
 
-:point_right: [Our Glorious Deployment URL](https://here.xyz) :point_left:
+<p align="center">
+  <strong>
+    Cross. Chain. NFT Renting.
+  </strong>
+</p>
 
----
+<p align="center">
+  The future is multi-chain, but where is your wallet?<br>Creating a seamless cross chain NFT renting experience.
+</p>
 
-Contents
-===
-
- * [Why we built it](#why-we-built-it)
- * [What we built](#What-we-built)
- * [How we built it](#How-we-built)
-
-
-
- ### Why we built it
-
-+ There are many blockchains out there, each with great assets and communities
-+ The future is definitely multi-chain!   
-+ However, the User eXperience of interacting with multiple chains is cumbersome
-    + Multiple wallets need to be created and navigated by the user
-    + Tokens need to be swapped around, also by the user
-    + It is so easy to make a mistake, lose out on an opportunity, or simply get discouraged
-
- ### What we built
- + Cross-chain NFT renting experience
- + With simple and straightforward UX
- + No matter what chain and which wallet or tokens you have 
- + You can list and rent NFTs on multiple chains, without the multi chain hassle
-
- 
- ### How we built it
- + We have created NFT renting contracts for lenders and renters
- + We have deployed the contracts on Polygon and Moonbeam
-    - [Mumbai Polygonscan](https://mumbai.polygonscan.com/address/0x8c787c95e9f1bbc6153336571b7ab58cd57ad98c) 
-    - [Moonbase Alpha](https://moonbase.moonscan.io/token/0xec19ebb094269b2782fbab3b5ce6e3cb4dea86a2)
-    
- + Mixed in some Axelar magic to make the contracts **cross-chain BFF!**
-    - [Axelar dashboard](https://axelar.network/)
-    
- + Sprinkled SwingXYX to automate token conversion for payments and collateral between ETH and GLMR
- + Designed UI where Lenders and Renters do not need to worry about blockchain details
-    - [Our Glorious Deployment URL](https://here.xyz)
-
-#### Details
- ```json
-    "@alch/alchemy-web3": "^1.2.3",
-    "@openzeppelin/contracts": "^4.7.0",
-    "@openzeppelin/contracts-ethereum-package": "^3.0.0",
-    "@openzeppelin/upgrades": "^2.8.0",
-    "bignumber": "^1.1.0",
-    "hardhat-abi-exporter": "^2.10.0"
-```
-
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-# ethTO
-
-Cross-chain NFT renting marketplace.
+<p align="center">
+  <a>
+    <img src="assets/cross-chain-ux-rocks.svg" alt="Cross Chain UX Rocks">
+  </a>
+  <a>
+    <img src="assets/powered-by-axelar.svg" alt="Powered by Axelar">
+  </a>
+  <a>
+    <img src="assets/made-with-swing.xyz.svg" alt="Made with Swing.xyz">
+  </a>
+  <a>
+    <img src="assets/runs-on-moonbeam.svg" alt="Runs on Moonbeam">
+  </a>
+  <a>
+    <img src="assets/runs-on-ethereum.svg" alt="Runs on Ethereum">
+  </a>
+  <a>
+    <img src="assets/runs-on-polygon.svg" alt="Runs on Polygon">
+  </a>
+</p>
 
 ## Table of Contents
 
-- [Scaffolding](#scaffolding)
-- [Contributing](#contributing)
+- [Features](#-features)
+- [Get started with Conveyr _locally_ in 5 minutes](#-get-started-with-conveyr-locally-in-5-minutes)
+- [Contributing](#-contributing)
   - [Types](#types)
   - [Branches](#branches)
   - [Commits](#commits)
   - [Pull Requests](#pull-requests)
   - [Merging Into Main](#merging-into-main)
+- [License](#-license)
+- [Thanks](#-thanks)
 
-## Scaffolding
+Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here Story goes here
 
-### Scaffolding the client with Vite and Tailwind
+- **Rent NFTs From Anywhere.** Conveyr pulls NFTs from any chain, whether it’s Ethereum, a Layer-2 scaling sidechain solution like Polygon, or Moonbeam.
 
-```shell
-cd /client
-npm install,
-npm run dev
-```
+- **Some Feature.** Some description.
 
-### Scaffolding the protocol with Hardhat
+- **Some Feature.** Some description.
 
-```shell
-cd /protocol,
-npm install
-```
+- **Some Feature.** Some description.
 
-### Scaffolding the oracles
+- **Some Feature.** Some description.
 
-```shell
-cd /oracles,
-npm install
-```
-## Dev Environment
+[<img src="assets/screenshot.png" alt="Conveyr">](https://conveyr.xyz/)
+
+[**👉 Our Glorious Deployment URL 👈**](https://conveyr.xyz/)
+
+### Why We Built It
+
+- There are many blockchains out there, each with great assets and communities
+- The future is definitely multi-chain!
+- However, the User eXperience of interacting with multiple chains is cumbersome
+  - Multiple wallets need to be created and navigated by the user
+  - Tokens need to be swapped around, also by the user
+  - It is so easy to make a mistake, lose out on an opportunity, or simply get discouraged
+
+### What We Built
+
+- Cross-chain NFT renting experience
+- With simple and straightforward UX
+- No matter what chain and which wallet or tokens you have
+- You can list and rent NFTs on multiple chains, without the multi chain hassle
+
+### How We Built It
+
+- We have created NFT renting contracts for lenders and renters
+- We have deployed the contracts on Polygon and Moonbeam
+  - [Mumbai Polygonscan](https://mumbai.polygonscan.com/address/0x8c787c95e9f1bbc6153336571b7ab58cd57ad98c)
+  - [Moonbase Alpha](https://moonbase.moonscan.io/token/0xec19ebb094269b2782fbab3b5ce6e3cb4dea86a2)
+- Mixed in some Axelar magic to make the contracts **cross-chain BFF!**
+  - [Axelar dashboard](https://axelar.network/)
+- Sprinkled SwingXYX to automate token conversion for payments and collateral between ETH and GLMR
+- Designed UI where Lenders and Renters do not need to worry about blockchain details
+  - [Our Glorious Deployment URL](https://conveyr.xyz/)
+
+## ✨ Features
+
+- [Conventional Commits](https://www.conventionalcommits.org/)—as the specification for commit messages.
+- [GitHub Actions](https://github.com/features/actions)—for CI/CD.
+- [lint-staged](https://github.com/okonet/lint-staged)—for pre-commit code formatting and linting.
+- [Prettier](https://prettier.io/)—for code formatting.
+
+## 💻 Get started with Conveyr _locally_ in 5 minutes
 
 To run the dev environment you'll need to start the local blockchains in the `./protocol` directory in a separate terminal.
 
@@ -151,15 +136,18 @@ Next, you'll need to add a wallet to these new networks. In the output of the lo
 ```js
 [
   {
-    address: '0x716dE4a2cfa56eB3E682D6f418Ac4A52F9F535aB',
-    balance: '999999999999.978545215973228486',
-    privateKey: '0x7d8ec2ecb35763d264acda56859719bd7f222a0d3cc0f18d5716ccb25138b691'
-  }, 'etc...'
-]
+    address: "0x716dE4a2cfa56eB3E682D6f418Ac4A52F9F535aB",
+    balance: "999999999999.978545215973228486",
+    privateKey:
+      "0x7d8ec2ecb35763d264acda56859719bd7f222a0d3cc0f18d5716ccb25138b691",
+  },
+  "etc...",
+];
 ```
+
 Now that you have the local blockchains set up and your Metamask is configured to interact with them, you can start the dApp's local server. Change directories to the `./client` directory in a new terminal window and start the server with `npm run dev`. Make sure that your Metamask in on one of the local blockchain networks.
 
-## Contributing
+## 🤝 Contributing
 
 Code changes can fall into the types from the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
 
@@ -207,8 +195,6 @@ feat/add-xyz
 
 ### Commits
 
-<s>Conventional Commits are enforced using [commitlint](https://commitlint.js.org/) in a [husky](https://github.com/typicode/husky) pre-commit hook.</s>
-
 Convention:
 
 ```shell
@@ -254,3 +240,11 @@ feat: add xyz
 ### Merging Into Main
 
 Always “Squash & merge” your commits into `main`.
+
+## 🧐 License
+
+Licensed under the [MIT License](./LICENSE).
+
+## 💜 Thanks
+
+Thanks go out to all of the many sponsors and [ETHToronto](https://www.ethtoronto.ca/).

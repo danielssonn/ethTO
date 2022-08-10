@@ -2,18 +2,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 
-import useSwing from '../hooks/use-swing'
 import SwingSwapper from './SwingSwapper'
 
 export default function SwingModal({ close, open }) {
-    const { transferState } = useSwing()
-
-    const handleSwapComplete = () => {}
-
-    const handleContinue = (event) => {
-        event.preventDefault()
-    }
-
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -54,31 +45,7 @@ export default function SwingModal({ close, open }) {
                                     </button>
                                     <div className="w-full grid grid-cols-1 gap-y-8 gap-x-6 items-start sm:grid-cols-12 lg:gap-x-8">
                                         <div className="sm:col-span-12">
-                                            <SwingSwapper
-                                                active={true}
-                                                onComplete={handleSwapComplete}
-                                                params={{
-                                                    amount: 1,
-                                                    fromChain: 'polygon',
-                                                    fromToken: 'WETH',
-                                                    toChain: 'avalanche',
-                                                    toToken: 'AVAX',
-                                                }}
-                                            />
-                                            <div className="mt-10 pt-6 border-t border-gray-200 sm:flex sm:items-center sm:justify-between">
-                                                <button
-                                                    type="submit"
-                                                    onClick={handleContinue}
-                                                    className="w-full bg-green-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500 sm:ml-6 sm:order-last sm:w-auto"
-                                                >
-                                                    Continue
-                                                </button>
-                                                <p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-left">
-                                                    {`${transferState[0].toUpperCase()}${transferState
-                                                        .slice(1)
-                                                        .toLowerCase()}`}
-                                                </p>
-                                            </div>
+                                            <SwingSwapper />
                                         </div>
                                     </div>
                                 </div>

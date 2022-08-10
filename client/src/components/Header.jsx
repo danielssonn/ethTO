@@ -1,16 +1,21 @@
 import { Fragment, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { Popover, Transition } from '@headlessui/react'
-import { Link } from 'react-router-dom'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import cn from 'classnames'
 
+import useWeb3 from '../hooks/use-web3'
+import IMAGES from '../../images'
 import { SwingModal } from '../components'
 
 export default function Header() {
     const [isSwingModalOpen, setIsSwingModalOpen] = useState(false)
+    const { pathname } = useLocation()
+    const { currentAccount } = useWeb3()
 
-    const handleSwapTokensClick = () => {
-        setIsSwingModalOpen(true)
-    }
+    // const handleSwapTokensClick = () => {
+    //     setIsSwingModalOpen(true)
+    // }
 
     return (
         <>
@@ -22,7 +27,7 @@ export default function Header() {
                                 <span className="sr-only">Conveyr</span>
                                 <img
                                     className="h-8 w-auto sm:h-10"
-                                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                                    src={IMAGES.logo}
                                     alt="Conveyr logo"
                                 />
                             </Link>
@@ -41,31 +46,43 @@ export default function Header() {
                             className="hidden md:flex space-x-10"
                         >
                             <Link
-                                className="text-base font-medium text-gray-500 hover:text-gray-900"
+                                className={cn(
+                                    'text-base font-medium text-gray-500 hover:text-gray-900',
+                                    pathname === '/arrivals' && 'underline'
+                                )}
                                 to="/arrivals"
                             >
                                 Arrivals
                             </Link>
                             <Link
-                                className="text-base font-medium text-gray-500 hover:text-gray-900"
+                                className={cn(
+                                    'text-base font-medium text-gray-500 hover:text-gray-900',
+                                    pathname === '/departures' && 'underline'
+                                )}
                                 to="/departures"
                             >
                                 Departures
                             </Link>
                         </Popover.Group>
                         <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                            <button
+                            {/* <button
                                 className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
                                 onClick={handleSwapTokensClick}
                             >
                                 Swap tokens
-                            </button>
-                            <button
+                            </button> */}
+                            {/* <button
                                 className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700"
                                 disabled
                             >
                                 0xEA9B...880D
-                            </button>
+                            </button> */}
+                            <div className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+                                {`${currentAccount.slice(
+                                    0,
+                                    6
+                                )}...${currentAccount.slice(-4)}`}
+                            </div>
                         </div>
                     </div>
                     <Transition
@@ -87,7 +104,7 @@ export default function Header() {
                                         <div>
                                             <img
                                                 className="h-8 w-auto"
-                                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                                                src={IMAGES.logo}
                                                 alt="Conveyr logo"
                                             />
                                         </div>

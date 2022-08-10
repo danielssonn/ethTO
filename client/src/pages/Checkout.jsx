@@ -4,6 +4,7 @@ import { ChevronRightIcon } from '@heroicons/react/solid'
 
 import useContract from '../hooks/use-contract'
 import AuthRoute from '../components/AuthRoute'
+import IMAGES from '../../images'
 import RentDaysPicker from '../components/RentDaysPicker'
 
 export default function Checkout() {
@@ -74,7 +75,7 @@ export default function Checkout() {
                             >
                                 <span className="sr-only">Conveyr</span>
                                 <img
-                                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                                    src={IMAGES.logo}
                                     alt="Conveyr logo"
                                     className="h-8 w-auto"
                                 />
@@ -151,8 +152,8 @@ export default function Checkout() {
                                     <div className="flex text-base font-medium items-center">
                                         <img
                                             src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
-                                            alt=""
-                                            className="w-8 h-8 rounded-md object-center object-cover"
+                                            alt="Polygon"
+                                            className="w-6 h-6 rounded-md object-center object-cover"
                                         />
                                         <p className="ml-2">{amount}</p>
                                     </div>
