@@ -56,7 +56,7 @@
 - [License](#license)
 - [Thanks](#thanks)
 
-### Concept
+## Concept
 
 - There are many blockchains out there, each with great assets and communities
 - The future is definitely multi-chain!
@@ -65,7 +65,7 @@
   - Tokens need to be swapped around, also by the user
   - It is so easy to make a mistake, lose out on an opportunity, or simply get discouraged
 
-### Product
+## Product
 
 - Cross-chain NFT renting experience
 - With simple and straightforward UX, without wallet juggling
@@ -75,7 +75,7 @@
   - Automatically returned (future)
   - Forfeited and collateral returned to the lender (future)
 
-### UX inspiration
+## UX inspiration
 
 - We didn’t want to use the typical grid-based listings
 - Our UX concept is that of Arrivals and Departures boards at airports
@@ -84,7 +84,7 @@
   - Instantly knowing which rented NFTs will be returned soon
   - Driving engagement
 
-### Technical Implementation
+## Technical Implementation
 
 - We have created NFT renting contracts for lenders and renters
 - We have deployed the contracts on Polygon and Avalanche
@@ -98,7 +98,7 @@
 - Designed UI where Lenders and Renters do not need to worry about blockchain details
   - [Our Glorious Deployment URL](https://conveyr.xyz/)
 
-### Business Potential
+## Business Potential
 
 - Renter pays a rent fee to the Lender, via our NFTMarket smart contract
 - Prior transfering the fee to the lender, the contract earmarks a portion of the fee
