@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "./NFTListing.sol";
-import "./Payment.sol";
-import "./Collateral.sol";
-import "./Rental.sol";
+import './NFTListing.sol';
+import './Payment.sol';
+import './Collateral.sol';
+import './Rental.sol';
 
 interface INFTMarket {
-function listNFT(
+    function listNFT(
         address nftAddress,
         uint256 tokenId,
         uint256 maximumEndTime,
@@ -28,10 +28,10 @@ function listNFT(
         bool isNativeChain
     ) external payable;
 
-    function returnRentedNFT(
-        address nftAddress,
-        uint256 tokenId
-    ) external payable returns (uint256 txId);
+    function returnRentedNFT(address nftAddress, uint256 tokenId)
+        external
+        payable
+        returns (uint256 txId);
 
     function getListing(address nftAddress, uint256 tokenId)
         external
@@ -52,15 +52,7 @@ function listNFT(
 
     event CancelNFTListing(address lender, address nftAddress, uint256 tokenId);
 
-    event NFTRented(
-        address nftAddress,
-        uint256 tokenId,
-        Rental rental
-    );
+    event NFTRented(address nftAddress, uint256 tokenId, Rental rental);
 
-    event NFTLent(
-        address nftAddress,
-        uint256 tokenId,
-        Rental rental
-    );
+    event NFTLent(address nftAddress, uint256 tokenId, Rental rental);
 }

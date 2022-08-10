@@ -8,5 +8,5 @@ interface INftLinker {
         uint256 tokenId,
         string memory destinationChain,
         address destinationAddress
-    ) external virtual;
+    ) external payable;
 }

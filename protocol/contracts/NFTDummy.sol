@@ -17,7 +17,6 @@ contract NFTDummy is ERC721 {
         baseURI = baseURI_;
     }
 
-
     function mint() public {
         uint256 tokenId = _totalMinted.current();
 

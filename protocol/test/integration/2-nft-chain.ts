@@ -8,7 +8,6 @@ function delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-
 describe('Testing setup preconditions', function () {
     let destinationChain: Network | undefined
     let sourceChain: Network | undefined

@@ -10,7 +10,8 @@ struct NFTListing {
     address lender;
     uint256 maximumEndTime;
     uint256 createTime;
+    address preferredToken;
     Rental rental;
-    Payment payment;
-    Collateral collateral;
+    uint256 pricePerDay;
+    uint256 collateralAmount;
 }
