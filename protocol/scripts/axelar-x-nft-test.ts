@@ -76,7 +76,7 @@ async function main() {
     console.log(gasLimit * gasPrice)
 
     const resp = await contract.sendNFT(
-        '0x7293Ced8471fEdC2ACa98776119713495Bf316fa',
+        '0x25f8A11591b84Aa11B7514Ab0822fCb6F7d13656',
         0,
         'Avalanche',
         '0x92d52b3A52405ed2274de54b68344b5C65194EA6',
