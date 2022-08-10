@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  The future is multi-chain, but where is your wallet?<br>Creating a seamless cross chain NFT renting experience.
+  Creating a seamless cross chain NFT renting experience. <br> The future is multi-chain, but where is your wallet?
 </p>
 
 <p align="center">
