@@ -21,15 +21,15 @@ contract AxelarMarketExecutor is AxelarExecutable, NFTMarket {
     IAxelarGateway private _gateway;
     IAxelarGasService public gasReceiver;
     string public chainName; // see valid chain names at https://docs.axelar.dev/dev/build/chain-names
-    mapping(uint256 => address) _nftLinkerContract;
 
-    function init (
-        address gateway,
-        address gasReceiver_,
-        string memory chainName_
+    function init(
+        string memory chainName_,
+        address gateway_,
+        address gasReceiver_
     ) external {
+        if (address(gateway()) != address(0) || address(gasReceiver) != address(0)) revert AlreadyInitialized();
         gasReceiver = IAxelarGasService(gasReceiver_);
-        _gateway = IAxelarGateway(gateway);
+        _gateway = IAxelarGateway(gateway_);
         chainName = chainName_;
     }
 
@@ -59,7 +59,8 @@ contract AxelarMarketExecutor is AxelarExecutable, NFTMarket {
                 tokenId,
                 daysToRent,
                 sender,
-                chainName
+                chainName,
+                gas.renterLinker
             );
             bytes memory responsePayload = abi.encode(
                 nftAddress,
@@ -120,11 +121,12 @@ contract AxelarMarketExecutor is AxelarExecutable, NFTMarket {
             uint256 nftId,
             uint16 daysToRent,
             address recipient,
-            string memory renterChain
-        ) = abi.decode(payload, (address, uint256, uint16, address, string));
+            string memory renterChain,
+            address nftLinker
+        ) = abi.decode(payload, (address, uint256, uint16, address, string, address));
 
         rent(nftAddress, nftId, daysToRent);
-        INftLinker(_nftLinkerContract[nftId]).sendNFT(
+        INftLinker(nftLinker).sendNFT(
             nftAddress,
             nftId,
             renterChain,

@@ -24,15 +24,17 @@ async function deploy(chain, wallet) {
     const erc721 = await deployContract(wallet, ERC721, ['Test'])
     chain.erc721 = erc721.address
     console.log(`Deployed ERC721Demo for ${chain.name} at ${chain.erc721}.`)
-    console.log(`Deploying NftLinker for ${chain.name}.`)
-    chain.nftLinker = await deployAndInitContractConstant(
-        chain.constAddressDeployer,
-        wallet,
-        NftLinker,
-        'nftLinker',
-        [],
-        [chain.name, chain.gateway, chain.gasReceiver]
-    ),
+    // console.log(`Deploying NftLinker for ${chain.name}.`)
+    // chain.nftLinker = await deployAndInitContractConstant(
+    //     chain.constAddressDeployer,
+    //     wallet,
+    //     NftLinker,
+    //     'nftLinker',
+    //     [],
+    //     [chain.name, chain.gateway, chain.gasReceiver]
+    // ),
+    // console.log(`Deployed NftLinker for ${chain.name} at ${chain.nftLinker}.`)
+    console.log(`Deploying Market for ${chain.name}.`)
     chain.nftMarket = await deployAndInitContractConstant(
         chain.constAddressDeployer,
         wallet,
@@ -41,7 +43,8 @@ async function deploy(chain, wallet) {
         [],
         [chain.name, chain.gateway, chain.gasReceiver]
     )
-    console.log(`Deployed NftLinker for ${chain.name} at ${chain.nftLinker}.`)
+
+    console.log(`Deployed NftMarket for ${chain.name} at ${chain.nftMarket}.`)
     console.log(`Minting token ${tokenId} for ${chain.name}`)
     await (await erc721.mint()).wait()
     console.log(`Minted token ${tokenId} for ${chain.name}`)

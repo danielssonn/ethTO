@@ -121,32 +121,6 @@ contract NFTMarket is
     }
 
     /**
-     * Used to mark an nft as rented and transfer the NFT
-     */
-    function lend(
-        address nftAddress,
-        uint256 tokenId,
-        uint16 daysToRent,
-        bool isNativeChain
-    ) public payable override nonReentrant {
-        uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
-        Rental memory rental = Rental(msgSender(), rentalExpiry);
-
-        if (!isNativeChain) {
-            listedNFTs[nftAddress][tokenId].rental = rental;
-        }
-
-        // Transfer NFT to renter address
-        IERC721(nftAddress).safeTransferFrom(
-            address(this),
-            msgSender(),
-            tokenId
-        );
-
-        emit NFTLent(nftAddress, tokenId, rental);
-    }
-
-    /**
      * Renter returns NFT to the lender, lender gets paid
      */
     function returnRentedNFT(address nftAddress, uint256 tokenId)
