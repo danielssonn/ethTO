@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from 'react'
-import { RadioGroup } from '@headlessui/react'
 import cn from 'classnames'
+import { RadioGroup } from '@headlessui/react'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -32,6 +32,7 @@ function reducer(state, action) {
 
 const RentDaysPicker = ({ active, listing, selectedDay, setSelectedDays }) => {
     const [days, dispatch] = useReducer(reducer, initialState)
+
     const handleDaysChanged = (days) => {
         setSelectedDays(Number.parseInt(days, 10))
     }

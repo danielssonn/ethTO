@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
 import cn from 'classnames'
+import { ethers } from 'ethers'
 
 import useSwing from '../hooks/use-swing'
 import useWeb3 from '../hooks/use-web3'
