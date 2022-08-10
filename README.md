@@ -60,7 +60,7 @@
 
 - There are many blockchains out there, each with great assets and communities
 - The future is definitely multi-chain!
-- However, the User eXperience of interacting with multiple chains is cumbersome
+- However, the User eXperience of interacting with multiple chains is cumbersome:
   - Multiple wallets need to be created and navigated by the user
   - Tokens need to be swapped around, also by the user
   - It is so easy to make a mistake, lose out on an opportunity, or simply get discouraged
@@ -75,11 +75,11 @@
   - Automatically returned (future)
   - Forfeited and collateral returned to the Lender (future)
 
-## UX inspiration
+## UX Inspiration
 
 - We didn’t want to use the typical grid-based listings
 - Our UX concept is that of Arrivals and Departures boards at airports
-- We think this might provide novel engagement for users
+- We think this might provide novel engagement for users:
   - Instantly knowing what NFTs are new and incoming
   - Instantly knowing which rented NFTs will be returned soon
   - Driving engagement
@@ -88,20 +88,20 @@
 
 - We have created NFT renting contracts for Lenders and Renters
 - We have deployed the contracts on Polygon and Avalanche
-- Mixed in some Axelar magic to make the contracts **cross chain BFF!**
+- Mixed in some Axelar magic to make the contracts **cross chain BFF!**:
   - Axelar GMP enables communication among NFTMarket contracts across chains
   - Axelar also enables seamless transfer of the NFT from Lender to Renter across chains
   - [Mumbai Polygonscan](https://mumbai.polygonscan.com/address/0x8c787c95e9f1bbc6153336571b7ab58cd57ad98c)
   - [Moonbase Alpha](https://moonbase.moonscan.io/token/0xec19ebb094269b2782fbab3b5ce6e3cb4dea86a2)
   - [Axelar dashboard](https://axelar.network/)
 - Sprinkled SwingXYX to automate token conversion for payments and collateral between MATIC and AVAX
-- Designed UI where Lenders and Renters do not need to worry about blockchain details
+- Designed UI where Lenders and Renters do not need to worry about blockchain details:
   - [Our Glorious Deployment URL](https://conveyr.xyz/)
 
 ## Business Potential
 
 - The Renter pays a rental fee to the Lender, via our NFTMarket smart contract
-- Prior to transfering the fee to the Lender, the contract earmarks a portion of the fee
+- Prior to transfering the fee to the Lender, the contract earmarks a portion of the fee:
   - For gas and swap fees (TBD)
   - For protocol profit (TBD)
 
