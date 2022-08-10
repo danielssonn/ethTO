@@ -27,16 +27,16 @@ const config: HardhatUserConfig = {
         //   url: ALCHEMY_GOERLI,
         //   accounts: [`0x${PRIVATE_KEY}`],
         // },
-        mumbai: {
-            url: 'https://polygon-mumbai.g.alchemy.com/v2/GFNd1Xak4hJmcWhQ0FeaOc6MWyAE80Ee',
-            accounts: [`0x${TEST_PK}`],
-        },
-        fuji: {
-            url: 'https://api.avax-test.network/ext/bc/C/rpc',
-            gasPrice: 225000000000,
-            chainId: 43113,
-            accounts: [`0x${TEST_PK}`],
-        },
+        // mumbai: {
+        //     url: 'https://polygon-mumbai.g.alchemy.com/v2/GFNd1Xak4hJmcWhQ0FeaOc6MWyAE80Ee',
+        //     accounts: [`0x${TEST_PK}`],
+        // },
+        // fuji: {
+        //     url: 'https://api.avax-test.network/ext/bc/C/rpc',
+        //     gasPrice: 225000000000,
+        //     chainId: 43113,
+        //     accounts: [`0x${TEST_PK}`],
+        // },
         hardhat: {
             // forking: {
             //   url: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY_MAINNET}`,
