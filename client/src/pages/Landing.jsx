@@ -4,6 +4,7 @@ import { Popover, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 
 import useWeb3 from '../hooks/use-web3'
+import IMAGES from '../../images'
 import { LandingFooter } from '../components'
 
 export default function Landing() {
@@ -103,7 +104,7 @@ export default function Landing() {
                                             </span>
                                             <img
                                                 className="h-8 w-auto sm:h-10"
-                                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                                                src={IMAGES.logo}
                                                 alt="Conveyr logo"
                                             />
                                         </Link>
@@ -150,7 +151,7 @@ export default function Landing() {
                                         <div>
                                             <img
                                                 className="h-8 w-auto"
-                                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                                                src={IMAGES.logo}
                                                 alt="Conveyr logo"
                                             />
                                         </div>
