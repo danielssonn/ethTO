@@ -151,8 +151,8 @@ export default function Checkout() {
                                     <div className="flex text-base font-medium items-center">
                                         <img
                                             src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
-                                            alt=""
-                                            className="w-8 h-8 rounded-md object-center object-cover"
+                                            alt="Polygon"
+                                            className="w-6 h-6 rounded-md object-center object-cover"
                                         />
                                         <p className="ml-2">{amount}</p>
                                     </div>
