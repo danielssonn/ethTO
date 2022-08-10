@@ -5,48 +5,8 @@ import cn from 'classnames'
 import useSwing from '../hooks/use-swing'
 import useWeb3 from '../hooks/use-web3'
 
-const networkLogos = {
-    avalanche: {
-        imageSrc:
-            'https://raw.githubusercontent.com/sushiswap/icons/master/network/avalanche.jpg',
-        imageAlt: 'Avalanche',
-    },
-    ethereum: {
-        imageSrc:
-            'https://raw.githubusercontent.com/sushiswap/icons/master/network/mainnet.jpg',
-        imageAlt: 'Ethereum',
-    },
-    polygon: {
-        imageSrc:
-            'https://raw.githubusercontent.com/sushiswap/icons/master/network/polygon.jpg',
-        imageAlt: 'Polygon',
-    },
-}
-const tokenLogos = {
-    avax: {
-        imageSrc:
-            'https://raw.githubusercontent.com/sushiswap/icons/master/token/avax.jpg',
-        imageAlt: 'AVAX',
-    },
-    eth: {
-        imageSrc:
-            'https://raw.githubusercontent.com/sushiswap/icons/master/token/eth.jpg',
-        imageAlt: 'ETH',
-    },
-    matic: {
-        imageSrc:
-            'https://raw.githubusercontent.com/sushiswap/icons/master/token/matic.jpg',
-        imageAlt: 'MATIC',
-    },
-    weth: {
-        imageSrc:
-            'https://raw.githubusercontent.com/sushiswap/icons/master/token/weth.jpg',
-        imageAlt: 'WETH',
-    },
-}
-
 const SwingSwapper = ({ active, onComplete, params }) => {
-    const { fetchQuote, swingReady } = useSwing()
+    const { chains, fetchQuote, sdk, swingReady } = useSwing()
     const { currentAccount } = useWeb3()
     const [quote, setQuote] = useState(null)
     const [quoteLoading, setQuoteLoading] = useState(null)
@@ -115,15 +75,13 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                         <li className="flex items-start py-6 space-x-4">
                             <img
                                 src={
-                                    networkLogos[
-                                        quote.fromChain.name.toLowerCase()
-                                    ].imageSrc
+                                    chains.find(
+                                        (element) =>
+                                            element.slug ===
+                                            quote.fromChain.slug
+                                    ).logo
                                 }
-                                alt={
-                                    networkLogos[
-                                        quote.fromChain.name.toLowerCase()
-                                    ].imageAlt
-                                }
+                                alt={quote.fromChain.name}
                                 className="flex-none w-20 h-20 rounded-md object-center object-cover"
                             />
                             <div className="flex-auto space-y-1">
@@ -138,15 +96,13 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                             <div className="flex text-base font-medium flex items-center">
                                 <img
                                     src={
-                                        tokenLogos[
-                                            quote.fromToken.name.toLowerCase()
-                                        ].imageSrc
+                                        sdk.tokens.find(
+                                            (element) =>
+                                                element.symbol ===
+                                                quote.fromToken.symbol
+                                        ).logoURI
                                     }
-                                    alt={
-                                        tokenLogos[
-                                            quote.fromToken.name.toLowerCase()
-                                        ].imageAlt
-                                    }
+                                    alt={quote.fromToken.name}
                                     className="w-8 h-8 rounded-md object-center object-cover"
                                 />
                                 <p className="ml-2">{params.amount}</p>
@@ -155,15 +111,12 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                         <li className="flex items-start py-6 space-x-4">
                             <img
                                 src={
-                                    networkLogos[
-                                        quote.toChain.name.toLowerCase()
-                                    ].imageSrc
+                                    chains.find(
+                                        (element) =>
+                                            element.slug === quote.toChain.slug
+                                    ).logo
                                 }
-                                alt={
-                                    networkLogos[
-                                        quote.toChain.name.toLowerCase()
-                                    ].imageAlt
-                                }
+                                alt={quote.toChain.name}
                                 className="flex-none w-20 h-20 rounded-md object-center object-cover"
                             />
                             <div className="flex-auto space-y-1">
@@ -178,15 +131,13 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                             <div className="flex text-base font-medium flex items-center">
                                 <img
                                     src={
-                                        tokenLogos[
-                                            quote.toToken.name.toLowerCase()
-                                        ].imageSrc
+                                        sdk.tokens.find(
+                                            (element) =>
+                                                element.symbol ===
+                                                quote.toToken.symbol
+                                        ).logoURI
                                     }
-                                    alt={
-                                        tokenLogos[
-                                            quote.toToken.name.toLowerCase()
-                                        ].imageAlt
-                                    }
+                                    alt={quote.toToken.name}
                                     className="w-8 h-8 rounded-md object-center object-cover"
                                 />
                                 <p className="ml-2">
