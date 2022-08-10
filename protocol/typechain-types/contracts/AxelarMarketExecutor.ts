@@ -38,35 +38,16 @@ export type RentalStructOutput = [string, BigNumber] & {
   expiryTime: BigNumber;
 };
 
-export type PaymentStruct = {
-  paymentToken: PromiseOrValue<string>;
-  pricePerDay: PromiseOrValue<BigNumberish>;
-};
-
-export type PaymentStructOutput = [string, BigNumber] & {
-  paymentToken: string;
-  pricePerDay: BigNumber;
-};
-
-export type CollateralStruct = {
-  collateralToken: PromiseOrValue<string>;
-  collateralAmount: PromiseOrValue<BigNumberish>;
-};
-
-export type CollateralStructOutput = [string, BigNumber] & {
-  collateralToken: string;
-  collateralAmount: BigNumber;
-};
-
 export type NFTListingStruct = {
   nftAddress: PromiseOrValue<string>;
   tokenId: PromiseOrValue<BigNumberish>;
   lender: PromiseOrValue<string>;
   maximumEndTime: PromiseOrValue<BigNumberish>;
   createTime: PromiseOrValue<BigNumberish>;
+  preferredToken: PromiseOrValue<string>;
   rental: RentalStruct;
-  payment: PaymentStruct;
-  collateral: CollateralStruct;
+  pricePerDay: PromiseOrValue<BigNumberish>;
+  collateralAmount: PromiseOrValue<BigNumberish>;
 };
 
 export type NFTListingStructOutput = [
@@ -75,18 +56,20 @@ export type NFTListingStructOutput = [
   string,
   BigNumber,
   BigNumber,
+  string,
   RentalStructOutput,
-  PaymentStructOutput,
-  CollateralStructOutput
+  BigNumber,
+  BigNumber
 ] & {
   nftAddress: string;
   tokenId: BigNumber;
   lender: string;
   maximumEndTime: BigNumber;
   createTime: BigNumber;
+  preferredToken: string;
   rental: RentalStructOutput;
-  payment: PaymentStructOutput;
-  collateral: CollateralStructOutput;
+  pricePerDay: BigNumber;
+  collateralAmount: BigNumber;
 };
 
 export interface AxelarMarketExecutorInterface extends utils.Interface {
@@ -94,14 +77,13 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
     "cancelNFTListing(address,uint256)": FunctionFragment;
     "chainName()": FunctionFragment;
     "execute(bytes32,string,string,bytes)": FunctionFragment;
-    "executeRent(string,address,uint256,uint16)": FunctionFragment;
     "executeWithToken(bytes32,string,string,bytes,string,uint256)": FunctionFragment;
     "gasReceiver()": FunctionFragment;
     "gateway()": FunctionFragment;
     "getAllListings()": FunctionFragment;
     "getListing(address,uint256)": FunctionFragment;
     "lend(address,uint256,uint16,bool)": FunctionFragment;
-    "listNFT(address,uint256,uint256,(address,uint256),(address,uint256))": FunctionFragment;
+    "listNFT(address,uint256,uint256,address,uint256,uint256)": FunctionFragment;
     "listings(uint256)": FunctionFragment;
     "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "onERC1155Received(address,address,uint256,uint256,bytes)": FunctionFragment;
@@ -109,6 +91,7 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "rent(address,uint256,uint16)": FunctionFragment;
+    "requestRent(string,address,uint256,uint16)": FunctionFragment;
     "returnRentedNFT(address,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -119,7 +102,6 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       | "cancelNFTListing"
       | "chainName"
       | "execute"
-      | "executeRent"
       | "executeWithToken"
       | "gasReceiver"
       | "gateway"
@@ -134,6 +116,7 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       | "owner"
       | "renounceOwnership"
       | "rent"
+      | "requestRent"
       | "returnRentedNFT"
       | "supportsInterface"
       | "transferOwnership"
@@ -151,15 +134,6 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BytesLike>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "executeRent",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
     ]
   ): string;
   encodeFunctionData(
@@ -201,8 +175,9 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
-      PaymentStruct,
-      CollateralStruct
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
     ]
   ): string;
   encodeFunctionData(
@@ -252,6 +227,15 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "requestRent",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "returnRentedNFT",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
@@ -270,10 +254,6 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "chainName", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "executeRent",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "executeWithToken",
     data: BytesLike
@@ -310,6 +290,10 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "rent", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "requestRent",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "returnRentedNFT",
     data: BytesLike
   ): Result;
@@ -325,7 +309,7 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
   events: {
     "CancelNFTListing(address,address,uint256)": EventFragment;
     "NFTLent(address,uint256,tuple)": EventFragment;
-    "NFTListed(address,address,uint256,uint256,tuple,tuple)": EventFragment;
+    "NFTListed(address,address,uint256,uint256,uint256,uint256)": EventFragment;
     "NFTRented(address,uint256,tuple)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
@@ -367,18 +351,11 @@ export interface NFTListedEventObject {
   nftAddress: string;
   tokenId: BigNumber;
   maximumEndTime: BigNumber;
-  payment: PaymentStructOutput;
-  collateral: CollateralStructOutput;
+  pricePerDay: BigNumber;
+  collateralAmount: BigNumber;
 }
 export type NFTListedEvent = TypedEvent<
-  [
-    string,
-    string,
-    BigNumber,
-    BigNumber,
-    PaymentStructOutput,
-    CollateralStructOutput
-  ],
+  [string, string, BigNumber, BigNumber, BigNumber, BigNumber],
   NFTListedEventObject
 >;
 
@@ -451,14 +428,6 @@ export interface AxelarMarketExecutor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    executeRent(
-      destinationChain: PromiseOrValue<string>,
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
       sourceChain: PromiseOrValue<string>,
@@ -495,8 +464,9 @@ export interface AxelarMarketExecutor extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       maximumEndTime: PromiseOrValue<BigNumberish>,
-      payment: PaymentStruct,
-      collateral: CollateralStruct,
+      preferredToken: PromiseOrValue<string>,
+      pricePerDay: PromiseOrValue<BigNumberish>,
+      collateralAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -510,18 +480,20 @@ export interface AxelarMarketExecutor extends BaseContract {
         string,
         BigNumber,
         BigNumber,
+        string,
         RentalStructOutput,
-        PaymentStructOutput,
-        CollateralStructOutput
+        BigNumber,
+        BigNumber
       ] & {
         nftAddress: string;
         tokenId: BigNumber;
         lender: string;
         maximumEndTime: BigNumber;
         createTime: BigNumber;
+        preferredToken: string;
         rental: RentalStructOutput;
-        payment: PaymentStructOutput;
-        collateral: CollateralStructOutput;
+        pricePerDay: BigNumber;
+        collateralAmount: BigNumber;
       }
     >;
 
@@ -561,6 +533,14 @@ export interface AxelarMarketExecutor extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    requestRent(
+      destinationChain: PromiseOrValue<string>,
+      nftAddress: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -597,14 +577,6 @@ export interface AxelarMarketExecutor extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  executeRent(
-    destinationChain: PromiseOrValue<string>,
-    nftAddress: PromiseOrValue<string>,
-    tokenId: PromiseOrValue<BigNumberish>,
-    daysToRent: PromiseOrValue<BigNumberish>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   executeWithToken(
     commandId: PromiseOrValue<BytesLike>,
     sourceChain: PromiseOrValue<string>,
@@ -639,8 +611,9 @@ export interface AxelarMarketExecutor extends BaseContract {
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     maximumEndTime: PromiseOrValue<BigNumberish>,
-    payment: PaymentStruct,
-    collateral: CollateralStruct,
+    preferredToken: PromiseOrValue<string>,
+    pricePerDay: PromiseOrValue<BigNumberish>,
+    collateralAmount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -654,18 +627,20 @@ export interface AxelarMarketExecutor extends BaseContract {
       string,
       BigNumber,
       BigNumber,
+      string,
       RentalStructOutput,
-      PaymentStructOutput,
-      CollateralStructOutput
+      BigNumber,
+      BigNumber
     ] & {
       nftAddress: string;
       tokenId: BigNumber;
       lender: string;
       maximumEndTime: BigNumber;
       createTime: BigNumber;
+      preferredToken: string;
       rental: RentalStructOutput;
-      payment: PaymentStructOutput;
-      collateral: CollateralStructOutput;
+      pricePerDay: BigNumber;
+      collateralAmount: BigNumber;
     }
   >;
 
@@ -705,6 +680,14 @@ export interface AxelarMarketExecutor extends BaseContract {
     nftAddress: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
     daysToRent: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  requestRent(
+    destinationChain: PromiseOrValue<string>,
+    nftAddress: PromiseOrValue<string>,
+    tokenId: PromiseOrValue<BigNumberish>,
+    daysToRent: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -738,14 +721,6 @@ export interface AxelarMarketExecutor extends BaseContract {
       sourceChain: PromiseOrValue<string>,
       sourceAddress: PromiseOrValue<string>,
       payload: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    executeRent(
-      destinationChain: PromiseOrValue<string>,
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -785,8 +760,9 @@ export interface AxelarMarketExecutor extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       maximumEndTime: PromiseOrValue<BigNumberish>,
-      payment: PaymentStruct,
-      collateral: CollateralStruct,
+      preferredToken: PromiseOrValue<string>,
+      pricePerDay: PromiseOrValue<BigNumberish>,
+      collateralAmount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -800,18 +776,20 @@ export interface AxelarMarketExecutor extends BaseContract {
         string,
         BigNumber,
         BigNumber,
+        string,
         RentalStructOutput,
-        PaymentStructOutput,
-        CollateralStructOutput
+        BigNumber,
+        BigNumber
       ] & {
         nftAddress: string;
         tokenId: BigNumber;
         lender: string;
         maximumEndTime: BigNumber;
         createTime: BigNumber;
+        preferredToken: string;
         rental: RentalStructOutput;
-        payment: PaymentStructOutput;
-        collateral: CollateralStructOutput;
+        pricePerDay: BigNumber;
+        collateralAmount: BigNumber;
       }
     >;
 
@@ -850,7 +828,15 @@ export interface AxelarMarketExecutor extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[string, BigNumber]>;
+    ): Promise<void>;
+
+    requestRent(
+      destinationChain: PromiseOrValue<string>,
+      nftAddress: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      daysToRent: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     returnRentedNFT(
       nftAddress: PromiseOrValue<string>,
@@ -892,21 +878,21 @@ export interface AxelarMarketExecutor extends BaseContract {
       rental?: null
     ): NFTLentEventFilter;
 
-    "NFTListed(address,address,uint256,uint256,tuple,tuple)"(
+    "NFTListed(address,address,uint256,uint256,uint256,uint256)"(
       lender?: null,
       nftAddress?: null,
       tokenId?: null,
       maximumEndTime?: null,
-      payment?: null,
-      collateral?: null
+      pricePerDay?: null,
+      collateralAmount?: null
     ): NFTListedEventFilter;
     NFTListed(
       lender?: null,
       nftAddress?: null,
       tokenId?: null,
       maximumEndTime?: null,
-      payment?: null,
-      collateral?: null
+      pricePerDay?: null,
+      collateralAmount?: null
     ): NFTListedEventFilter;
 
     "NFTRented(address,uint256,tuple)"(
@@ -947,14 +933,6 @@ export interface AxelarMarketExecutor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    executeRent(
-      destinationChain: PromiseOrValue<string>,
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
       sourceChain: PromiseOrValue<string>,
@@ -989,8 +967,9 @@ export interface AxelarMarketExecutor extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       maximumEndTime: PromiseOrValue<BigNumberish>,
-      payment: PaymentStruct,
-      collateral: CollateralStruct,
+      preferredToken: PromiseOrValue<string>,
+      pricePerDay: PromiseOrValue<BigNumberish>,
+      collateralAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1035,6 +1014,14 @@ export interface AxelarMarketExecutor extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    requestRent(
+      destinationChain: PromiseOrValue<string>,
+      nftAddress: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      daysToRent: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1072,14 +1059,6 @@ export interface AxelarMarketExecutor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    executeRent(
-      destinationChain: PromiseOrValue<string>,
-      nftAddress: PromiseOrValue<string>,
-      tokenId: PromiseOrValue<BigNumberish>,
-      daysToRent: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     executeWithToken(
       commandId: PromiseOrValue<BytesLike>,
       sourceChain: PromiseOrValue<string>,
@@ -1114,8 +1093,9 @@ export interface AxelarMarketExecutor extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       maximumEndTime: PromiseOrValue<BigNumberish>,
-      payment: PaymentStruct,
-      collateral: CollateralStruct,
+      preferredToken: PromiseOrValue<string>,
+      pricePerDay: PromiseOrValue<BigNumberish>,
+      collateralAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1157,6 +1137,14 @@ export interface AxelarMarketExecutor extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     rent(
+      nftAddress: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      daysToRent: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    requestRent(
+      destinationChain: PromiseOrValue<string>,
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       daysToRent: PromiseOrValue<BigNumberish>,

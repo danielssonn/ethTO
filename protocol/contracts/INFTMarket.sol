@@ -6,19 +6,20 @@ import "./Collateral.sol";
 import "./Rental.sol";
 
 interface INFTMarket {
-    function listNFT(
+function listNFT(
         address nftAddress,
         uint256 tokenId,
         uint256 maximumEndTime,
-        Payment memory payment,
-        Collateral memory collateral
+        address preferredToken,
+        uint256 pricePerDay,
+        uint256 collateralAmount
     ) external;
 
     function rent(
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
-    ) external payable returns(string memory, uint256);
+    ) external;
 
     function lend(
         address nftAddress,
@@ -45,8 +46,8 @@ interface INFTMarket {
         address nftAddress,
         uint256 tokenId,
         uint256 maximumEndTime,
-        Payment payment,
-        Collateral collateral
+        uint256 pricePerDay,
+        uint256 collateralAmount
     );
 
     event CancelNFTListing(address lender, address nftAddress, uint256 tokenId);

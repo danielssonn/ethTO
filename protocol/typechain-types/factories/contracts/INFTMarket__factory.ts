@@ -100,40 +100,16 @@ const _abi = [
         type: "uint256",
       },
       {
-        components: [
-          {
-            internalType: "address",
-            name: "paymentToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "pricePerDay",
-            type: "uint256",
-          },
-        ],
         indexed: false,
-        internalType: "struct Payment",
-        name: "payment",
-        type: "tuple",
+        internalType: "uint256",
+        name: "pricePerDay",
+        type: "uint256",
       },
       {
-        components: [
-          {
-            internalType: "address",
-            name: "collateralToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "collateralAmount",
-            type: "uint256",
-          },
-        ],
         indexed: false,
-        internalType: "struct Collateral",
-        name: "collateral",
-        type: "tuple",
+        internalType: "uint256",
+        name: "collateralAmount",
+        type: "uint256",
       },
     ],
     name: "NFTListed",
@@ -237,6 +213,11 @@ const _abi = [
             type: "uint256",
           },
           {
+            internalType: "address",
+            name: "preferredToken",
+            type: "address",
+          },
+          {
             components: [
               {
                 internalType: "address",
@@ -254,38 +235,14 @@ const _abi = [
             type: "tuple",
           },
           {
-            components: [
-              {
-                internalType: "address",
-                name: "paymentToken",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "pricePerDay",
-                type: "uint256",
-              },
-            ],
-            internalType: "struct Payment",
-            name: "payment",
-            type: "tuple",
+            internalType: "uint256",
+            name: "pricePerDay",
+            type: "uint256",
           },
           {
-            components: [
-              {
-                internalType: "address",
-                name: "collateralToken",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "collateralAmount",
-                type: "uint256",
-              },
-            ],
-            internalType: "struct Collateral",
-            name: "collateral",
-            type: "tuple",
+            internalType: "uint256",
+            name: "collateralAmount",
+            type: "uint256",
           },
         ],
         internalType: "struct NFTListing",
@@ -342,38 +299,19 @@ const _abi = [
         type: "uint256",
       },
       {
-        components: [
-          {
-            internalType: "address",
-            name: "paymentToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "pricePerDay",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct Payment",
-        name: "payment",
-        type: "tuple",
+        internalType: "address",
+        name: "preferredToken",
+        type: "address",
       },
       {
-        components: [
-          {
-            internalType: "address",
-            name: "collateralToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "collateralAmount",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct Collateral",
-        name: "collateral",
-        type: "tuple",
+        internalType: "uint256",
+        name: "pricePerDay",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "collateralAmount",
+        type: "uint256",
       },
     ],
     name: "listNFT",
@@ -400,19 +338,8 @@ const _abi = [
       },
     ],
     name: "rent",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "payable",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

@@ -43,8 +43,9 @@ contract NFTMarket is
         address nftAddress,
         uint256 tokenId,
         uint256 maximumEndTime,
-        Payment memory payment,
-        Collateral memory collateral
+        address preferredToken,
+        uint256 pricePerDay,
+        uint256 collateralAmount
     ) public override nonReentrant {
         onlyApprovedOrOwner(msgSender(), nftAddress, tokenId);
 
@@ -58,8 +59,9 @@ contract NFTMarket is
         listing.lender = lender;
         listing.maximumEndTime = maximumEndTime;
         listing.createTime = block.timestamp;
-        listing.payment = payment;
-        listing.collateral = collateral;
+        listing.pricePerDay = pricePerDay;
+        listing.collateralAmount = collateralAmount;
+        listing.preferredToken = preferredToken;
 
         listings.push(listing);
 
@@ -71,8 +73,8 @@ contract NFTMarket is
             nftAddress,
             tokenId,
             maximumEndTime,
-            payment,
-            collateral
+            pricePerDay,
+            collateralAmount
         );
     }
 
@@ -83,7 +85,7 @@ contract NFTMarket is
         address nftAddress,
         uint256 tokenId,
         uint16 daysToRent
-    ) public payable override nonReentrant returns(string memory, uint256) {
+    ) public override nonReentrant {
         NFTListing memory listing = listedNFTs[nftAddress][tokenId];
         uint256 rentalExpiry = (daysToRent * 86400) + block.timestamp;
 
@@ -92,34 +94,17 @@ contract NFTMarket is
         require(rentalExpiry <= listing.maximumEndTime, "Rental timeframe too long.");
         require(listing.rental.renter == address(0) && listing.rental.expiryTime == 0, "This item is already rented.");
 
-        ERC20 paymentToken = ERC20(listing.payment.paymentToken);
-        ERC20 collateralToken = ERC20(listing.collateral.collateralToken);
-        uint256 rentalCost = daysToRent * listing.payment.pricePerDay;
+        ERC20 preferredToken = ERC20(listing.preferredToken);
+        uint256 rentalCost = daysToRent * listing.pricePerDay;
+        // TODO: add platform fee
+        uint256 totalCost = rentalCost + listing.collateralAmount;
 
-        require(paymentToken.balanceOf(msgSender()) >= rentalCost, "Insufficient payment funds");
-        require(collateralToken.balanceOf(msgSender()) >= listing.collateral.collateralAmount, "Insufficient collateral funds");
-
-        if (listing.payment.paymentToken == listing.collateral.collateralToken) {
-            uint256 totalCost = rentalCost + listing.collateral.collateralAmount;
-            require(paymentToken.balanceOf(msgSender()) >= totalCost, "Insufficient combined funds");
-        }
-
-        // Lock in the collateral in this contract
-        collateralToken.transferFrom(msgSender(), address(this), listing.collateral.collateralAmount);
+        // verify that the amount has been deposited into the contract
+        require(preferredToken.balanceOf(address(this)) >= totalCost, "Payment not received");
 
         // Save the rental on the listing
         listing.rental = Rental(msgSender(), rentalExpiry);
         listedNFTs[nftAddress][tokenId] = listing;
-
-        // check https://github.com/axelarnetwork/axelar-local-gmp-examples/tree/main/examples/nft-auctionhouse for the axealar hookup
-        emit NFTRented(
-            nftAddress,
-            tokenId,
-            listing.rental
-        );
-
-        // needed to perform payment via Axelar
-        return (paymentToken.symbol(), rentalCost);
     }
 
     /**
