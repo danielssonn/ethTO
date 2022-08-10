@@ -33,10 +33,7 @@
     <img src="assets/made-with-swing.xyz.svg" alt="Made with Swing.xyz">
   </a>
   <a>
-    <img src="assets/runs-on-moonbeam.svg" alt="Runs on Moonbeam">
-  </a>
-  <a>
-    <img src="assets/runs-on-ethereum.svg" alt="Runs on Ethereum">
+    <img src="assets/runs-on-avalanche.svg" alt="Runs on Avalanche">
   </a>
   <a>
     <img src="assets/runs-on-polygon.svg" alt="Runs on Polygon">
@@ -49,14 +46,13 @@
 
 ## Table of Contents
 
-- [Concept](#-concept)
-- [Product](#-product)
-- [Technical Implementation](#-technical-implementation)
-- [Business Potential](#-business-potential)
-- [License](#-license)
-- [Thanks](#-thanks)
-
-
+- [Concept](#concept)
+- [Product](#product)
+- [Technical Implementation](#technical-implementation)
+- [UX inspiration](#ux-inspiration)
+- [Business Potential](#business-potential)
+- [License](#license)
+- [Thanks](#thanks)
 
 
 ### Concept
@@ -71,21 +67,32 @@
 ### Product
 
 - Cross-chain NFT renting experience
-- With simple and straightforward UX
+- With simple and straightforward UX, without wallet juggling
 - No matter what chain and which wallet or tokens you have
 - You can list and rent NFTs on multiple chains, without the multi chain hassle
+- At the end of the reantal period, the NFT can be:  
+    - automatically returned (future)
+    - forfeited and collateral returned to the lender (future)
+
+### UX inspiration
+- We didn't want to use the typical grid-based listings
+- Our UX concept is that of Arrivals and Departures boards at airports
+- We think this might provide novel engagement for users
+  - Instantly knowing what NFTs are new and incoming    
+  - Instantly knowing which rented NFTs will be returned soon
+  - Driving engagement
 
 ### Technical Implementation
 
 - We have created NFT renting contracts for lenders and renters
-- We have deployed the contracts on Polygon and Moonbeam
+- We have deployed the contracts on Polygon and Avalanche
 - Mixed in some Axelar magic to make the contracts **cross-chain BFF!**
-  - Axelar GMP enables communication among NFTMarket contracts
-  - Axelar also enables seamless transfer of the NFT from lender to renter
+  - Axelar GMP enables communication among NFTMarket contracts across chains
+  - Axelar also enables seamless transfer of the NFT from lender to renter accross chains
   - [Mumbai Polygonscan](https://mumbai.polygonscan.com/address/0x8c787c95e9f1bbc6153336571b7ab58cd57ad98c)
   - [Moonbase Alpha](https://moonbase.moonscan.io/token/0xec19ebb094269b2782fbab3b5ce6e3cb4dea86a2)
   - [Axelar dashboard](https://axelar.network/)
-- Sprinkled SwingXYX to automate token conversion for payments and collateral between ETH and GLMR
+- Sprinkled SwingXYX to automate token conversion for payments and collateral between MATIC and AVAX
 - Designed UI where Lenders and Renters do not need to worry about blockchain details
   - [Our Glorious Deployment URL](https://conveyr.xyz/)
 
