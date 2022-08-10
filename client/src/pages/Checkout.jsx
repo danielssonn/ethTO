@@ -266,29 +266,27 @@ export default function Checkout() {
                                     </p>
                                     <p className="mt-4">Next steps:</p>
                                     <p className="mt-4">
-                                        Wallet opens to confirm token swap and
-                                        complete NFT rent.
-                                    </p>
-                                    <p className="mt-4">
                                         In the NFTMarket contract, Axelar takes
                                         over calling the contract on the Lenders
                                         chain with the payment and collateral in
                                         the swapped currency.
                                     </p>
                                     <p className="mt-4">
-                                        NFTMarket contract verifies and sends
-                                        the NFT to the Renter via another GMP
-                                        invocation.
+                                        The NFTMarket contract verifies and
+                                        sends the NFT to the Renter via Axelar’s
+                                        General Message Passing (GMP).
                                     </p>
                                     <p className="mt-4">
                                         At this point, the Renter will have the
                                         NFT in their wallet, and the NFTMarket
                                         contract will transfer the payment to
-                                        the Lender The Renter will have the NFT
-                                        without ever switching the network to
-                                        the Lenders chain, and the Lender will
-                                        have the payment in the currency they
-                                        wanted.
+                                        the Lender.
+                                    </p>
+                                    <p className="mt-4">
+                                        The Renter will have the NFT without
+                                        ever switching the network to the
+                                        Lenders chain, and the Lender will have
+                                        the payment in the currency they wanted.
                                     </p>
                                 </section>
                             )}
