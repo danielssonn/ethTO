@@ -86,17 +86,20 @@
 
 ## Technical Implementation
 
-- We have created NFT renting contracts for Lenders and Renters
-- We have deployed the contracts on Polygon and Avalanche
-- Mixed in some Axelar magic to make the contracts **cross chain BFF!**:
-  - Axelar GMP enables communication among NFTMarket contracts across chains
-  - Axelar also enables seamless transfer of the NFT from Lender to Renter across chains
-  - [Mumbai Polygonscan](https://mumbai.polygonscan.com/address/0x8c787c95e9f1bbc6153336571b7ab58cd57ad98c)
-  - [Moonbase Alpha](https://moonbase.moonscan.io/token/0xec19ebb094269b2782fbab3b5ce6e3cb4dea86a2)
-  - [Axelar dashboard](https://axelar.network/)
-- Sprinkled SwingXYX to automate token conversion for payments and collateral between MATIC and AVAX
-- Designed UI where Lenders and Renters do not need to worry about blockchain details:
-  - [Our Glorious Deployment URL](https://conveyr.xyz/)
+- We will have one existing NFT deployed on some chain, say Polygon 
+- We will have exactly one NFTLinker contract and one NFTMarket contract deployed on each chain
+- The NFT Market will take change to the nft listing together with payment verification and nft transfer trigger
+- The NFT Linker will take care of the actual cross chain NFT transfer
+
+The flow can be summarized as follows:
+1. The renter will interact with the NFT Market contract on his chain, after sending the payment to the NFT Market,
+  deployed on the lender's Chain via swing.xyz (allowing efficient cross chain token swap)
+2. The NFT market function requestRent contract will trigger an Axelar cross chain call to the NFT Marketplace on
+the lender's chain, where the actual listing infos are stored
+3. After verifying that the renting conditions are satisfied and the payment is effectively deposited, the 
+contract itself will redirect the payment to the lender and it will trigger the NFT cross chain transfer 
+passing the execution to the NFT Linker contract
+4. The Linker contract will finalize the execution back to the renter's chain, finalizing the process
 
 ## Business Potential
 
