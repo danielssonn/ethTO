@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://conveyr.xyz/">
-    <img alt="Conveyr" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" width="60" />
+    <img alt="Conveyr" src="assets/logo.svg" width="60" />
   </a>
 </p>
 
