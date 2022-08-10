@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 
-import { Footer, Header } from '../components'
-import AuthRoute from '../components/AuthRoute'
 import useContract from '../hooks/use-contract'
+import AuthRoute from '../components/AuthRoute'
+import { Footer, Header } from '../components'
+import { deltaDays } from '../utils/days'
 
 export default function Arrivals() {
     const { listings } = useContract()
@@ -72,7 +73,13 @@ export default function Arrivals() {
                                         {listings.map((listing, i) => (
                                             <tr key={`NFTListing ${i}`}>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                                                    Ethereum
+                                                    <Link
+                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                            listing.nftAddress
+                                                        }/${listing.tokenId}`}
+                                                    >
+                                                        {listing.chainName}
+                                                    </Link>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                                     <div className="flex items-center">
@@ -120,26 +127,56 @@ export default function Arrivals() {
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     <div className="text-gray-900 flex items-center">
-                                                        <img
-                                                            src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
-                                                            alt="Polygon"
-                                                            className="w-6 h-6 rounded-md object-center object-cover"
-                                                        />
-                                                        <p className="ml-2">
-                                                            {
-                                                                listing.pricePerDay
-                                                            }
-                                                            /day
-                                                        </p>
+                                                        <Link
+                                                            to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                listing.nftAddress
+                                                            }/${
+                                                                listing.tokenId
+                                                            }`}
+                                                        >
+                                                            <img
+                                                                src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
+                                                                alt="Polygon"
+                                                                className="w-6 h-6 rounded-md object-center object-cover"
+                                                            />
+                                                        </Link>
+                                                        <span className="ml-2">
+                                                            <Link
+                                                                to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                    listing.nftAddress
+                                                                }/${
+                                                                    listing.tokenId
+                                                                }`}
+                                                            >
+                                                                {
+                                                                    listing.pricePerDay
+                                                                }
+                                                                /day
+                                                            </Link>
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                                                        Active
-                                                    </span>
+                                                    <Link
+                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                            listing.nftAddress
+                                                        }/${listing.tokenId}`}
+                                                    >
+                                                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                                                            Active
+                                                        </span>
+                                                    </Link>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    Days
+                                                    <Link
+                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                            listing.nftAddress
+                                                        }/${listing.tokenId}`}
+                                                    >
+                                                        {deltaDays(
+                                                            listing.maximumEndTime
+                                                        )}
+                                                    </Link>
                                                 </td>
                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                     <Link

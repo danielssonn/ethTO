@@ -1,11 +1,12 @@
-import { RadioGroup } from '@headlessui/react'
+import { useEffect, useReducer } from 'react'
 import cn from 'classnames'
+import { RadioGroup } from '@headlessui/react'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const days = [
+const initialState = [
     { name: '1', available: true },
     { name: '2', available: true },
     { name: '3', available: true },
@@ -16,10 +17,31 @@ const days = [
     { name: '28', available: true },
 ]
 
-const RentDaysPicker = ({ active, selectedDay, setSelectedDays }) => {
+function reducer(state, action) {
+    return state.map((day) => {
+        const endTime =
+            Date.now() + Number.parseInt(day.name, 10) * 24 * 60 * 60 * 1000
+
+        if (endTime >= action.maximumEndTime.getTime()) {
+            day.available = false
+        }
+
+        return day
+    })
+}
+
+const RentDaysPicker = ({ active, listing, selectedDay, setSelectedDays }) => {
+    const [days, dispatch] = useReducer(reducer, initialState)
+
     const handleDaysChanged = (days) => {
         setSelectedDays(Number.parseInt(days, 10))
     }
+
+    useEffect(() => {
+        if (listing) {
+            dispatch({ maximumEndTime: listing.maximumEndTime })
+        }
+    }, [listing])
 
     return (
         <section
@@ -34,9 +56,7 @@ const RentDaysPicker = ({ active, selectedDay, setSelectedDays }) => {
             </h2>
             <div className="mt-6">
                 <div className="flex items-center justify-between">
-                    <h4 className="text-sm text-gray-900 font-medium">
-                        Minimum days
-                    </h4>
+                    <h4 className="text-sm text-gray-900 font-medium">Days</h4>
                 </div>
                 <RadioGroup
                     value={selectedDay.toString()}
