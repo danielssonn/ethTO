@@ -17,7 +17,8 @@ export default function Checkout() {
     const { address, chainName, tokenId } = useParams()
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
-    const [amount, setAmount] = useState()
+    const [rentCost, setRentCost] = useState()
+    const [btnLabel] = useState('Continue')
 
     const handleContinue = (event) => {
         event.preventDefault()
@@ -32,7 +33,7 @@ export default function Checkout() {
 
     useEffect(() => {
         if (listing) {
-            setAmount(listing.pricePerDay * daysToRent)
+            setRentCost(listing.pricePerDay * daysToRent)
         }
     }, [listing, daysToRent])
 
@@ -148,13 +149,19 @@ export default function Checkout() {
                                             {listing.tokenId}
                                         </p>
                                     </div>
-                                    <div className="flex text-base font-medium items-center">
+                                    <div className="flex flex-col items-start text-base font-medium items-center">
                                         <img
                                             src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
                                             alt=""
                                             className="w-8 h-8 rounded-md object-center object-cover"
                                         />
-                                        <p className="ml-2">{amount}</p>
+                                        <p className="ml-2">
+                                            Rental Cost: {rentCost}
+                                        </p>
+                                        <p className="ml-2">
+                                            Collateral Amount:{' '}
+                                            {listing.collateralAmount}
+                                        </p>
                                     </div>
                                 </li>
                             </ul>
@@ -164,6 +171,7 @@ export default function Checkout() {
                         <div className="max-w-lg mx-auto lg:max-w-none">
                             <RentDaysPicker
                                 active={step === 1}
+                                listing={listing}
                                 selectedDay={daysToRent}
                                 setSelectedDays={setDaysToRent}
                             />
@@ -173,7 +181,7 @@ export default function Checkout() {
                                     onClick={handleContinue}
                                     className="w-full bg-green-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500 sm:ml-6 sm:order-last sm:w-auto"
                                 >
-                                    Continue
+                                    {btnLabel}
                                 </button>
                                 <p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-left">
                                     Lorem ipsum

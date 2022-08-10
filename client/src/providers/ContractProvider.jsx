@@ -49,14 +49,14 @@ function formatListings(rawListings, { chainName, chainId, currentAccount }) {
                 collateralAmount: Number.parseFloat(
                     ethers.utils.formatEther(collateral.collateralAmount)
                 ),
-                createTime: new Date(createTime.toNumber()),
-                maximumEndTime: new Date(maximumEndTime.toNumber()),
+                createTime: new Date(createTime.toNumber() * 1000),
+                maximumEndTime: new Date(maximumEndTime.toNumber() * 1000),
                 isRented:
                     rental.renter !==
                     '0x0000000000000000000000000000000000000000',
                 isRentedByCurrentAccount: rental.renter === currentAccount,
                 renter: rental.renter,
-                rentalExpiry: new Date(rental.expiryTime),
+                rentalExpiry: new Date(rental.expiryTime * 1000),
             })
         )
     )

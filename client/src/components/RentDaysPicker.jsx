@@ -1,11 +1,14 @@
+import { useEffect, useReducer } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import cn from 'classnames'
+
+import { deltaDays } from '../utils/days'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const days = [
+const initialState = [
     { name: '1', available: true },
     { name: '2', available: true },
     { name: '3', available: true },
@@ -16,10 +19,30 @@ const days = [
     { name: '28', available: true },
 ]
 
-const RentDaysPicker = ({ active, selectedDay, setSelectedDays }) => {
+function reducer(state, action) {
+    return state.map((day) => {
+        const endTime =
+            Date.now() + Number.parseInt(day.name, 10) * 24 * 60 * 60 * 1000
+
+        if (endTime >= action.maximumEndTime.getTime()) {
+            day.available = false
+        }
+
+        return day
+    })
+}
+
+const RentDaysPicker = ({ active, listing, selectedDay, setSelectedDays }) => {
+    const [days, dispatch] = useReducer(reducer, initialState)
     const handleDaysChanged = (days) => {
         setSelectedDays(Number.parseInt(days, 10))
     }
+
+    useEffect(() => {
+        if (listing) {
+            dispatch({ maximumEndTime: listing.maximumEndTime })
+        }
+    }, [listing])
 
     return (
         <section
@@ -35,7 +58,7 @@ const RentDaysPicker = ({ active, selectedDay, setSelectedDays }) => {
             <div className="mt-6">
                 <div className="flex items-center justify-between">
                     <h4 className="text-sm text-gray-900 font-medium">
-                        Minimum days
+                        Max days: {deltaDays(listing.maximumEndTime)}
                     </h4>
                 </div>
                 <RadioGroup
