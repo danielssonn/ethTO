@@ -1,12 +1,14 @@
 import { Fragment, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { Popover, Transition } from '@headlessui/react'
-import { Link } from 'react-router-dom'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import cn from 'classnames'
 
 import { SwingModal } from '../components'
 
 export default function Header() {
     const [isSwingModalOpen, setIsSwingModalOpen] = useState(false)
+    const { pathname } = useLocation()
 
     const handleSwapTokensClick = () => {
         setIsSwingModalOpen(true)
@@ -41,13 +43,19 @@ export default function Header() {
                             className="hidden md:flex space-x-10"
                         >
                             <Link
-                                className="text-base font-medium text-gray-500 hover:text-gray-900"
+                                className={cn(
+                                    'text-base font-medium text-gray-500 hover:text-gray-900',
+                                    pathname === '/arrivals' && 'underline'
+                                )}
                                 to="/arrivals"
                             >
                                 Arrivals
                             </Link>
                             <Link
-                                className="text-base font-medium text-gray-500 hover:text-gray-900"
+                                className={cn(
+                                    'text-base font-medium text-gray-500 hover:text-gray-900',
+                                    pathname === '/departures' && 'underline'
+                                )}
                                 to="/departures"
                             >
                                 Departures

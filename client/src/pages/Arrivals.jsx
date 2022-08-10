@@ -32,6 +32,12 @@ export default function Arrivals() {
                                                 scope="col"
                                                 className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                             >
+                                                Chain
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                            >
                                                 Name
                                             </th>
                                             <th
@@ -50,7 +56,7 @@ export default function Arrivals() {
                                                 scope="col"
                                                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                             >
-                                                Days available
+                                                Maximum number of days
                                             </th>
                                             <th
                                                 scope="col"
@@ -66,8 +72,11 @@ export default function Arrivals() {
                                         {listings.map((listing, i) => (
                                             <tr key={`NFTListing ${i}`}>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                                    Ethereum
+                                                </td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm">
                                                     <div className="flex items-center">
-                                                        <div className="h-40 w-40 flex-shrink-0">
+                                                        <div className="h-16 w-16 flex-shrink-0">
                                                             <Link
                                                                 to={`/checkout/${listing.chainName.toLowerCase()}/${
                                                                     listing.nftAddress
@@ -76,7 +85,7 @@ export default function Arrivals() {
                                                                 }`}
                                                             >
                                                                 <img
-                                                                    className="h-40 w-40 rounded-lg"
+                                                                    className="h-16 w-16 rounded-lg"
                                                                     src={
                                                                         listing
                                                                             .nft
@@ -106,20 +115,6 @@ export default function Arrivals() {
                                                                     }
                                                                 </Link>
                                                             </div>
-                                                            <div className="text-gray-500">
-                                                                <Link
-                                                                    to={`/checkout/${listing.chainName.toLowerCase()}/${
-                                                                        listing.nftAddress
-                                                                    }/${
-                                                                        listing.tokenId
-                                                                    }`}
-                                                                >
-                                                                    #
-                                                                    {
-                                                                        listing?.tokenId
-                                                                    }
-                                                                </Link>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -128,13 +123,13 @@ export default function Arrivals() {
                                                         <img
                                                             src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
                                                             alt="Polygon"
-                                                            className="w-8 h-8 rounded-md object-center object-cover"
+                                                            className="w-6 h-6 rounded-md object-center object-cover"
                                                         />
                                                         <p className="ml-2">
-                                                            Price/Day:{' '}
                                                             {
                                                                 listing.pricePerDay
                                                             }
+                                                            /day
                                                         </p>
                                                     </div>
                                                 </td>
@@ -144,11 +139,11 @@ export default function Arrivals() {
                                                     </span>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    Days available
+                                                    Days
                                                 </td>
                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                     <Link
-                                                        className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+                                                        className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
                                                         to={`/checkout/${listing.chainName.toLowerCase()}/${
                                                             listing.nftAddress
                                                         }/${listing.tokenId}`}
