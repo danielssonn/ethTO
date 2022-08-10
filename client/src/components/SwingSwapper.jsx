@@ -19,20 +19,38 @@ const SwingSwapper = ({ active, onComplete, params }) => {
         toChain,
         toToken,
     }) => {
+        setError(null)
         setQuote(null)
         setQuoteLoading(true)
 
-        const quote = await fetchQuote({
-            fromChain,
-            toChain,
-            fromToken,
-            toToken,
-            amount: amount.toString(),
-            fromUserAddress: currentAccount,
-        })
+        if (!swingReady) {
+            setQuoteLoading(false)
+            setError('Swing is not ready, please try again')
 
-        setQuoteLoading(false)
-        setQuote(quote)
+            return
+        }
+
+        try {
+            const quote = await fetchQuote({
+                fromChain,
+                toChain,
+                fromToken,
+                toToken,
+                amount: amount.toString(),
+                fromUserAddress: currentAccount,
+            })
+
+            if (quote.routes.length) {
+                setQuote(quote)
+                setQuoteLoading(false)
+            } else {
+                setQuoteLoading(false)
+                setError('No routes')
+            }
+        } catch (error) {
+            setQuoteLoading(false)
+            setError(error.message)
+        }
     }
 
     useEffect(() => {
@@ -105,7 +123,7 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                                     alt={quote.fromToken.name}
                                     className="w-8 h-8 rounded-md object-center object-cover"
                                 />
-                                <p className="ml-2">{params.amount}</p>
+                                <span className="ml-2">{params.amount}</span>
                             </div>
                         </li>
                         <li className="flex items-start py-6 space-x-4">
@@ -140,12 +158,12 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                                     alt={quote.toToken.name}
                                     className="w-8 h-8 rounded-md object-center object-cover"
                                 />
-                                <p className="ml-2">
+                                <span className="ml-2">
                                     {ethers.utils.formatEther(
                                         quote.routes[0].quote.amount,
                                         quote.routes[0].quote.decimals
                                     )}
-                                </p>
+                                </span>
                             </div>
                         </li>
                     </ul>

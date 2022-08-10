@@ -21,8 +21,10 @@ export default function Checkout() {
     const { address, chainName, tokenId } = useParams()
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
-    const [amount, setAmount] = useState()
     const { transferState } = useSwing()
+
+    const [rentCost, setRentCost] = useState()
+    const [btnLabel] = useState('Continue')
 
     const handleSwapComplete = () => {
         setStep(step + 1)
@@ -41,7 +43,7 @@ export default function Checkout() {
 
     useEffect(() => {
         if (listing) {
-            setAmount(listing.pricePerDay * daysToRent)
+            setRentCost(listing.pricePerDay * daysToRent)
         }
     }, [listing, daysToRent])
 
@@ -153,26 +155,44 @@ export default function Checkout() {
                                     />
                                     <div className="flex-auto space-y-1">
                                         <h3>{listing.nft.name}</h3>
-                                        <p className="text-gray-500">
-                                            {listing.tokenId}
-                                        </p>
                                     </div>
-                                    <div className="flex text-base font-medium items-center">
+                                </li>
+                            </ul>
+                            <dl className="hidden text-sm font-medium text-gray-900 space-y-6 border-t border-gray-200 pt-6 lg:block">
+                                <div className="flex items-center justify-between">
+                                    <dt className="text-gray-600">
+                                        Collateral amount
+                                    </dt>
+                                    <dd className="flex items-center">
                                         <img
                                             src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
                                             alt="Polygon"
                                             className="w-6 h-6 rounded-md object-center object-cover"
                                         />
-                                        <p className="ml-2">{amount}</p>
-                                    </div>
-                                </li>
-                            </ul>
+                                        <span className="ml-2">
+                                            {listing.collateralAmount}
+                                        </span>
+                                    </dd>
+                                </div>
+                                <div className="flex items-center justify-between border-t border-gray-200 pt-6">
+                                    <dt className="text-base">Rental cost</dt>
+                                    <dd className="text-base flex items-center">
+                                        <img
+                                            src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
+                                            alt="Polygon"
+                                            className="w-6 h-6 rounded-md object-center object-cover"
+                                        />
+                                        <span className="ml-2">{rentCost}</span>
+                                    </dd>
+                                </div>
+                            </dl>
                         </div>
                     </section>
                     <form className="pt-16 pb-36 px-4 sm:px-6 lg:pb-16 lg:px-0 lg:row-start-1 lg:col-start-1">
                         <div className="max-w-lg mx-auto lg:max-w-none">
                             <RentDaysPicker
                                 active={step === 1}
+                                listing={listing}
                                 selectedDay={daysToRent}
                                 setSelectedDays={setDaysToRent}
                             />
@@ -180,7 +200,7 @@ export default function Checkout() {
                                 active={step === 2}
                                 onComplete={handleSwapComplete}
                                 params={{
-                                    amount,
+                                    amount: rentCost,
                                     // TODO: get this data from the listing
                                     fromChain: 'avalanche',
                                     fromToken: 'AVAX',
@@ -204,7 +224,7 @@ export default function Checkout() {
                                     onClick={handleContinue}
                                     className="w-full bg-green-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500 sm:ml-6 sm:order-last sm:w-auto"
                                 >
-                                    Continue
+                                    {btnLabel}
                                 </button>
                                 <p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-left">
                                     {step === 2 && transferState

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 
-import { Footer, Header } from '../components'
-import AuthRoute from '../components/AuthRoute'
 import useContract from '../hooks/use-contract'
+import AuthRoute from '../components/AuthRoute'
+import { Footer, Header } from '../components'
 
 export default function Departures() {
     const { listings } = useContract()
@@ -112,12 +112,12 @@ export default function Departures() {
                                                             alt="Polygon"
                                                             className="w-6 h-6 rounded-md object-center object-cover"
                                                         />
-                                                        <p className="ml-2">
+                                                        <span className="ml-2">
                                                             {
                                                                 listing.pricePerDay
                                                             }
                                                             /day
-                                                        </p>
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

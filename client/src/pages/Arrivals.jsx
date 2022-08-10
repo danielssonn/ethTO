@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 
-import { Footer, Header } from '../components'
-import AuthRoute from '../components/AuthRoute'
 import useContract from '../hooks/use-contract'
+import AuthRoute from '../components/AuthRoute'
+import { Footer, Header } from '../components'
+import { deltaDays } from '../utils/days'
 
 export default function Arrivals() {
     const { listings } = useContract()
@@ -139,7 +140,7 @@ export default function Arrivals() {
                                                                 className="w-6 h-6 rounded-md object-center object-cover"
                                                             />
                                                         </Link>
-                                                        <p className="ml-2">
+                                                        <span className="ml-2">
                                                             <Link
                                                                 to={`/checkout/${listing.chainName.toLowerCase()}/${
                                                                     listing.nftAddress
@@ -152,7 +153,7 @@ export default function Arrivals() {
                                                                 }
                                                                 /day
                                                             </Link>
-                                                        </p>
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -172,7 +173,9 @@ export default function Arrivals() {
                                                             listing.nftAddress
                                                         }/${listing.tokenId}`}
                                                     >
-                                                        Days
+                                                        {deltaDays(
+                                                            listing.maximumEndTime
+                                                        )}
                                                     </Link>
                                                 </td>
                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
