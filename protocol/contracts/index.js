@@ -15,6 +15,7 @@ const {
 
 const ERC721 = require('../artifacts/contracts/NFTDummy.sol/NFTDummy.json')
 const NftLinker = require('../artifacts/contracts/NftLinker.sol/NftLinker.json')
+const NftMarket = require('../artifacts/contracts/NFTMarket.sol/NFTMarket.json')
 
 const tokenId = 0
 
@@ -24,15 +25,22 @@ async function deploy(chain, wallet) {
     chain.erc721 = erc721.address
     console.log(`Deployed ERC721Demo for ${chain.name} at ${chain.erc721}.`)
     console.log(`Deploying NftLinker for ${chain.name}.`)
-    const contract = await deployAndInitContractConstant(
+    chain.nftLinker = await deployAndInitContractConstant(
         chain.constAddressDeployer,
         wallet,
         NftLinker,
-        'nftLinkker',
+        'nftLinker',
+        [],
+        [chain.name, chain.gateway, chain.gasReceiver]
+    ),
+    chain.nftMarket = await deployAndInitContractConstant(
+        chain.constAddressDeployer,
+        wallet,
+        NftMarket,
+        'nftMarket',
         [],
         [chain.name, chain.gateway, chain.gasReceiver]
     )
-    chain.nftLinker = contract.address
     console.log(`Deployed NftLinker for ${chain.name} at ${chain.nftLinker}.`)
     console.log(`Minting token ${tokenId} for ${chain.name}`)
     await (await erc721.mint()).wait()

@@ -23,11 +23,11 @@ contract AxelarMarketExecutor is AxelarExecutable, NFTMarket {
     string public chainName; // see valid chain names at https://docs.axelar.dev/dev/build/chain-names
     mapping(uint256 => address) _nftLinkerContract;
 
-    constructor(
+    function init (
         address gateway,
         address gasReceiver_,
         string memory chainName_
-    ) {
+    ) external {
         gasReceiver = IAxelarGasService(gasReceiver_);
         _gateway = IAxelarGateway(gateway);
         chainName = chainName_;

@@ -96,6 +96,7 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
     "gateway()": FunctionFragment;
     "getAllListings()": FunctionFragment;
     "getListing(address,uint256)": FunctionFragment;
+    "init(address,address,string)": FunctionFragment;
     "lend(address,uint256,uint16,bool)": FunctionFragment;
     "listNFT(address,uint256,uint256,address,uint256,uint256)": FunctionFragment;
     "listings(uint256)": FunctionFragment;
@@ -121,6 +122,7 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
       | "gateway"
       | "getAllListings"
       | "getListing"
+      | "init"
       | "lend"
       | "listNFT"
       | "listings"
@@ -173,6 +175,14 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getListing",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "init",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "lend",
@@ -283,6 +293,7 @@ export interface AxelarMarketExecutorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getListing", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "init", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "lend", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "listNFT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "listings", data: BytesLike): Result;
@@ -467,6 +478,13 @@ export interface AxelarMarketExecutor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[NFTListingStructOutput]>;
 
+    init(
+      gateway: PromiseOrValue<string>,
+      gasReceiver_: PromiseOrValue<string>,
+      chainName_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     lend(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -614,6 +632,13 @@ export interface AxelarMarketExecutor extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<NFTListingStructOutput>;
+
+  init(
+    gateway: PromiseOrValue<string>,
+    gasReceiver_: PromiseOrValue<string>,
+    chainName_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   lend(
     nftAddress: PromiseOrValue<string>,
@@ -764,6 +789,13 @@ export interface AxelarMarketExecutor extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<NFTListingStructOutput>;
+
+    init(
+      gateway: PromiseOrValue<string>,
+      gasReceiver_: PromiseOrValue<string>,
+      chainName_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     lend(
       nftAddress: PromiseOrValue<string>,
@@ -973,6 +1005,13 @@ export interface AxelarMarketExecutor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    init(
+      gateway: PromiseOrValue<string>,
+      gasReceiver_: PromiseOrValue<string>,
+      chainName_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     lend(
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1098,6 +1137,13 @@ export interface AxelarMarketExecutor extends BaseContract {
       nftAddress: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    init(
+      gateway: PromiseOrValue<string>,
+      gasReceiver_: PromiseOrValue<string>,
+      chainName_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     lend(
