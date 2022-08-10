@@ -62,13 +62,13 @@ function formatListings(rawListings, { chainName, chainId, currentAccount }) {
     )
 }
 
-function getContractFor(chainId) {
+function getContractFor(chainId, signer) {
     const chainConfig = CHAIN_MAP.get(chainId)
 
     return new ethers.Contract(
         chainConfig.market,
         marketAbi,
-        new ethers.providers.JsonRpcProvider(chainConfig.rpc)
+        signer || new ethers.providers.JsonRpcProvider(chainConfig.rpc)
     )
 }
 
@@ -103,6 +103,30 @@ const ContractProvider = ({ children }) => {
         }
     }
 
+    const executeRent = async (
+        nftAddress,
+        tokenId,
+        daysToRent
+    ) => {
+        if (currentSigner) {
+            // TODO: use the mainnet / testnet chain ID
+            const contract = getContractFor(2501, currentSigner) //local
+            try {
+                const tx = await contract.rent(
+                    nftAddress,
+                    tokenId,
+                    daysToRent
+                )
+                const listings = await contract.getAllListings()
+
+                console.log(tx)
+                return await tx.wait()
+            } catch (e) {
+                return e.reason || e.transaction
+            }
+        }
+    }
+
     useEffect(() => {
         if (currentChain && currentSigner) {
             // TODO: fetch listings from all supported chains
@@ -113,6 +137,7 @@ const ContractProvider = ({ children }) => {
     return (
         <ContractContext.Provider
             value={{
+                executeRent,
                 listings,
             }}
         >
