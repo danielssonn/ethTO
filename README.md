@@ -101,6 +101,10 @@ contract itself will redirect the payment to the lender and it will trigger the 
 passing the execution to the NFT Linker contract
 4. The Linker contract will finalize the execution back to the renter's chain, finalizing the process
 
+This process will allow the renter to rent the NFT without switching the network and explicitly swapping token
+
+<�a class="file" href="file:///home/ignazio/developer/eth/Untitled%20Diagram.drawio.png"><�img src="moz-icon://.png?size=16" alt="File:">Untitled Diagram.drawio.png<�/a>
+
 ## Business Potential
 
 - The Renter pays a rental fee to the Lender, via our NFTMarket smart contract
