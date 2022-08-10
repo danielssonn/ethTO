@@ -53,11 +53,17 @@ async function test(chains, wallet, options) {
     for (const chain of chains) {
         const provider = getDefaultProvider(chain.rpc)
         chain.wallet = wallet.connect(provider)
-        chain.contract = new Contract(
+        chain.linkerContract = new Contract(
             chain.nftLinker,
             NftLinker.abi,
             chain.wallet
         )
+        chain.marketContract = new Contract(
+            chain.nftMarket,
+            NftMarket.abi,
+            chain.wallet
+        )
+
         chain.erc721 = new Contract(chain.erc721, ERC721.abi, chain.wallet)
     }
     const destination = chains.find(
@@ -70,7 +76,7 @@ async function test(chains, wallet, options) {
     const ownerOf = async (chain = originChain) => {
         const operator = chain.erc721
         const owner = await operator.ownerOf(tokenId)
-        if (owner != chain.contract.address) {
+        if (owner != chain.linkerContract.address) {
             return {
                 chain: chain.name,
                 address: owner,
@@ -88,7 +94,7 @@ async function test(chains, wallet, options) {
             for (let checkingChain of chains) {
                 if (checkingChain == chain) continue
                 try {
-                    const address = await checkingChain.contract.ownerOf(
+                    const address = await checkingChain.linkerContract.ownerOf(
                         newTokenId
                     )
                     return {
