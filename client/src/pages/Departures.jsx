@@ -75,98 +75,112 @@ export default function Departures() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 bg-white">
-                                        {listings.map((listing, i) => (
-                                            <tr key={`NFTListing ${i}`}>
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                                                    {listing.chainName}
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                                    <div className="flex items-center">
-                                                        <div className="h-16 w-16 flex-shrink-0">
-                                                            <img
-                                                                className="h-16 w-16 rounded-lg"
-                                                                src={
-                                                                    listing.nft
-                                                                        .image
-                                                                }
-                                                                alt={
-                                                                    listing.nft
-                                                                        .name
-                                                                }
-                                                            />
+                                        {listings
+                                            .filter(
+                                                (element) =>
+                                                    element.nft.name ===
+                                                    'Dummy #0'
+                                            )
+                                            .map((listing, i) => (
+                                                <tr key={`NFTListing ${i}`}>
+                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                                        {listing.chainName}
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                                        <div className="flex items-center">
+                                                            <div className="h-16 w-16 flex-shrink-0">
+                                                                <img
+                                                                    className="h-16 w-16 rounded-lg"
+                                                                    src={
+                                                                        listing
+                                                                            .nft
+                                                                            .image
+                                                                    }
+                                                                    alt={
+                                                                        listing
+                                                                            .nft
+                                                                            .name
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            <div className="ml-4">
+                                                                <div className="font-medium text-gray-900">
+                                                                    {
+                                                                        listing
+                                                                            .nft
+                                                                            .name
+                                                                    }
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="ml-4">
-                                                            <div className="font-medium text-gray-900">
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                        <div className="text-gray-900 flex items-center">
+                                                            <img
+                                                                src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
+                                                                alt="Polygon"
+                                                                className="w-6 h-6 rounded-md object-center object-cover"
+                                                            />
+                                                            <span className="ml-2">
+                                                                {
+                                                                    listing.pricePerDay
+                                                                }
+                                                                /day
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                                                            Active
+                                                        </span>
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                        3 days
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                        <fieldset className="space-y-5">
+                                                            <legend className="sr-only">
+                                                                Notifications
+                                                            </legend>
+                                                            <div className="relative flex items-start">
+                                                                <div className="flex items-center h-5">
+                                                                    <input
+                                                                        id="auto-return"
+                                                                        aria-describedby="auto-return-description"
+                                                                        name="auto-return"
+                                                                        type="checkbox"
+                                                                        className="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                                                                    />
+                                                                </div>
+                                                                <div className="ml-3 text-sm">
+                                                                    <label
+                                                                        htmlFor="auto-return"
+                                                                        className="font-medium text-gray-700"
+                                                                    >
+                                                                        Auto
+                                                                        return
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </td>
+                                                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                        <Link
+                                                            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+                                                            to="#"
+                                                        >
+                                                            Return now
+                                                            <span className="sr-only">
+                                                                ,{' '}
                                                                 {
                                                                     listing.nft
                                                                         .name
                                                                 }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <div className="text-gray-900 flex items-center">
-                                                        <img
-                                                            src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
-                                                            alt="Polygon"
-                                                            className="w-6 h-6 rounded-md object-center object-cover"
-                                                        />
-                                                        <span className="ml-2">
-                                                            {
-                                                                listing.pricePerDay
-                                                            }
-                                                            /day
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                                                        Active
-                                                    </span>
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    Days
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <fieldset className="space-y-5">
-                                                        <legend className="sr-only">
-                                                            Notifications
-                                                        </legend>
-                                                        <div className="relative flex items-start">
-                                                            <div className="flex items-center h-5">
-                                                                <input
-                                                                    id="auto-return"
-                                                                    aria-describedby="auto-return-description"
-                                                                    name="auto-return"
-                                                                    type="checkbox"
-                                                                    className="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
-                                                                />
-                                                            </div>
-                                                            <div className="ml-3 text-sm">
-                                                                <label
-                                                                    htmlFor="auto-return"
-                                                                    className="font-medium text-gray-700"
-                                                                >
-                                                                    Auto return
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </fieldset>
-                                                </td>
-                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                    <Link
-                                                        className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                                                        to="#"
-                                                    >
-                                                        Return now
-                                                        <span className="sr-only">
-                                                            , {listing.nft.name}
-                                                        </span>
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                            </span>
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                     </tbody>
                                 </table>
                             </div>

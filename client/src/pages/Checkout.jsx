@@ -34,6 +34,7 @@ export default function Checkout() {
         { name: 'Confirmation', href: '#', status: 'upcoming' },
     ])
     const [listing, setListing] = useState()
+    // eslint-disable-next-line
     const { listings, executeRent } = useContract()
     const { address, chainName, tokenId } = useParams()
     const [daysToRent, setDaysToRent] = useState(2)
@@ -61,13 +62,12 @@ export default function Checkout() {
             }
         } else if (step === 3) {
             // Contract Call
-            const response = await executeRent(
-                listing.nftAddress,
-                listing.tokenId,
-                daysToRent
-            )
-
-            console.log(response)
+            // const response = await executeRent(
+            //     listing.nftAddress,
+            //     listing.tokenId,
+            //     daysToRent
+            // )
+            // console.log(response)
         }
 
         dispatch({ step })
@@ -259,11 +259,45 @@ export default function Checkout() {
                                     >
                                         Confirmation
                                     </h2>
+                                    <p className="mt-4">
+                                        We ran into issues with deploying our
+                                        contracts; you can see our progress in
+                                        the protocol directory 😅
+                                    </p>
+                                    <p className="mt-4">Next steps:</p>
+                                    <p className="mt-4">
+                                        Wallet opens to confirm token swap and
+                                        complete NFT rent.
+                                    </p>
+                                    <p className="mt-4">
+                                        In the NFTMarketplace contract, Axelar
+                                        takes over calling the contract on the
+                                        Lenders chain with the payment and
+                                        collateral in the swapped currency.
+                                    </p>
+                                    <p className="mt-4">
+                                        NFTMarket contract verifies and sends
+                                        the NFT to the Renter via another GMP
+                                        invocation.
+                                    </p>
+                                    <p className="mt-4">
+                                        At this point, the Renter will have the
+                                        NFT in their wallet, and the NFTMarket
+                                        contract will transfer the payment to
+                                        the Lender The Renter will have the NFT
+                                        without ever switching the network to
+                                        the Lenders chain, and the Lender will
+                                        have the payment in the currency they
+                                        wanted.
+                                    </p>
                                 </section>
                             )}
                             <div className="mt-10 pt-6 border-t border-gray-200 sm:flex sm:items-center sm:justify-between">
                                 <button
-                                    disabled={step === 2 && quote === null}
+                                    disabled={
+                                        (step === 2 && quote === null) ||
+                                        step === 3
+                                    }
                                     type="submit"
                                     onClick={handleContinue}
                                     className="w-full bg-green-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500 sm:ml-6 sm:order-last sm:w-auto"

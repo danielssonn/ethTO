@@ -70,20 +70,71 @@ export default function Arrivals() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 bg-white">
-                                        {listings.map((listing, i) => (
-                                            <tr key={`NFTListing ${i}`}>
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                                                    <Link
-                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
-                                                            listing.nftAddress
-                                                        }/${listing.tokenId}`}
-                                                    >
-                                                        {listing.chainName}
-                                                    </Link>
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                                    <div className="flex items-center">
-                                                        <div className="h-16 w-16 flex-shrink-0">
+                                        {listings
+                                            .filter(
+                                                (element) =>
+                                                    element.nft.name !==
+                                                    'Dummy #0'
+                                            )
+                                            .map((listing, i) => (
+                                                <tr key={`NFTListing ${i}`}>
+                                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                                        <Link
+                                                            to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                listing.nftAddress
+                                                            }/${
+                                                                listing.tokenId
+                                                            }`}
+                                                        >
+                                                            {listing.chainName}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                                        <div className="flex items-center">
+                                                            <div className="h-16 w-16 flex-shrink-0">
+                                                                <Link
+                                                                    to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                        listing.nftAddress
+                                                                    }/${
+                                                                        listing.tokenId
+                                                                    }`}
+                                                                >
+                                                                    <img
+                                                                        className="h-16 w-16 rounded-lg"
+                                                                        src={
+                                                                            listing
+                                                                                .nft
+                                                                                .image
+                                                                        }
+                                                                        alt={
+                                                                            listing
+                                                                                .nft
+                                                                                .name
+                                                                        }
+                                                                    />
+                                                                </Link>
+                                                            </div>
+                                                            <div className="ml-4">
+                                                                <div className="font-medium text-gray-900">
+                                                                    <Link
+                                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                            listing.nftAddress
+                                                                        }/${
+                                                                            listing.tokenId
+                                                                        }`}
+                                                                    >
+                                                                        {
+                                                                            listing
+                                                                                .nft
+                                                                                .name
+                                                                        }
+                                                                    </Link>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                        <div className="text-gray-900 flex items-center">
                                                             <Link
                                                                 to={`/checkout/${listing.chainName.toLowerCase()}/${
                                                                     listing.nftAddress
@@ -92,22 +143,12 @@ export default function Arrivals() {
                                                                 }`}
                                                             >
                                                                 <img
-                                                                    className="h-16 w-16 rounded-lg"
-                                                                    src={
-                                                                        listing
-                                                                            .nft
-                                                                            .image
-                                                                    }
-                                                                    alt={
-                                                                        listing
-                                                                            .nft
-                                                                            .name
-                                                                    }
+                                                                    src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
+                                                                    alt="Polygon"
+                                                                    className="w-6 h-6 rounded-md object-center object-cover"
                                                                 />
                                                             </Link>
-                                                        </div>
-                                                        <div className="ml-4">
-                                                            <div className="font-medium text-gray-900">
+                                                            <span className="ml-2">
                                                                 <Link
                                                                     to={`/checkout/${listing.chainName.toLowerCase()}/${
                                                                         listing.nftAddress
@@ -116,17 +157,14 @@ export default function Arrivals() {
                                                                     }`}
                                                                 >
                                                                     {
-                                                                        listing
-                                                                            .nft
-                                                                            .name
+                                                                        listing.pricePerDay
                                                                     }
+                                                                    /day
                                                                 </Link>
-                                                            </div>
+                                                            </span>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <div className="text-gray-900 flex items-center">
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                         <Link
                                                             to={`/checkout/${listing.chainName.toLowerCase()}/${
                                                                 listing.nftAddress
@@ -134,65 +172,45 @@ export default function Arrivals() {
                                                                 listing.tokenId
                                                             }`}
                                                         >
-                                                            <img
-                                                                src="https://raw.githubusercontent.com/sushiswap/icons/master/token/polygon.jpg"
-                                                                alt="Polygon"
-                                                                className="w-6 h-6 rounded-md object-center object-cover"
-                                                            />
+                                                            <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                                                                Active
+                                                            </span>
                                                         </Link>
-                                                        <span className="ml-2">
-                                                            <Link
-                                                                to={`/checkout/${listing.chainName.toLowerCase()}/${
-                                                                    listing.nftAddress
-                                                                }/${
-                                                                    listing.tokenId
-                                                                }`}
-                                                            >
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                        <Link
+                                                            to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                listing.nftAddress
+                                                            }/${
+                                                                listing.tokenId
+                                                            }`}
+                                                        >
+                                                            {deltaDays(
+                                                                listing.maximumEndTime
+                                                            )}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                        <Link
+                                                            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+                                                            to={`/checkout/${listing.chainName.toLowerCase()}/${
+                                                                listing.nftAddress
+                                                            }/${
+                                                                listing.tokenId
+                                                            }`}
+                                                        >
+                                                            Rent
+                                                            <span className="sr-only">
+                                                                ,{' '}
                                                                 {
-                                                                    listing.pricePerDay
+                                                                    listing.nft
+                                                                        .name
                                                                 }
-                                                                /day
-                                                            </Link>
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <Link
-                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
-                                                            listing.nftAddress
-                                                        }/${listing.tokenId}`}
-                                                    >
-                                                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                                                            Active
-                                                        </span>
-                                                    </Link>
-                                                </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    <Link
-                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
-                                                            listing.nftAddress
-                                                        }/${listing.tokenId}`}
-                                                    >
-                                                        {deltaDays(
-                                                            listing.maximumEndTime
-                                                        )}
-                                                    </Link>
-                                                </td>
-                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                    <Link
-                                                        className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                                                        to={`/checkout/${listing.chainName.toLowerCase()}/${
-                                                            listing.nftAddress
-                                                        }/${listing.tokenId}`}
-                                                    >
-                                                        Rent
-                                                        <span className="sr-only">
-                                                            , {listing.nft.name}
-                                                        </span>
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                            </span>
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                     </tbody>
                                 </table>
                             </div>
