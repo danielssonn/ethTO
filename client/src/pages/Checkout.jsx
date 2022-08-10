@@ -4,10 +4,13 @@ import { ChevronRightIcon } from '@heroicons/react/solid'
 
 import useContract from '../hooks/use-contract'
 import useSwing from '../hooks/use-swing'
+import useWeb3 from '../hooks/use-web3'
 import AuthRoute from '../components/AuthRoute'
 import IMAGES from '../../images'
 import RentDaysPicker from '../components/RentDaysPicker'
 import SwingSwapper from '../components/SwingSwapper'
+
+import { CHAIN_MAP } from '../utils/constants'
 
 export default function Checkout() {
     const [steps, setSteps] = useState([
@@ -21,13 +24,16 @@ export default function Checkout() {
     const { address, chainName, tokenId } = useParams()
     const [daysToRent, setDaysToRent] = useState(2)
     const [step, setStep] = useState(1)
-    const { transferState } = useSwing()
+    const { /* transfer, */ transferState } = useSwing()
+    const { currentAccount } = useWeb3()
 
     const [rentCost, setRentCost] = useState()
     const [btnLabel] = useState('Continue')
+    const [quote, setQuote] = useState(null)
+    const [transferParams, setTransferParams] = useState(null)
 
-    const handleSwapComplete = () => {
-        setStep(step + 1)
+    const handleQuoteReceived = (quote) => {
+        setQuote(quote)
     }
 
     const handleContinue = (event) => {
@@ -36,6 +42,14 @@ export default function Checkout() {
         const updatedSteps = [...steps]
         updatedSteps[step].status = 'complete'
         updatedSteps[step + 1].status = 'current'
+
+        if (step === 2 && quote && quote.routes.length > 0) {
+            const transferRoute = quote.routes[0]
+            if (transferRoute) {
+                // TODO: uncomment for mainnet
+                // transfer(transferRoute, transferParams)
+            }
+        }
 
         setSteps(updatedSteps)
         setStep(step + 1)
@@ -59,6 +73,22 @@ export default function Checkout() {
             setListing(listing)
         }
     }, [listings, address, chainName, tokenId])
+
+    useEffect(() => {
+        if (currentAccount && rentCost !== undefined) {
+            setTransferParams({
+                amount: rentCost,
+                // TODO: get this data from the listing
+                fromChain: 'avalanche',
+                fromToken: 'AVAX',
+                toChain: 'polygon',
+                toToken: 'MATIC',
+                fromUserAddress: currentAccount,
+                // TODO: get the chain ID from somewhere
+                toUserAddress: CHAIN_MAP.get(2501).market,
+            })
+        }
+    }, [currentAccount, rentCost])
 
     if (listing === undefined) {
         return <h2>Loading...</h2>
@@ -199,15 +229,8 @@ export default function Checkout() {
                             />
                             <SwingSwapper
                                 active={step === 2}
-                                onComplete={handleSwapComplete}
-                                params={{
-                                    amount: rentCost,
-                                    // TODO: get this data from the listing
-                                    fromChain: 'avalanche',
-                                    fromToken: 'AVAX',
-                                    toChain: 'polygon',
-                                    toToken: 'MATIC',
-                                }}
+                                quoteReceiver={handleQuoteReceived}
+                                params={transferParams}
                             />
                             {step === 3 && (
                                 <section aria-labelledby="confirmation-heading">
@@ -221,6 +244,7 @@ export default function Checkout() {
                             )}
                             <div className="mt-10 pt-6 border-t border-gray-200 sm:flex sm:items-center sm:justify-between">
                                 <button
+                                    disabled={step === 2 && quote === null}
                                     type="submit"
                                     onClick={handleContinue}
                                     className="w-full bg-green-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500 sm:ml-6 sm:order-last sm:w-auto"
