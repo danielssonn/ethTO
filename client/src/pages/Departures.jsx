@@ -78,48 +78,29 @@ export default function Departures() {
                                         {listings.map((listing, i) => (
                                             <tr key={`NFTListing ${i}`}>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                                                    Ethereum
+                                                    {listing.chainName}
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                                     <div className="flex items-center">
                                                         <div className="h-16 w-16 flex-shrink-0">
-                                                            <Link
-                                                                to={`/checkout/${listing.chainName.toLowerCase()}/${
-                                                                    listing.nftAddress
-                                                                }/${
-                                                                    listing.tokenId
-                                                                }`}
-                                                            >
-                                                                <img
-                                                                    className="h-16 w-16 rounded-lg"
-                                                                    src={
-                                                                        listing
-                                                                            .nft
-                                                                            .image
-                                                                    }
-                                                                    alt={
-                                                                        listing
-                                                                            .nft
-                                                                            .name
-                                                                    }
-                                                                />
-                                                            </Link>
+                                                            <img
+                                                                className="h-16 w-16 rounded-lg"
+                                                                src={
+                                                                    listing.nft
+                                                                        .image
+                                                                }
+                                                                alt={
+                                                                    listing.nft
+                                                                        .name
+                                                                }
+                                                            />
                                                         </div>
                                                         <div className="ml-4">
                                                             <div className="font-medium text-gray-900">
-                                                                <Link
-                                                                    to={`/checkout/${listing.chainName.toLowerCase()}/${
-                                                                        listing.nftAddress
-                                                                    }/${
-                                                                        listing.tokenId
-                                                                    }`}
-                                                                >
-                                                                    {
-                                                                        listing
-                                                                            .nft
-                                                                            .name
-                                                                    }
-                                                                </Link>
+                                                                {
+                                                                    listing.nft
+                                                                        .name
+                                                                }
                                                             </div>
                                                         </div>
                                                     </div>
