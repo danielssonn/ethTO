@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://conveyr.xyz/">
-    <img alt="Conveyr" src="assets/logo.svg" width="320" />
+    <img alt="Conveyr" src="assets/logo.svg?1" width="320" />
   </a>
 </p>
 
