@@ -46,20 +46,20 @@ export default function Header() {
                             className="hidden md:flex space-x-10"
                         >
                             <Link
+                                to="/arrivals"
                                 className={cn(
                                     'text-base font-medium text-gray-500 hover:text-gray-900',
                                     pathname === '/arrivals' && 'underline'
                                 )}
-                                to="/arrivals"
                             >
                                 Arrivals
                             </Link>
                             <Link
+                                to="/departures"
                                 className={cn(
                                     'text-base font-medium text-gray-500 hover:text-gray-900',
                                     pathname === '/departures' && 'underline'
                                 )}
-                                to="/departures"
                             >
                                 Departures
                             </Link>
@@ -124,14 +124,22 @@ export default function Header() {
                                 <div className="py-6 px-5">
                                     <div className="grid grid-cols-2 gap-4">
                                         <Link
-                                            href="/arrivals"
-                                            className="text-base font-medium text-gray-900 hover:text-gray-700"
+                                            to="/arrivals"
+                                            className={cn(
+                                                'text-base font-medium text-gray-900 hover:text-gray-700',
+                                                pathname === '/arrivals' &&
+                                                    'underline'
+                                            )}
                                         >
                                             Arrivals
                                         </Link>
                                         <Link
-                                            href="/departures"
-                                            className="text-base font-medium text-gray-900 hover:text-gray-700"
+                                            to="/departures"
+                                            className={cn(
+                                                'text-base font-medium text-gray-900 hover:text-gray-700',
+                                                pathname === '/departures' &&
+                                                    'underline'
+                                            )}
                                         >
                                             Departures
                                         </Link>
