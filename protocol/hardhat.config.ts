@@ -15,7 +15,7 @@ const {
     ETHERSCAN_API_KEY,
     ALCHEMY_API_KEY_MAINNET,
     ALCHEMY_GOERLI,
-    MUMBAI_PRIVATE_KEY
+    TEST_PK,
 } = process.env
 
 const config: HardhatUserConfig = {
@@ -28,8 +28,14 @@ const config: HardhatUserConfig = {
         //   accounts: [`0x${PRIVATE_KEY}`],
         // },
         mumbai: {
-            url: "https://polygon-mumbai.g.alchemy.com/v2/GFNd1Xak4hJmcWhQ0FeaOc6MWyAE80Ee",
-            accounts: ['f83ede8132355348bdabeff86751b9192dca6117b5a129ef4dc6d32be595a079']
+            url: 'https://polygon-mumbai.g.alchemy.com/v2/GFNd1Xak4hJmcWhQ0FeaOc6MWyAE80Ee',
+            accounts: [`0x${TEST_PK}`],
+        },
+        fuji: {
+            url: 'https://api.avax-test.network/ext/bc/C/rpc',
+            gasPrice: 225000000000,
+            chainId: 43113,
+            accounts: [`0x${TEST_PK}`],
         },
         hardhat: {
             // forking: {
@@ -50,7 +56,7 @@ const config: HardhatUserConfig = {
         },
     },
     etherscan: {
-        apiKey: ETHERSCAN_API_KEY,
+        apiKey: '8NDFF311UEQNMP9VT1WPS9467ZUXEKXSQ3',
     },
     abiExporter: {
         path: './data/abi',

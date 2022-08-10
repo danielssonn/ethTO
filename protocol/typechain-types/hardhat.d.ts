@@ -37,26 +37,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAxelarGateway__factory>;
     getContractFactory(
-      name: "Ownable",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Ownable__factory>;
-    getContractFactory(
-      name: "IERC1155",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC1155__factory>;
-    getContractFactory(
-      name: "IERC1155Receiver",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC1155Receiver__factory>;
-    getContractFactory(
-      name: "ERC1155Holder",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC1155Holder__factory>;
-    getContractFactory(
-      name: "ERC1155Receiver",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC1155Receiver__factory>;
-    getContractFactory(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
@@ -85,10 +65,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC721Receiver__factory>;
     getContractFactory(
-      name: "ERC721Holder",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC721Holder__factory>;
-    getContractFactory(
       name: "ERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC165__factory>;
@@ -104,6 +80,10 @@ declare module "hardhat/types/runtime" {
       name: "NFTDummy",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NFTDummy__factory>;
+    getContractFactory(
+      name: "NftLinker",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.NftLinker__factory>;
 
     getContractAt(
       name: "IAxelarGasService",
@@ -135,31 +115,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IAxelarGateway>;
-    getContractAt(
-      name: "Ownable",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Ownable>;
-    getContractAt(
-      name: "IERC1155",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC1155>;
-    getContractAt(
-      name: "IERC1155Receiver",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC1155Receiver>;
-    getContractAt(
-      name: "ERC1155Holder",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC1155Holder>;
-    getContractAt(
-      name: "ERC1155Receiver",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC1155Receiver>;
     getContractAt(
       name: "ERC20",
       address: string,
@@ -196,11 +151,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC721Receiver>;
     getContractAt(
-      name: "ERC721Holder",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC721Holder>;
-    getContractAt(
       name: "ERC165",
       address: string,
       signer?: ethers.Signer
@@ -220,6 +170,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.NFTDummy>;
+    getContractAt(
+      name: "NftLinker",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NftLinker>;
 
     // default types
     getContractFactory(
