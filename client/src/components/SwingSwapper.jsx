@@ -111,7 +111,7 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                                     {quote.fromToken.symbol}
                                 </p>
                             </div>
-                            <div className="flex text-base font-medium flex items-center">
+                            <div className="flex text-base font-medium items-center">
                                 <img
                                     src={
                                         sdk.tokens.find(
@@ -146,7 +146,16 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                                     {quote.toToken.symbol}
                                 </p>
                             </div>
-                            <div className="flex text-base font-medium flex items-center">
+                        </li>
+                    </ul>
+                    <dl className="hidden text-sm font-medium text-gray-900 space-y-6 border-t border-gray-200 pt-6 lg:block">
+                        <div className="flex items-center justify-between">
+                            <dt className="text-gray-600">Gas</dt>
+                            <dd>{quote.routes[0].gas}</dd>
+                        </div>
+                        <div className="flex items-center justify-between border-t border-gray-200 pt-6">
+                            <dt className="text-base">Amount received</dt>
+                            <dd className="text-base flex items-center">
                                 <img
                                     src={
                                         sdk.tokens.find(
@@ -164,22 +173,6 @@ const SwingSwapper = ({ active, onComplete, params }) => {
                                         quote.routes[0].quote.decimals
                                     )}
                                 </span>
-                            </div>
-                        </li>
-                    </ul>
-                    <dl className="hidden text-sm font-medium text-gray-900 space-y-6 border-t border-gray-200 pt-6 lg:block">
-                        <div className="flex items-center justify-between">
-                            <dt className="text-gray-600">Gas</dt>
-                            <dd>{quote.routes[0].gas}</dd>
-                        </div>
-                        <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-                            <dt className="text-base">Amount received</dt>
-                            <dd className="text-base">
-                                {ethers.utils.formatEther(
-                                    quote.routes[0].quote.amount,
-                                    quote.routes[0].quote.decimals
-                                )}{' '}
-                                {quote.toToken.symbol}
                             </dd>
                         </div>
                     </dl>
