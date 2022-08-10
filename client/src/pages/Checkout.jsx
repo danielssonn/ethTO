@@ -100,18 +100,19 @@ export default function Checkout() {
                                             key={step.name}
                                             className="flex items-center"
                                         >
-                                            {step.status === 'current' ? (
-                                                <Link
-                                                    to={step.href}
+                                            {stepIdx === 0 ? (
+                                                <Link to={step.href}>
+                                                    {step.name}
+                                                </Link>
+                                            ) : step.status === 'current' ? (
+                                                <span
                                                     aria-current="page"
                                                     className="text-green-600"
                                                 >
                                                     {step.name}
-                                                </Link>
+                                                </span>
                                             ) : (
-                                                <Link to={step.href}>
-                                                    {step.name}
-                                                </Link>
+                                                step.name
                                             )}
                                             {stepIdx !== steps.length - 1 ? (
                                                 <ChevronRightIcon
@@ -231,7 +232,7 @@ export default function Checkout() {
                                         ? `${transferState[0].toUpperCase()}${transferState
                                               .slice(1)
                                               .toLowerCase()}`
-                                        : 'Lorem ipsum'}
+                                        : ''}
                                 </p>
                             </div>
                         </div>
