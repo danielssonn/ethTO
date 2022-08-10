@@ -91,16 +91,3 @@ feat: add xyz
 ### Merging Into Main
 
 Always “Squash & merge” your commits into `main`.
-
-## ✨ Features
-
-- [Conventional Commits](https://www.conventionalcommits.org/)—as the specification for commit messages.
-- [GitHub Actions](https://github.com/features/actions)—for CI/CD.
-- [lint-staged](https://github.com/okonet/lint-staged)—for pre-commit code formatting and linting.
-- [Prettier](https://prettier.io/)—for code formatting.
-
-## 🧐 License
-
-Licensed under the [MIT License](./LICENSE).
-
-## 💜 Thanks
